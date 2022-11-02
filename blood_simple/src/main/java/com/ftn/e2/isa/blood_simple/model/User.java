@@ -23,8 +23,11 @@ import lombok.NoArgsConstructor;
 public class User {
 	@Id 	//jmbg
 	@Column(name = "user_id")
-	private String id; 
-	
+	private String id;
+
+	@Column(name = "user_jmbg", nullable = false, unique = true)
+	private String jmbg;
+
 	@Column(name = "user_email", nullable = false, unique = true)
 	private String email; 
 	

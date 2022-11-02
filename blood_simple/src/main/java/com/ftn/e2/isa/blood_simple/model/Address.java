@@ -18,26 +18,25 @@ public class Address {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "address_id")
 	private int  id;
 	
-	@Column(name = "address_street", nullable =  false)
-	private String street; 
-	
-	@Column(name="address_number")
+	@Column(nullable =  false)
+	private String street;
+
+	@Column(nullable =  false)
 	private String number; 	// jer moze biti 1A, 32B itd...
 	
-	@Column(name = "address_city", nullable = false)
-	private String city; 
-	
-	@Column(name = "address_country", nullable = false)
-	private String country; 
-	
-	@Column(name = "address_x", nullable = true)
-	private double x; 
-	
-	@Column(name = "address_y", nullable = true)
-	private double y;
+	@Column(nullable = false)
+	private String city;
+
+	@Column(nullable = false)
+	private String country;
+
+	@Column(nullable = true)
+	private double longitude; // x-coordinate
+
+	@Column(nullable = true)
+	private double latitude; // y-coordinate
 	
 
 
