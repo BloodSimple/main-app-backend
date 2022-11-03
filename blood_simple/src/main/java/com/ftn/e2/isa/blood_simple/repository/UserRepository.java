@@ -5,8 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import com.ftn.e2.isa.blood_simple.model.User;
 
-
-
+@Repository
 public interface UserRepository extends JpaRepository<com.ftn.e2.isa.blood_simple.model.User, String>{
 
 }
