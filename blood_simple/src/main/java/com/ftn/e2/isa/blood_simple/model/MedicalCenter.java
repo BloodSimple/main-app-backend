@@ -34,6 +34,9 @@ public class MedicalCenter {
 	@Column(name = "center_id")
 	private Long id;
 	
+	@Column(name = "center_name", nullable = false)
+	private String name; 
+	
 	@OneToOne
 	@JoinColumn(name = "center_address_id", nullable = false, unique = true) // ne mogu 2 centra biti na istoj adresi
 	private Address address;
@@ -52,6 +55,7 @@ public class MedicalCenter {
 	
 	public MedicalCenter(MedicalCenterDTO dto) {
 		this.id = dto.getId();
+		this.name = dto.getName();
 		this.address = dto.getAddress();
 		this.description = dto.getDescription();
 		this.admin = dto.getAdmin();

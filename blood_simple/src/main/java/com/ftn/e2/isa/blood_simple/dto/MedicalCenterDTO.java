@@ -16,12 +16,14 @@ import lombok.NoArgsConstructor;
 public class MedicalCenterDTO {
 	private Long id;
 	private Address address; 
+	private String name;
 	private String description;
 	private User admin;
 	private List<User> medicalStaff;		//stavi na dto posle merge 
 	
 	public MedicalCenterDTO(MedicalCenter model) {
 		this.id = model.getId();
+		this.name = model.getName();
 		this.address = model.getAddress();
 		this.description = model.getDescription();
 		this.admin = model.getAdmin();

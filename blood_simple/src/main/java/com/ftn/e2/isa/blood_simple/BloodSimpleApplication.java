@@ -42,9 +42,9 @@ public class BloodSimpleApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		// TODO Auto-generated method stub
 		Address a1 = new Address(1L, "1", "2", "3", "4", 0,0);
-		addressRepo.save(a1);
-		MedicalCenter m1 = new MedicalCenter(1L, a1, "desc", null, new ArrayList<>());
-		centerRepo.save(m1);
+		//addressRepo.save(a1);
+		MedicalCenter m1 = new MedicalCenter(1L,"KCL",  a1, "desc", null, new ArrayList<>());
+		//centerRepo.save(m1);
 	}
 
 }
