@@ -8,18 +8,21 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 @Entity
+@Data
 @RequiredArgsConstructor
 @Table(name="ADDRESSES")
 @AllArgsConstructor
+
 public class Address {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "address_id")
-	private int  id;
+	private Long  id;
 	
 	@Column(name = "address_street", nullable =  false)
 	private String street; 
