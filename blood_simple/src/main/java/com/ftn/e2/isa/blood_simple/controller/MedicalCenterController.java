@@ -80,8 +80,9 @@ public class MedicalCenterController {
 		MedicalCenter mc = service.get(id);
 		if(mc==null)
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-		service.saveOrUpdateAddress(address);
+		//service.saveOrUpdateAddress(address);	//ponavlja se u saveorupdate mc
 		mc.setAddress(address);
+		service.saveOrUpdate(new MedicalCenterDTO(mc));
 		return new ResponseEntity<>(address, HttpStatus.OK);
 	}
 	
