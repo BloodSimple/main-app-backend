@@ -23,6 +23,12 @@ values ('Beograd', 'Srbija', '2B', 'Gospodara Vucica', 13.567, 31.235);
 insert into addresses (address_city, address_country, address_number, address_street, address_x, address_y)
 values ('Novi Sad', 'Srbija', '25', 'Mise Dimitrijevica', 11.146, 23.555);
 
+-- Users
+
+insert into users (user_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role)
+values ('2310987760011', 'miki@email.com', '123', 'Miki', 'Mikic','MALE', 3, '0641123456', 'engineer', 'Software Engineer', 'USER');
+
+
 -- SysAdmin 
 
 insert into users (user_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role)
