@@ -94,5 +94,8 @@ public class MedicalCenterController {
 		return new ResponseEntity<>(mc.getAddress(), HttpStatus.OK);
 	}
 	
-
+	@GetMapping(value="/selectadmin")
+	public List<User> getFreeAdmins( HttpServletRequest request){
+		return service.getFreeAdmins();
+	}
 }

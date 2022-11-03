@@ -50,6 +50,10 @@ public class MedicalCenterService {
 	public User saveOrUpdateAdmin(User admin) {
 		if (admin == null || admin.getRole()!=RoleENUM.MEDICAL_ADMIN)
 			return null;
+		for(MedicalCenter mc : repo.findAll()) {
+			if (mc.getAdmin().getId() == admin.getId())
+				return null;
+		}
 		return userRepo.save(admin);
 	}
 	public void delete(Long id) {
@@ -75,6 +79,10 @@ public class MedicalCenterService {
 			return false;
 		}
 		return false;
+	}
+	
+	public List<User> getFreeAdmins(){
+		return userRepo.getFreeAdmins();
 	}
 	//DTO/////////////////////////////////////////////
 	public MedicalCenterDTO getDto(Long id) {
