@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping(value = "api/users")
 public class UserController {
 
@@ -33,12 +34,12 @@ public class UserController {
         if (userDTO != null) {
             return new ResponseEntity<>(userDTO, HttpStatus.OK);
         }else {
-            return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
 
     @PutMapping(value="/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Object> updateUser(@RequestBody UserDTO userDTO){
+    public ResponseEntity<String> updateUser(@RequestBody UserDTO userDTO){
        boolean status = userService.updateUser(userDTO);
        if(status){
            return new ResponseEntity<>("User successfully updated!", HttpStatus.OK);
