@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.ftn.e2.isa.blood_simple.dto.UserDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,40 +24,52 @@ import lombok.NoArgsConstructor;
 public class User {
 	@Id 	//jmbg
 	@Column(name = "user_id")
-	private String id; 
+	private String id;
 	
 	@Column(name = "user_email", nullable = false, unique = true)
-	private String email; 
+	private String email;
 	
 	@Column(name = "user_password", nullable = false)
-	private String password; 
+	private String password;
 	
 	@Column(name = "user_name", nullable = false)
-	private String name; 
+	private String name;
 	
 	@Column(name = "user_surname", nullable = false)
-	private String surname; 
+	private String surname;
 	
 	@Column(name = "user_type")
 	@Enumerated(EnumType.STRING)
-	private GenderENUM gender; 
+	private GenderENUM gender;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_address_id")
-	private Address address; 
+	private Address address;
 	
 	@Column(name = "user_phone")
 	private String phoneNumber;
 	
 	@Column(name = "user_job")
-	private String job; 
+	private String job;
 	
 	@Column(name = "user_bio")
 	private String bio;
 	
 	@Column(name = "user_role", nullable = false)
 	@Enumerated(EnumType.STRING)
-	private RoleENUM role; 
-	
-	
+	private RoleENUM role;
+
+//	public User(UserDTO dto){
+//		this.id = dto.getId();
+//		this.email = dto.getEmail();
+//		this.password = dto.getPassword();
+//		this.name = dto.getName();
+//		this.surname = dto.getSurname();
+//		this.gender = dto.getGender();
+//		this.address.getStreet() = dto.getAddressStreet();
+//		this.phoneNumber = dto.getPhoneNumber();
+//		this.job = dto.getJob();
+//		this.bio = dto.getBio();
+//		this.role = dto.getRole();
+//	}
 }
