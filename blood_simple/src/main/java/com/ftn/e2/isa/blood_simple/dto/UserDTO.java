@@ -19,12 +19,15 @@ public class UserDTO {
     private String name;
     private String surname;
     private GenderENUM gender;
-    private Address address;
-//    private Long addressId;
-//    private String addressStreet;
-//    private String addressNumber;
-//    private String addressCity;
-//    private String addressCountry;
+//    private Address address;
+
+    private Long addressId;
+    private String addressStreet;
+    private String addressNumber;
+    private String addressCity;
+    private String addressCountry;
+//    private double addressX;
+//    private double addressY;
 
 
     private String phoneNumber;
@@ -39,7 +42,10 @@ public class UserDTO {
         this.name = user.getName();
         this.surname = user.getSurname();
         this.gender = user.getGender();
-        this.address = user.getAddress();
+        this.addressStreet = user.getAddress().getStreet();
+        this.addressNumber = user.getAddress().getNumber();
+        this.addressCity = user.getAddress().getCity();
+        this.addressCountry = user.getAddress().getCountry();
         this.phoneNumber = user.getPhoneNumber();
         this.job = user.getJob();
         this.bio = user.getBio();

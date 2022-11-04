@@ -1,6 +1,8 @@
 package com.ftn.e2.isa.blood_simple.service;
 import com.ftn.e2.isa.blood_simple.dto.UserDTO;
+import com.ftn.e2.isa.blood_simple.model.Address;
 import com.ftn.e2.isa.blood_simple.model.User;
+import com.ftn.e2.isa.blood_simple.repository.AddressRepository;
 import com.ftn.e2.isa.blood_simple.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,8 @@ import java.util.List;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private AddressRepository addressRepository;
 
     public List<UserDTO> getAll(){
         List<User> users = userRepository.findAll();
@@ -36,16 +40,21 @@ public class UserService {
         if (status) {
             User userToUpdate = userRepository.findById(updateUserDTO.getId()).orElse(null);
             assert userToUpdate != null;
+            Address address = addressRepository.findById(userToUpdate.getAddress().getId()).orElse(null);
 
             userToUpdate.setPassword(updateUserDTO.getPassword());
             userToUpdate.setName(updateUserDTO.getName());
             userToUpdate.setSurname(updateUserDTO.getSurname());
             userToUpdate.setGender(updateUserDTO.getGender());
-//            userToUpdate.setAddress(updateUserDTO.getAddress());
+            address.setStreet(updateUserDTO.getAddressStreet());
+            address.setNumber(updateUserDTO.getAddressNumber());
+            address.setCity(updateUserDTO.getAddressCity());
+            address.setCountry(updateUserDTO.getAddressCountry());
             userToUpdate.setPhoneNumber(updateUserDTO.getPhoneNumber());
             userToUpdate.setJob(updateUserDTO.getJob());
             userToUpdate.setBio(updateUserDTO.getBio());
 
+            addressRepository.save(address);
             userRepository.save(userToUpdate);
         }
         return status;

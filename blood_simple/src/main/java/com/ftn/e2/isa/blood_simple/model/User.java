@@ -59,18 +59,17 @@ public class User {
 	@Enumerated(EnumType.STRING)
 	private RoleENUM role;
 
-	public User(UserDTO dto){
-		this.id = dto.getId();
-		this.email = dto.getEmail();
-		this.password = dto.getPassword();
-		this.name = dto.getName();
-		this.surname = dto.getSurname();
-		this.gender = dto.getGender();
-		this.address = dto.getAddress();
-		this.phoneNumber = dto.getPhoneNumber();
-		this.job = dto.getJob();
-		this.bio = dto.getBio();
-		this.role = dto.getRole();
-	}
-	
+//	public User(UserDTO dto){
+//		this.id = dto.getId();
+//		this.email = dto.getEmail();
+//		this.password = dto.getPassword();
+//		this.name = dto.getName();
+//		this.surname = dto.getSurname();
+//		this.gender = dto.getGender();
+//		this.address.getStreet() = dto.getAddressStreet();
+//		this.phoneNumber = dto.getPhoneNumber();
+//		this.job = dto.getJob();
+//		this.bio = dto.getBio();
+//		this.role = dto.getRole();
+//	}
 }
