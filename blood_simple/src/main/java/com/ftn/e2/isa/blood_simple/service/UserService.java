@@ -46,6 +46,7 @@ public class UserService {
             userToUpdate.setName(updateUserDTO.getName());
             userToUpdate.setSurname(updateUserDTO.getSurname());
             userToUpdate.setGender(updateUserDTO.getGender());
+            address.setId(updateUserDTO.getAddressId());
             address.setStreet(updateUserDTO.getAddressStreet());
             address.setNumber(updateUserDTO.getAddressNumber());
             address.setCity(updateUserDTO.getAddressCity());

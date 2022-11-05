@@ -39,12 +39,12 @@ public class UserController {
     }
 
     @PutMapping(value="/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> updateUser(@RequestBody UserDTO userDTO){
+    public ResponseEntity<Object> updateUser(@RequestBody UserDTO userDTO){
        boolean status = userService.updateUser(userDTO);
        if(status){
-           return new ResponseEntity<>("User successfully updated!", HttpStatus.OK);
+           return new ResponseEntity<>(userDTO, HttpStatus.OK);
        }else {
-           return new ResponseEntity<>("There was an error while updating!", HttpStatus.BAD_REQUEST);
+           return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
        }
     }
 

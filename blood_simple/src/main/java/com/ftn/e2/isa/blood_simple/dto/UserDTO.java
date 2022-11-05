@@ -42,6 +42,7 @@ public class UserDTO {
         this.name = user.getName();
         this.surname = user.getSurname();
         this.gender = user.getGender();
+        this.addressId = user.getAddress().getId();
         this.addressStreet = user.getAddress().getStreet();
         this.addressNumber = user.getAddress().getNumber();
         this.addressCity = user.getAddress().getCity();
