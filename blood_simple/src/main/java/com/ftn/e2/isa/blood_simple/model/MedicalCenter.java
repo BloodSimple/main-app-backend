@@ -43,6 +43,9 @@ public class MedicalCenter {
 	
 	@Column(name = "center_description", nullable = true)
 	private String description;
+
+	@Column(name="grade", nullable= true)
+	private double grade;
 	
 	@OneToOne
 	@JoinColumn(name = "center_admin_user_id")

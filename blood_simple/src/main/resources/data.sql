@@ -47,11 +47,11 @@ values ('145299763041', 'ble@email.com', 'dule23', 'Boris', 'Tadic','MALE', 4, '
 
 -- MedicalCenters
 
-insert into medical_centers (center_name, center_description, center_address_id, center_admin_user_id)
-values ('Klinicki Centar Lab - KCL', 'Dosta smo dobar centar za vadjenje krvi, za to smo top', 1, '743199760011');
+insert into medical_centers (center_name, center_description, center_address_id, center_admin_user_id, grade)
+values ('Klinicki Centar Lab - KCL', 'Dosta smo dobar centar za vadjenje krvi, za to smo top', 1, '743199760011', 5.0);
 
-insert into medical_centers (center_name, center_description, center_address_id, center_admin_user_id)
-values ('Blood Drop', 'Vadimo krv kap po kap, kisa sprema se... ok prestacu', 2, '1212199760011');
+insert into medical_centers (center_name, center_description, center_address_id, center_admin_user_id, grade)
+values ('Blood Drop', 'Vadimo krv kap po kap, kisa sprema se... ok prestacu', 2, '1212199760011', 3.0);
 
 
 
