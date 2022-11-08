@@ -35,7 +35,7 @@ public class MedicalCenterService {
 	}
 	public MedicalCenter saveOrUpdate(MedicalCenterDTO newDto) {
 		Address address = saveOrUpdateAddress(newDto.getAddress());
-		User admin = saveOrUpdateAdmin(newDto.getAdmin());
+//		User admin = saveOrUpdateAdmin(newDto.getAdmin());
 		if (address != null /* && admin != null */ ) {		//mora imati adresu, moze i bez admina
  			MedicalCenter mc = new MedicalCenter(newDto);
 			return repo.save(mc);
@@ -83,6 +83,10 @@ public class MedicalCenterService {
 	
 	public List<User> getFreeAdmins(){
 		return userRepo.getFreeAdmins();
+	}
+	
+	public List<User> getUsers(){
+		return userRepo.getUsers();
 	}
 	//DTO/////////////////////////////////////////////
 	public MedicalCenterDTO getDto(Long id) {

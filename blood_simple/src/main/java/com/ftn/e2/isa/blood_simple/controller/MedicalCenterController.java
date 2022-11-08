@@ -60,10 +60,11 @@ public class MedicalCenterController {
 	@PostMapping(value = "/{id}/admin", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<User> putAdminToCenter(@PathVariable Long id, @RequestBody User admin, HttpServletRequest request){
 		MedicalCenter mc = service.get(id);
-		if (mc == null)
+		if (mc == null && id != 0)
         	return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		service.saveOrUpdateAdmin(admin);
-		mc.setAdmin(admin);
+		if(id != 0)
+			mc.setAdmin(admin);
     	return new ResponseEntity<>(admin, HttpStatus.OK);
 	}
 	
@@ -78,7 +79,7 @@ public class MedicalCenterController {
 	@PostMapping(value = "/{id}/address", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Address> putAddressToCenter(@RequestBody Address address,@PathVariable Long id, HttpServletRequest request){
 		MedicalCenter mc = service.get(id);
-		if(mc==null)
+		if(mc==null && id != 0)
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		//service.saveOrUpdateAddress(address);	//ponavlja se u saveorupdate mc
 		mc.setAddress(address);
@@ -97,5 +98,10 @@ public class MedicalCenterController {
 	@GetMapping(value="/selectadmin")
 	public List<User> getFreeAdmins( HttpServletRequest request){
 		return service.getFreeAdmins();
+	}
+	
+	@GetMapping(value="/allusers")
+	public List<User> getUsers(HttpServletRequest request){
+		return service.getUsers();
 	}
 }
