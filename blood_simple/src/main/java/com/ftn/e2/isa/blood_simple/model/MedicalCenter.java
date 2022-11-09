@@ -63,6 +63,7 @@ public class MedicalCenter {
 		this.description = dto.getDescription();
 		this.admin = dto.getAdmin();
 		this.medicalStaff = dto.getMedicalStaff();
+		this.grade = dto.getGrade();
 	}
 	
 }

@@ -53,5 +53,10 @@ values ('Klinicki Centar Lab - KCL', 'Dosta smo dobar centar za vadjenje krvi, z
 insert into medical_centers (center_name, center_description, center_address_id, center_admin_user_id, grade)
 values ('Blood Drop', 'Vadimo krv kap po kap, kisa sprema se... ok prestacu', 2, '1212199760011', 3.0);
 
+-- Medical Staff of MedicalCenters
 
+insert into medical_centers_medical_staff (medical_center_center_id, medical_staff_user_id)
+values ( 1, '743199760011');
 
+insert into medical_centers_medical_staff (medical_center_center_id, medical_staff_user_id)
+values ( 1, '1212199760011');
