@@ -28,9 +28,10 @@ public class UserController {
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
+    // TODO: Change the function name to 'getUserByPersonalId' and the @PathVariable name to 'personalId'
     @GetMapping(value="/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> getUserById(@PathVariable String id){
-        UserDTO userDTO = userService.getUserById(id);
+        UserDTO userDTO = userService.getUserByPersonalId(id);
         if (userDTO != null) {
             return new ResponseEntity<>(userDTO, HttpStatus.OK);
         }else {
@@ -48,9 +49,10 @@ public class UserController {
        }
     }
 
+    // TODO: Change the function name to 'deleteUserByPersonalId' and the @PathVariable name to 'personalId'
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable String id){
-        boolean status = userService.deleteUser(id);
+        boolean status = userService.deleteUserByPersonalId(id);
         if(status)
             return new ResponseEntity<>("User successfully deleted!", HttpStatus.OK);
         else

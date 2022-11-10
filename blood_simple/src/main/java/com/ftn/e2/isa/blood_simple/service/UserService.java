@@ -26,8 +26,17 @@ public class UserService {
         return usersDTO;
     }
 
-    public UserDTO getUserById(String id) {
-        User user = userRepository.findById(id).orElse(null);
+    public UserDTO getUserById(Long Id) { // Database Id {1,2,3,..}
+        User user = userRepository.findById(Id).orElse(null);
+        if(user != null){
+            return new UserDTO(user);
+        }else{
+            return null;
+        }
+    }
+
+    public UserDTO getUserByPersonalId(String personalId) { // JMBG in Serbia
+        User user = userRepository.findByPersonalId(personalId);
         if(user != null){
             return new UserDTO(user);
         }else{
@@ -61,10 +70,18 @@ public class UserService {
         return status;
     }
 
-    public boolean deleteUser(String id){
+    public boolean deleteUserById(Long id){
         boolean status = userRepository.existsById(id);
         if(status){
             userRepository.deleteById(id);
+        }
+        return status;
+    }
+
+    public boolean deleteUserByPersonalId(String personalId){
+        boolean status = userRepository.existsByPersonalId(personalId);
+        if(status){
+            userRepository.deleteByPersonalId(personalId);
         }
         return status;
     }

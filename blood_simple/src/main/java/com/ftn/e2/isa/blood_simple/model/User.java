@@ -22,23 +22,24 @@ public class User implements UserDetails {
 
 	@Id
 	@SequenceGenerator(name = "user_seq", sequenceName = "user_seq", initialValue=6, allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_id")
-	private Long id;
+	private Long id; // id in the database {1,2,3,...}
 
-	@Column(name= "user_personal_identification_number", nullable = false, unique = true)
-	private String personalIdentificationNumber;
+	@Column(name= "user_personal_id", nullable = false, unique = true)
+	private String personalId; // JMBG in Serbia
 
 	@Column(name = "user_email", nullable = false, unique = true)
-	private String email;
+	private String email; // username
 
 	@Column(name = "user_password", nullable = false)
 	private String password;
 
 	@Column(name = "user_name", nullable = false)
-	private String name;
+	private String name; // firstName
 
 	@Column(name = "user_surname", nullable = false)
-	private String surname;
+	private String surname; // lastName
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_address_id")
