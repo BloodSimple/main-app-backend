@@ -32,12 +32,12 @@ public class MedicalCenterDTO {
 		this.grade = model.getGrade();
 	}
 	
-public MedicalCenterDTO model2Dto(MedicalCenter model) {
-	MedicalCenterDTO dto = new MedicalCenterDTO(model);
-	return dto;
-}
-public MedicalCenter dto2Model(MedicalCenterDTO dto) {
-	MedicalCenter model = new MedicalCenter(dto);
-	return model;
-}
+	public MedicalCenterDTO model2Dto(MedicalCenter model) {
+		MedicalCenterDTO dto = new MedicalCenterDTO(model);
+		return dto;
+	}
+	public MedicalCenter dto2Model(MedicalCenterDTO dto) {
+		MedicalCenter model = new MedicalCenter(dto);
+		return model;
+	}
 }
