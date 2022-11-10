@@ -72,12 +72,11 @@ public class User implements UserDetails {
 			inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "authority_id"))
 	private List<Authority> authorities;
 
-
-	// UserDetails interface methods:
+	// UserDetails interface methods - for Authorization and Authentication:
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return null; // TODO: this.authorities;
+		return this.authorities;
 	}
 
 	@Override
