@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.ftn.e2.isa.blood_simple.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -43,6 +44,16 @@ public class MedicalCenterController {
         	return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(mc, HttpStatus.OK);
+	}
+
+	@PutMapping(value="/", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Object> updateMedicalCenter(@RequestBody MedicalCenterDTO centerDto){
+		MedicalCenter mc = service.saveOrUpdate(centerDto);
+		if(mc == null){
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		}else {
+			return new ResponseEntity<>(mc, HttpStatus.OK);
+		}
 	}
 	
 	@PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
