@@ -1,6 +1,7 @@
 package com.ftn.e2.isa.blood_simple.model;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -52,7 +53,7 @@ public class MedicalCenter {
 	private User admin;
 	
 	@OneToMany(fetch = FetchType.EAGER)
-	private List<User> medicalStaff;
+	private Set<User> medicalStaff;
 	
 	//lista appointmenta  - da li da bude bidirekciono?
 	

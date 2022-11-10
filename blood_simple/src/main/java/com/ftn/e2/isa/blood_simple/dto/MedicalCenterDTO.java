@@ -1,6 +1,7 @@
 package com.ftn.e2.isa.blood_simple.dto;
 
 import java.util.List;
+import java.util.Set;
 
 import com.ftn.e2.isa.blood_simple.model.Address;
 import com.ftn.e2.isa.blood_simple.model.MedicalCenter;
@@ -19,7 +20,7 @@ public class MedicalCenterDTO {
 	private String name;
 	private String description;
 	private User admin;
-	private List<User> medicalStaff;		//stavi na dto posle merge 
+	private Set<User> medicalStaff;		//stavi na dto posle merge
 
 	private double grade;
 	public MedicalCenterDTO(MedicalCenter model) {

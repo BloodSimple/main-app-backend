@@ -2,7 +2,6 @@ package com.ftn.e2.isa.blood_simple.model;
 
 import javax.persistence.*;
 
-import com.ftn.e2.isa.blood_simple.dto.UserDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,11 +10,15 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Data		// @getter, @setter i @requiredargsconstructor
 @AllArgsConstructor
 @NoArgsConstructor
+
+@Inheritance(strategy = InheritanceType.JOINED)
+
 
 @Table(name="USERS")
 public class User implements UserDetails {
@@ -61,6 +64,14 @@ public class User implements UserDetails {
 	@Column(name = "user_type") // gender
 	@Enumerated(EnumType.STRING)
 	private GenderENUM gender;
+
+	// For authentication
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "user_authorities",
+			joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"),
+			inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "authority_id"))
+	private List<Authority> authorities;
+
 
 	// UserDetails interface methods:
 

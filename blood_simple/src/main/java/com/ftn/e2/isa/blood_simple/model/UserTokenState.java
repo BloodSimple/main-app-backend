@@ -1,4 +1,4 @@
-package com.ftn.e2.isa.blood_simple.model.authentication;
+package com.ftn.e2.isa.blood_simple.model;
 
 public class UserTokenState {
     private String accessToken;

@@ -1,4 +1,4 @@
-package com.ftn.e2.isa.blood_simple.model.authentication;
+package com.ftn.e2.isa.blood_simple.model;
 
 import net.minidev.json.annotate.JsonIgnore;
 
@@ -7,13 +7,13 @@ import org.springframework.security.core.GrantedAuthority;
 import javax.persistence.*;
 
 @Entity
-@Table(name="AUTHORITY")
+@Table(name="AUTHORITIES")
 public class Authority implements GrantedAuthority {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name="id")
+    @Column(name="authority_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
