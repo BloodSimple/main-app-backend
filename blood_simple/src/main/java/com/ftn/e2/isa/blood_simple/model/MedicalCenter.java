@@ -35,7 +35,7 @@ public class MedicalCenter {
 	@Column(name = "center_id")
 	private Long id;
 	
-	@Column(name = "center_name", nullable = false)
+	@Column(name = "center_name", nullable = false, unique=true)
 	private String name; 
 	
 	@OneToOne//(cascade = CascadeType.ALL)

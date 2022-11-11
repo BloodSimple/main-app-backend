@@ -25,7 +25,7 @@ public interface UserRepository extends JpaRepository<com.ftn.e2.isa.blood_simpl
 	@Query("select U "
 			+ "from User U "
 			+ "where ( "
-			+ "  U.role = 'MEDICAL_ADMIN' " //zameni na user posle
+			+ "  U.role = 'USER' " //zameni na user posle
 			+ ")")
 	public List<User> getUsers();
 }

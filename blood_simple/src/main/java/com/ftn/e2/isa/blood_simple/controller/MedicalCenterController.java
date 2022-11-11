@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -57,15 +58,18 @@ public class MedicalCenterController {
 		return new ResponseEntity<>(mc, HttpStatus.CREATED);
 	}
 
-	@PostMapping(value = "/{id}/admin", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<User> putAdminToCenter(@PathVariable Long id, @RequestBody User admin, HttpServletRequest request){
-		MedicalCenter mc = service.get(id);
-		if (mc == null && id != 0)
+	@PutMapping(value = "/{id}/admin", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<User> putAdminToCenter(@PathVariable String id, @RequestBody User admin, HttpServletRequest request){
+		MedicalCenter mc = service.getByName(id);
+		if (mc == null && id != "")
         	return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-		service.saveOrUpdateAdmin(admin);
-		if(id != 0)
+		admin = service.saveOrUpdateAdmin(admin);
+		if(id != "") {
 			mc.setAdmin(admin);
-    	return new ResponseEntity<>(admin, HttpStatus.OK);
+			if (mc.getAdmin() == null )
+	        	return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    		service.saveCenter(mc);
+		}return new ResponseEntity<>(admin, HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/{id}/admin", produces = MediaType.APPLICATION_JSON_VALUE)

@@ -35,24 +35,36 @@ public class MedicalCenterService {
 	}
 	public MedicalCenter saveOrUpdate(MedicalCenterDTO newDto) {
 		Address address = saveOrUpdateAddress(newDto.getAddress());
-//		User admin = saveOrUpdateAdmin(newDto.getAdmin());
+		//User admin = saveOrUpdateAdmin(newDto.getAdmin());
 		if (address != null /* && admin != null */ ) {		//mora imati adresu, moze i bez admina
  			MedicalCenter mc = new MedicalCenter(newDto);
+ 			//mc.setAddress(address);
+ 			//mc.setAdmin(admin);
 			return repo.save(mc);
 		}
 		return null;
+		
 	}
 	public Address saveOrUpdateAddress(Address address) {
 		if (address == null)
 			return null;
+		for(Address a : addRepo.findAll()) {
+			if(a.getStreet() == address.getStreet() && a.getNumber() == address.getNumber() && a.getCity()==address.getCity()) {
+				return a;
+			}
+		}
 		return addRepo.save(address);
 	}
 	public User saveOrUpdateAdmin(User admin) {
 		if (admin == null || admin.getRole()!=RoleENUM.MEDICAL_ADMIN)
 			return null;
 		for(MedicalCenter mc : repo.findAll()) {
-			if (mc.getAdmin().getId() == admin.getId())
+			if (  (mc.getAdmin() != null) && mc.getAdmin().getId().equals(admin.getId()) )
 				return null;
+		}
+		if (admin.getAddress() != null) {
+			Address address = saveOrUpdateAddress(admin.getAddress());
+			admin.setAddress(address);
 		}
 		return userRepo.save(admin);
 	}
@@ -102,5 +114,11 @@ public class MedicalCenterService {
 		return dtoList;
 	}
 	
-	
+	public void saveCenter(MedicalCenter mc) {
+		 repo.save(mc);
+	}
+	public MedicalCenter getByName(String id) {
+		// TODO Auto-generated method stub
+		return repo.getByName(id);
+	}
 }
