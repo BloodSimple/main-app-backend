@@ -5,8 +5,10 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.ftn.e2.isa.blood_simple.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +16,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import org.springframework.web.bind.annotation.*;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
@@ -24,6 +29,7 @@ import com.ftn.e2.isa.blood_simple.model.User;
 import com.ftn.e2.isa.blood_simple.service.MedicalCenterService;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping(value = "api/centers")
 public class MedicalCenterController {
 
@@ -48,6 +54,16 @@ public class MedicalCenterController {
         	return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(mc, HttpStatus.OK);
+	}
+
+	@PutMapping(value="/", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Object> updateMedicalCenter(@RequestBody MedicalCenterDTO centerDto){
+		MedicalCenter mc = service.saveOrUpdate(centerDto);
+		if(mc == null){
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		}else {
+			return new ResponseEntity<>(mc, HttpStatus.OK);
+		}
 	}
 	
 	@PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)

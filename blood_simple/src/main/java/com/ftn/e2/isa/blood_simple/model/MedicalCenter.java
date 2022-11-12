@@ -44,6 +44,9 @@ public class MedicalCenter {
 	
 	@Column(name = "center_description", nullable = true)
 	private String description;
+
+	@Column(name="grade", nullable= true)
+	private double grade;
 	
 	@OneToOne//(cascade = CascadeType.ALL)
 	@JoinColumn(name = "center_admin_user_id")
@@ -61,6 +64,7 @@ public class MedicalCenter {
 		this.description = dto.getDescription();
 		this.admin = dto.getAdmin();
 		this.medicalStaff = dto.getMedicalStaff();
+		this.grade = dto.getGrade();
 	}
 	
 }
