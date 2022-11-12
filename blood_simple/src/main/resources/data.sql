@@ -34,6 +34,13 @@ values ('Beograd', 'Srbija', '32', 'Gospodara Vucica', 13.567, 31.235);
 insert into addresses (address_city, address_country, address_number, address_street, address_x, address_y)
 values ('Novi Sad', 'Srbija', '86', 'Bulevar oslobodjenja', 11.146, 23.555);
 
+insert into addresses (address_city, address_country, address_number, address_street, address_x, address_y)
+values ('Novi Sad', 'Srbija', '153', 'Bulevar oslobodjenja', 11.146, 23.555);
+
+insert into addresses (address_city, address_country, address_number, address_street, address_x, address_y)
+values ('Novi Sad', 'Srbija', '147', 'Bulevar oslobodjenja', 11.146, 23.555);
+
+
 -- Users
 
 insert into users (user_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role)
@@ -62,7 +69,13 @@ insert into medical_centers (center_name, center_description, center_address_id,
 values ('Klinicki Centar Lab - KCL', 'Dosta smo dobar centar za vadjenje krvi, za to smo top', 1, '743199760011', 5.0);
 
 insert into medical_centers (center_name, center_description, center_address_id, center_admin_user_id, grade)
-values ('Blood Drop', 'Vadimo krv kap po kap, kisa sprema se... ok prestacu', 2, '1212199760011', 3.0);
+values ('Blood Drop', 'Super smo!', 2, '1212199760011', 3.0);
+
+insert into medical_centers (center_name, center_description, center_address_id, center_admin_user_id, grade)
+values ('Blood center', 'Najbolji!', 10, '1212199760011', 3.0);
+
+insert into medical_centers (center_name, center_description, center_address_id, center_admin_user_id, grade)
+values ('Blood Dropp', 'Super smo!', 11, '1212199760011', 4.0);
 
 -- Medical Staff of MedicalCenters
 insert into medical_centers_medical_staff (medical_center_center_id, medical_staff_user_id)
