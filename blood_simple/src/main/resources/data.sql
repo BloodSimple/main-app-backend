@@ -19,9 +19,20 @@ values ('Smederevo', 'Srbija', '63', 'Ivana Gundulica',233.367, 123.735);
 insert into addresses (address_city, address_country, address_number, address_street, address_x, address_y)
 values ('Beograd', 'Srbija', '2B', 'Gospodara Vucica', 13.567, 31.235);
 
+insert into addresses (address_city, address_country, address_number, address_street, address_x, address_y)
+values ('Novi Sad', 'Srbija', '8b', 'Puskinova', 11.146, 23.555);
+
 
 insert into addresses (address_city, address_country, address_number, address_street, address_x, address_y)
-values ('Novi Sad', 'Srbija', '25', 'Mise Dimitrijevica', 11.146, 23.555);
+values ('Smederevo', 'Srbija', '3', 'Djure Danicica',233.367, 123.735);
+
+
+insert into addresses (address_city, address_country, address_number, address_street, address_x, address_y)
+values ('Beograd', 'Srbija', '32', 'Gospodara Vucica', 13.567, 31.235);
+
+
+insert into addresses (address_city, address_country, address_number, address_street, address_x, address_y)
+values ('Novi Sad', 'Srbija', '86', 'Bulevar oslobodjenja', 11.146, 23.555);
 
 -- Users
 
@@ -54,9 +65,22 @@ insert into medical_centers (center_name, center_description, center_address_id,
 values ('Blood Drop', 'Vadimo krv kap po kap, kisa sprema se... ok prestacu', 2, '1212199760011', 3.0);
 
 -- Medical Staff of MedicalCenters
-
 insert into medical_centers_medical_staff (medical_center_center_id, medical_staff_user_id)
 values ( 1, '743199760011');
 
+
 insert into medical_centers_medical_staff (medical_center_center_id, medical_staff_user_id)
 values ( 1, '1212199760011');
+
+--USERS
+
+insert into users (user_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role)
+values ('17u665767', 'klmp@email.com', 'klempa23', 'Klempica', 'Klempic','FEMALE', 6, '0641123456', 'student', 'poslednja godina ftn-a', 'USER');
+
+insert into users (user_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role)
+values ('34c9760011', 'lepomir@email.com', 'dule23', 'Lepomir', 'Bakic','MALE', 4, '0661453456', 'nezaposlen', '... ', 'USER');
+
+insert into users (user_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role)
+values ('7y67679763041', 'cola@email.com', 'dule23', 'Nikola', 'Colic','MALE', 7, '0695632156', 'policajac', 'volim da dajem krv', 'USER');
+
+

@@ -16,7 +16,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 
     @Override
     protected void configure(HttpSecurity http) throws Exception{
-        http.csrf().disable();
+    	http.csrf().disable();
+
     }
 
     @Bean
@@ -26,8 +27,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
         configuration.setAllowedMethods(Arrays.asList("*"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
+        
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
+        source.registerCorsConfiguration("/*", configuration);
         return source;
     }
 
