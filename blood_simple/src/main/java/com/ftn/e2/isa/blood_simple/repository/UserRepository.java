@@ -28,4 +28,11 @@ public interface UserRepository extends JpaRepository<com.ftn.e2.isa.blood_simpl
 			+ "  U.role = 'USER' " //zameni na user posle
 			+ ")")
 	public List<User> getUsers();
+	
+	@Query("select U "
+			+ "from User U "
+			+ "where ( "
+			+ "  U.role = 'SYSTEM_ADMIN' " //zameni na user posle
+			+ ")")
+	public List<User> getAllSystemAdmins();
 }

@@ -29,7 +29,7 @@ import com.ftn.e2.isa.blood_simple.model.User;
 import com.ftn.e2.isa.blood_simple.service.MedicalCenterService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+//@CrossOrigin(origins = "http://localhost:54372")
 @RequestMapping(value = "api/centers")
 public class MedicalCenterController {
 
@@ -124,4 +124,6 @@ public class MedicalCenterController {
 	public List<User> getUsers(HttpServletRequest request){
 		return service.getUsers();
 	}
+	
+
 }
