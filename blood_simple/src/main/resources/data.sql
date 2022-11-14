@@ -5,7 +5,7 @@ values ('Smederevo', 'Srbija', 'a2', 'Scepina ulica', 23.567, 31.235);
 
 
 insert into addresses (address_city, address_country, address_number, address_street, address_x, address_y)
-values ('Novi Sad', 'Srbija', '32', 'Narodnih heroja', 52.553, 31.535);
+values ('Podgorica', 'Crna Gora', '32', 'Narodnih heroja', 52.553, 31.535);
 
 
 insert into addresses (address_city, address_country, address_number, address_street, address_x, address_y)
