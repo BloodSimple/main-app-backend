@@ -42,4 +42,13 @@ public class Address {
 	@Column(name = "address_y", nullable = true)
 	private double y;
 
+	public Address(String street, String number, String city, String country) {
+		super();
+		this.street = street;
+		this.number = number;
+		this.city = city;
+		this.country = country;
+	}
+
+
 }

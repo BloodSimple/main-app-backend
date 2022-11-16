@@ -17,6 +17,8 @@ public class UserService {
     @Autowired
     private AddressRepository addressRepository;
 
+    // Basic CRUD operations
+
     public List<UserDTO> getAll(){
         List<User> users = userRepository.findAll();
         List<UserDTO> usersDTO = new ArrayList<>();
@@ -85,4 +87,5 @@ public class UserService {
         }
         return status;
     }
+
 }
