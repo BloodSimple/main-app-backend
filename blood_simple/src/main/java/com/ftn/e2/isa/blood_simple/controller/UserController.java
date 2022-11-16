@@ -39,6 +39,9 @@ public class UserController {
         }
     }
 
+
+
+
     @PutMapping(value="/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> updateUser(@RequestBody UserDTO userDTO){
        boolean status = userService.updateUser(userDTO);
@@ -59,4 +62,6 @@ public class UserController {
             return new ResponseEntity<>("User not found!", HttpStatus.NOT_FOUND);
 
     }
+
+
 }
