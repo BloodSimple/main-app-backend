@@ -1,4 +1,5 @@
 package com.ftn.e2.isa.blood_simple.controller;
+import com.ftn.e2.isa.blood_simple.dto.UpdatePasswordDTO;
 import com.ftn.e2.isa.blood_simple.dto.UserDTO;
 import com.ftn.e2.isa.blood_simple.model.MedicalCenter;
 import com.ftn.e2.isa.blood_simple.model.User;
@@ -46,6 +47,16 @@ public class UserController {
        }else {
            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
        }
+    }
+
+    @PutMapping(value="/updatepassword", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> updatePassword(@RequestBody UpdatePasswordDTO passwordDto){
+        boolean status = userService.updatePassword(passwordDto);
+        if(status){
+            return new ResponseEntity<>("OK", HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
     }
 
     @DeleteMapping(value = "/{id}")

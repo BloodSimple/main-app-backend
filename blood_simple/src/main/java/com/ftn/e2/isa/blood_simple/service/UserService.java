@@ -1,4 +1,5 @@
 package com.ftn.e2.isa.blood_simple.service;
+import com.ftn.e2.isa.blood_simple.dto.UpdatePasswordDTO;
 import com.ftn.e2.isa.blood_simple.dto.UserDTO;
 import com.ftn.e2.isa.blood_simple.model.Address;
 import com.ftn.e2.isa.blood_simple.model.User;
@@ -56,6 +57,27 @@ public class UserService {
             userToUpdate.setBio(updateUserDTO.getBio());
 
             addressRepository.save(address);
+            userRepository.save(userToUpdate);
+        }
+        return status;
+    }
+
+    public boolean updatePassword(UpdatePasswordDTO passwordDTO) {
+        boolean status = userRepository.existsById(passwordDTO.getId());
+        if (status) {
+            User userToUpdate = userRepository.findById(passwordDTO.getId()).orElse(null);
+            assert userToUpdate != null;
+            if(!userToUpdate.getPassword().equals(passwordDTO.getCurrentpassword()))
+            {
+                return false;
+            }
+            if(!passwordDTO.getNewpassword().equals(passwordDTO.getRepeatedpassword()))
+            {
+                return false;
+            }
+
+            userToUpdate.setPassword(passwordDTO.getNewpassword());
+
             userRepository.save(userToUpdate);
         }
         return status;
