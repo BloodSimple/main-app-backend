@@ -21,10 +21,10 @@ public class RegistrationService {
 
     public boolean registerUser(Map<String, String> map, String siteURL){
         boolean successfullyRegistered = true;
-        RoleENUM userType = RoleENUM.valueOf(map.get("userType"));
+        RoleENUM userType = RoleENUM.valueOf(map.get("role"));
         switch (userType) {
             case USER:
-                successfullyRegistered = registerUser((Map<String, String>) UserDTO.MapToUser(map), siteURL);
+                successfullyRegistered = registerUser( UserDTO.MapToUser(map), siteURL);
                 break;
             /* TODO: Add registration for other user types
             case MEDICAL_ADMIN:
@@ -53,7 +53,7 @@ public class RegistrationService {
             // TODO: setVerificationCode - For the next checkpoint
             // setVerificationCode(RandomString.make(64), user);
             try {
-                userRepository.save(user);
+                userRepository.saveAndFlush(user);
                 // TODO: mailService - For the next checkpoint
                 //mailService.sendVerificationEmail(user, siteURL);
             } catch (Exception e) {

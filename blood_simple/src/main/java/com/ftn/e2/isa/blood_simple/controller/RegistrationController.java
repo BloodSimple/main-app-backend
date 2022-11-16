@@ -17,7 +17,7 @@ public class RegistrationController {
     @Autowired
     private RegistrationService registrationService;
 
-    @PostMapping("/registerUser")
+    @PostMapping("/register")
     public boolean registerUser(@RequestBody Map<String, String> message, HttpServletRequest request){
         return registrationService.registerUser(message, getSiteURL(request));
         //return registrationService.registerCustomer(DtoToUser.MapToCustomer(message), getSiteURL(request));

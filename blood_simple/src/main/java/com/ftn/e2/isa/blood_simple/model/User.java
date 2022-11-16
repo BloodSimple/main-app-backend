@@ -44,7 +44,7 @@ public class User implements UserDetails {
     @Column(name = "user_surname", nullable = false)
     private String surname; // lastName
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_address_id")
     private Address address;
 
