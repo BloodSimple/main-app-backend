@@ -9,8 +9,16 @@ import org.springframework.stereotype.Repository;
 import com.ftn.e2.isa.blood_simple.model.User;
 
 @Repository
-public interface UserRepository extends JpaRepository<com.ftn.e2.isa.blood_simple.model.User, String>{
-	
+public interface UserRepository extends JpaRepository<com.ftn.e2.isa.blood_simple.model.User, Long>{
+
+	public User findByEmail(String email);
+	public User findByPersonalId(String personalId);
+
+	public boolean existsByEmail(String email);
+	public boolean existsByPersonalId(String personalId);
+
+	public void deleteByPersonalId(String personalId);
+
 	@Query("select U "
 			+ "from User U "
 			+ "where ( "

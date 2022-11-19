@@ -8,12 +8,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Map;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDTO {
 
-    private String id;
+    private Long id;
+    private String personalIdentificationNumber;
     private String email;
     private String password;
     private String name;
@@ -35,8 +38,9 @@ public class UserDTO {
     private String bio;
     private RoleENUM role;
 
-    public UserDTO(User user){
+    public UserDTO(User user) {
         this.id = user.getId();
+        this.personalIdentificationNumber = user.getPersonalId();
         this.email = user.getEmail();
         this.password = user.getPassword();
         this.name = user.getName();
@@ -52,4 +56,26 @@ public class UserDTO {
         this.bio = user.getBio();
         this.role = user.getRole();
     }
+
+    public static User MapToUser(Map<String, String> map) {
+        return new User(
+                map.get("personalId"),
+                map.get("email"),
+                map.get("password"),
+                map.get("firstName"),
+                map.get("lastName"),
+                new Address(
+                        map.get("addressStreet"),
+                        map.get("addressNumber"),
+                        map.get("addressCity"),
+                        map.get("addressCountry")
+                ),
+                map.get("phoneNumber"),
+                map.get("job"),
+                map.get("bio"),
+                RoleENUM.valueOf(map.get("role")),
+                GenderENUM.valueOf(map.get("gender"))
+                );
+    }
+
 }

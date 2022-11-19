@@ -18,6 +18,8 @@ public class UserService {
     @Autowired
     private AddressRepository addressRepository;
 
+    // Basic CRUD operations
+
     public List<UserDTO> getAll(){
         List<User> users = userRepository.findAll();
         List<UserDTO> usersDTO = new ArrayList<>();
@@ -27,8 +29,17 @@ public class UserService {
         return usersDTO;
     }
 
-    public UserDTO getUserById(String id) {
-        User user = userRepository.findById(id).orElse(null);
+    public UserDTO getUserById(Long Id) { // Database Id {1,2,3,..}
+        User user = userRepository.findById(Id).orElse(null);
+        if(user != null){
+            return new UserDTO(user);
+        }else{
+            return null;
+        }
+    }
+
+    public UserDTO getUserByPersonalId(String personalId) { // JMBG in Serbia
+        User user = userRepository.findByPersonalId(personalId);
         if(user != null){
             return new UserDTO(user);
         }else{
@@ -42,7 +53,6 @@ public class UserService {
             User userToUpdate = userRepository.findById(updateUserDTO.getId()).orElse(null);
             assert userToUpdate != null;
             Address address = addressRepository.findById(userToUpdate.getAddress().getId()).orElse(null);
-
             userToUpdate.setPassword(updateUserDTO.getPassword());
             userToUpdate.setName(updateUserDTO.getName());
             userToUpdate.setSurname(updateUserDTO.getSurname());
@@ -55,7 +65,6 @@ public class UserService {
             userToUpdate.setPhoneNumber(updateUserDTO.getPhoneNumber());
             userToUpdate.setJob(updateUserDTO.getJob());
             userToUpdate.setBio(updateUserDTO.getBio());
-
             addressRepository.save(address);
             userRepository.save(userToUpdate);
         }
@@ -63,9 +72,9 @@ public class UserService {
     }
 
     public boolean updatePassword(UpdatePasswordDTO passwordDTO) {
-        boolean status = userRepository.existsById(passwordDTO.getId());
+        boolean status = userRepository.existsByPersonalId(passwordDTO.getId());
         if (status) {
-            User userToUpdate = userRepository.findById(passwordDTO.getId()).orElse(null);
+            User userToUpdate = userRepository.findByPersonalId(passwordDTO.getId());
             assert userToUpdate != null;
             if(!userToUpdate.getPassword().equals(passwordDTO.getCurrentpassword()))
             {
@@ -75,7 +84,6 @@ public class UserService {
             {
                 return false;
             }
-
             userToUpdate.setPassword(passwordDTO.getNewpassword());
 
             userRepository.save(userToUpdate);
@@ -83,11 +91,12 @@ public class UserService {
         return status;
     }
 
-    public boolean deleteUser(String id){
-        boolean status = userRepository.existsById(id);
+    public boolean deleteUserByPersonalId(String personalId){
+        boolean status = userRepository.existsByPersonalId(personalId);
         if(status){
-            userRepository.deleteById(id);
+            userRepository.deleteByPersonalId(personalId);
         }
         return status;
     }
+
 }
