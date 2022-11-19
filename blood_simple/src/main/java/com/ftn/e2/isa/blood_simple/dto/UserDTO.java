@@ -16,7 +16,7 @@ import java.util.Map;
 public class UserDTO {
 
     private Long id;
-    private String personalIdentificationNumber;
+    private String personalId;
     private String email;
     private String password;
     private String name;
@@ -40,7 +40,7 @@ public class UserDTO {
 
     public UserDTO(User user) {
         this.id = user.getId();
-        this.personalIdentificationNumber = user.getPersonalId();
+        this.personalId = user.getPersonalId();
         this.email = user.getEmail();
         this.password = user.getPassword();
         this.name = user.getName();

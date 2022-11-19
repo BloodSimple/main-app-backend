@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import com.ftn.e2.isa.blood_simple.dto.UserDTO;
+import com.ftn.e2.isa.blood_simple.service.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 
@@ -34,7 +35,10 @@ import com.ftn.e2.isa.blood_simple.service.MedicalCenterService;
 public class MedicalCenterController {
 
 	@Autowired
-	MedicalCenterService service;
+	MedicalCenterService medicalCenterService;
+
+	@Autowired
+	RegistrationService registrationService;
 
 //	@GetMapping
 //	public List<MedicalCenter> get(){
@@ -43,13 +47,13 @@ public class MedicalCenterController {
 	
 	@GetMapping(value="/", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<MedicalCenter>> getMedicalCenters(HttpServletRequest request){
-		List<MedicalCenter> list = service.getAll();
+		List<MedicalCenter> list = medicalCenterService.getAll();
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 	
 	@GetMapping(value="/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<MedicalCenter> getMedicalCenter(@PathVariable Long id, HttpServletRequest request){
-		MedicalCenter mc = service.get(id);
+		MedicalCenter mc = medicalCenterService.get(id);
         if (mc == null) {
         	return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
@@ -58,7 +62,7 @@ public class MedicalCenterController {
 
 	@PutMapping(value="/", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Object> updateMedicalCenter(@RequestBody MedicalCenterDTO centerDto){
-		MedicalCenter mc = service.saveOrUpdate(centerDto);
+		MedicalCenter mc = medicalCenterService.saveOrUpdate(centerDto);
 		if(mc == null){
 			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		}else {
@@ -68,7 +72,7 @@ public class MedicalCenterController {
 	
 	@PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<MedicalCenter> createMedicalCenter(@RequestBody MedicalCenterDTO newDto,HttpServletRequest request){
-		MedicalCenter mc = service.saveOrUpdate(newDto);
+		MedicalCenter mc = medicalCenterService.saveOrUpdate(newDto);
 		if (mc==null)
 			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		return new ResponseEntity<>(mc, HttpStatus.CREATED);
@@ -76,21 +80,25 @@ public class MedicalCenterController {
 
 	@PutMapping(value = "/{id}/admin", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<User> putAdminToCenter(@PathVariable String id, @RequestBody User admin, HttpServletRequest request){
-		MedicalCenter mc = service.getByName(id);
+		MedicalCenter mc = medicalCenterService.getByName(id);
 		if (mc == null && id != "")
         	return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-		admin = service.saveOrUpdateAdmin(admin);
+		/* TO JE BILO  -- admin = service.saveOrUpdateAdmin(admin); */
+		boolean successfullyRegistered = registrationService.registerMedicalAdmin(admin, getSiteURL(request));
+		if(!successfullyRegistered){
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		}
 		if(id != "") {
 			mc.setAdmin(admin);
 			if (mc.getAdmin() == null )
 	        	return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-    		service.saveCenter(mc);
+			medicalCenterService.saveCenter(mc);
 		}return new ResponseEntity<>(admin, HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/{id}/admin", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<User> getCenterAdmin(@PathVariable Long id, HttpServletRequest request){
-		MedicalCenter mc = service.get(id);
+		MedicalCenter mc = medicalCenterService.get(id);
 		if(mc==null)
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		return new ResponseEntity<>(mc.getAdmin(), HttpStatus.OK);
@@ -98,18 +106,18 @@ public class MedicalCenterController {
 	
 	@PostMapping(value = "/{id}/address", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Address> putAddressToCenter(@RequestBody Address address,@PathVariable Long id, HttpServletRequest request){
-		MedicalCenter mc = service.get(id);
+		MedicalCenter mc = medicalCenterService.get(id);
 		if(mc==null && id != 0)
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		//service.saveOrUpdateAddress(address);	//ponavlja se u saveorupdate mc
 		mc.setAddress(address);
-		service.saveOrUpdate(new MedicalCenterDTO(mc));
+		medicalCenterService.saveOrUpdate(new MedicalCenterDTO(mc));
 		return new ResponseEntity<>(address, HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/{id}/address", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Address> getCenterAddress(@PathVariable Long id, HttpServletRequest request){
-		MedicalCenter mc = service.get(id);
+		MedicalCenter mc = medicalCenterService.get(id);
 		if (mc==null)
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		return new ResponseEntity<>(mc.getAddress(), HttpStatus.OK);
@@ -117,13 +125,17 @@ public class MedicalCenterController {
 	
 	@GetMapping(value="/selectadmin")
 	public List<User> getFreeAdmins( HttpServletRequest request){
-		return service.getFreeAdmins();
+		return medicalCenterService.getFreeAdmins();
 	}
 	
 	@GetMapping(value="/allusers")
 	public List<User> getUsers(HttpServletRequest request){
-		return service.getUsers();
+		return medicalCenterService.getUsers();
 	}
-	
+
+	private String getSiteURL(HttpServletRequest request) {
+		String siteURL = request.getRequestURL().toString();
+		return siteURL.replace(request.getServletPath(), "");
+	}
 
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.ftn.e2.isa.blood_simple.service.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -26,17 +27,20 @@ import com.ftn.e2.isa.blood_simple.service.SystemAdminService;
 public class SystemAdminController {
 	
 	@Autowired
-	SystemAdminService service;
+	SystemAdminService systemAdminService;
+
+	@Autowired
+	RegistrationService registrationService;
 	
 	@GetMapping(value = "/", produces= MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<User>> getAllSystemAdmins(HttpServletRequest request){
-		List<User> admins = service.getAllSystemAdmins();
+		List<User> admins = systemAdminService.getAllSystemAdmins();
 		return new ResponseEntity<>(admins, HttpStatus.OK);
 	}
 	
 	@GetMapping(value="/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<User> getSystemAdmin(@PathVariable String id,HttpServletRequest request){
-		User admin = service.getSystemAdmin(id);
+		User admin = systemAdminService.getSystemAdmin(id);
 		if (admin.equals(null))
 			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		return new ResponseEntity<>(admin, HttpStatus.OK);
@@ -44,14 +48,22 @@ public class SystemAdminController {
 	
 	@PostMapping(value="/",produces=MediaType.APPLICATION_JSON_VALUE, consumes=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<User> addSystemAdmin(@RequestBody User admin, HttpServletRequest request){
-		User a = service.saveOrUpdateSystemAdmin(admin);
-		if (a.equals(null))
+		// TO JE BILO -- User a = service.saveOrUpdateSystemAdmin(admin);
+		boolean successfullyRegistered = registrationService.registerSystemAdmin(admin, getSiteURL(request));
+		if(!successfullyRegistered){
 			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-		return new ResponseEntity<>(a, HttpStatus.OK);
+		}
+		return new ResponseEntity<>(admin, HttpStatus.OK);
 	}
 	
     @DeleteMapping(value = "/{id}")
     public void deleteUser(@PathVariable String id){
-        service.delete(id);
+		systemAdminService.delete(id);
     }
+
+	private String getSiteURL(HttpServletRequest request) {
+		String siteURL = request.getRequestURL().toString();
+		return siteURL.replace(request.getServletPath(), "");
+	}
+
 }

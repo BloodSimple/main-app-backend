@@ -18,29 +18,29 @@ public class RegistrationService {
     private UserRepository userRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
-
+/*
     public boolean registerUser(Map<String, String> map, String siteURL){
         boolean successfullyRegistered = true;
         RoleENUM userType = RoleENUM.valueOf(map.get("role"));
         switch (userType) {
             case USER:
-                successfullyRegistered = registerUser( UserDTO.MapToUser(map), siteURL);
+                successfullyRegistered = registerRegularUser( UserDTO.MapToUser(map), siteURL);
                 break;
-            /* TODO: Add registration for other user types
             case MEDICAL_ADMIN:
-                successfullyRegistered = registerMedicalAdmin(UserDTO.MapToBungalowOwner(map), siteURL);
+                successfullyRegistered = registerMedicalAdmin(UserDTO.MapToUser(map), siteURL);
                 break;
             case SYSTEM_ADMIN:
-                successfullyRegistered = registerBoatOwner(UserDTO.MapToBoatOwner(map), siteURL);
+                successfullyRegistered = registerSystemAdmin(UserDTO.MapToUser(map), siteURL);
                 break;
-             */
+
         }
         return successfullyRegistered;
     }
+*/
 
 
-
-    private boolean registerUser(User user, String siteURL) {
+    public boolean registerRegularUser(Map<String, String> map, String siteURL) {
+        User user = (User) UserDTO.MapToUser(map);
         boolean successfullyRegistered = true;
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         Date date = new Date();
@@ -63,11 +63,38 @@ public class RegistrationService {
         return successfullyRegistered;
     }
 
+    public boolean registerMedicalAdmin(User user, String siteURL) {
+        boolean successfullyRegistered = true;
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        Date date = new Date();
+        if(!checkIfEmailExists(user.getEmail())){
+            user.setRole(RoleENUM.MEDICAL_ADMIN);
+            try {
+                userRepository.saveAndFlush(user);
+            } catch (Exception e) {
+                successfullyRegistered = false;
+            }
+        }
+        return successfullyRegistered;
+    }
+
+    public boolean registerSystemAdmin(User user, String siteURL) {
+        boolean successfullyRegistered = true;
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        Date date = new Date();
+        if(!checkIfEmailExists(user.getEmail())){
+            user.setRole(RoleENUM.SYSTEM_ADMIN);
+            try {
+                userRepository.saveAndFlush(user);
+            } catch (Exception e) {
+                successfullyRegistered = false;
+            }
+        }
+        return successfullyRegistered;
+    }
+
     private boolean checkIfEmailExists(String email){
         return userRepository.findByEmail(email) != null;
     }
-
-
-
 
 }

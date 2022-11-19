@@ -19,7 +19,7 @@ public class RegistrationController {
 
     @PostMapping("/register")
     public boolean registerUser(@RequestBody Map<String, String> message, HttpServletRequest request){
-        return registrationService.registerUser(message, getSiteURL(request));
+        return registrationService.registerRegularUser(message, getSiteURL(request));
         //return registrationService.registerCustomer(DtoToUser.MapToCustomer(message), getSiteURL(request));
     }
 
