@@ -21,8 +21,8 @@ public class SystemAdminService {
 	@Autowired
 	MedicalCenterService medicalService;
 	
-	public User getSystemAdmin(String id) {
-		User admin = userRepo.findById(id).orElse(null);
+	public User getSystemAdmin(String personalId) {
+		User admin = userRepo.findByPersonalId(personalId);
 		if (admin.equals(null) || !(admin.getRole().equals(RoleENUM.SYSTEM_ADMIN))) {
 			return null;
 		}
@@ -42,8 +42,8 @@ public class SystemAdminService {
 		return null;
 	}
 	
-	public void delete(String id) {
-		userRepo.deleteById(id);
+	public void delete(String personalId) {
+		userRepo.deleteByPersonalId(personalId);
 	}
 	
 	
