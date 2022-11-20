@@ -1,6 +1,7 @@
 package com.ftn.e2.isa.blood_simple.repository;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -19,16 +20,16 @@ public interface UserRepository extends JpaRepository<com.ftn.e2.isa.blood_simpl
 
 	public void deleteByPersonalId(String personalId);
 
-	@Query("select U "
-			+ "from User U "
-			+ "where ( "
-			+ "  U.role = 'MEDICAL_ADMIN' "
-			+ "  and U.id not in ( "
-			+ "    select admin "
-			+ "    from MedicalCenter "
-			+ "  )"
-			+ ")")
-	public List<User> getFreeAdmins();
+//	@Query("select U "
+//			+ "from User U "
+//			+ "where ( "
+//			+ "  U.role = 'MEDICAL_ADMIN' "
+//			+ "  and U not in ( "
+//			+ "    select M.medicalAdmins "
+//			+ "    from MedicalCenter M"
+//			+ "  )"
+//			+ ")")
+//	public List<User> getFreeAdmins();
 	
 	@Query("select U "
 			+ "from User U "
@@ -43,4 +44,11 @@ public interface UserRepository extends JpaRepository<com.ftn.e2.isa.blood_simpl
 			+ "  U.role = 'SYSTEM_ADMIN' " //zameni na user posle
 			+ ")")
 	public List<User> getAllSystemAdmins();
+
+	@Query("select U "
+			+ "from User U "
+			+ "where ( "
+			+ "  U.role = 'MEDICAL_ADMIN' " //zameni na user posle
+			+ ")")
+	public Set<User> getAllMedicalAdmins();
 }

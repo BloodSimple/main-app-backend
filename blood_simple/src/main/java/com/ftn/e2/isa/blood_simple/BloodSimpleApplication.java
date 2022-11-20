@@ -22,8 +22,7 @@ public class BloodSimpleApplication implements CommandLineRunner {
 	@Autowired
 	AppointmentRepository appointmentRepo;
 	@Autowired
-	BloodDonationRepository donationRepo;
-	@Autowired
+
 	BloodStorageRepository storageRepo;
 	@Autowired
 	MedicalCenterRepository centerRepo;

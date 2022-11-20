@@ -62,14 +62,14 @@
 -- ======================================================================
 -- MEDICAL CENTERS -- with CenterAdmins and MedicalStaff
         -- id=1 -- in the database
-        insert into medical_centers (center_name, center_description, center_address_id, center_admin_user_id, grade)
-        values ('Blood Drop', 'Vadimo krv kap po kap, kisa sprema se... ok prestacu', 2, 2, 3.0);
+        insert into medical_centers (center_name, center_description, center_address_id, grade)
+        values ('Blood Drop', 'Vadimo krv kap po kap, kisa sprema se... ok prestacu', 2,  3.0);
             -- Medical Staff in the Medical Center1
             insert into medical_centers_medical_staff (medical_center_center_id, medical_staff_user_id) values (1, 2);
             insert into medical_centers_medical_staff (medical_center_center_id, medical_staff_user_id) values (1, 3);
         -- id=2 -- in the database
-        insert into medical_centers (center_name, center_description, center_address_id, center_admin_user_id, grade)
-        values ('Klinicki Centar Lab - KCL', 'Dosta smo dobar centar za vadjenje krvi, za to smo top', 1, 3, 5.0);
+        insert into medical_centers (center_name, center_description, center_address_id,  grade)
+        values ('Klinicki Centar Lab - KCL', 'Dosta smo dobar centar za vadjenje krvi, za to smo top', 1, 5.0);
             -- Medical Staff in the Medical Center2
             insert into medical_centers_medical_staff (medical_center_center_id, medical_staff_user_id) values (2, 4);
 -- ======================================================================

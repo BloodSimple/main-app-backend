@@ -2,6 +2,7 @@ package com.ftn.e2.isa.blood_simple.controller;
 
 import java.net.http.HttpRequest;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -30,7 +31,7 @@ import com.ftn.e2.isa.blood_simple.model.User;
 import com.ftn.e2.isa.blood_simple.service.MedicalCenterService;
 
 @RestController
-//@CrossOrigin(origins = "http://localhost:54372")
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping(value = "api/centers")
 public class MedicalCenterController {
 
@@ -81,27 +82,28 @@ public class MedicalCenterController {
 	@PutMapping(value = "/{id}/admin", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<User> putAdminToCenter(@PathVariable String id, @RequestBody User admin, HttpServletRequest request){
 		MedicalCenter mc = medicalCenterService.getByName(id);
-		if (mc == null && id != "")
+		if (mc.equals(null) && !id.equals(""))
         	return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-		/* TO JE BILO  -- admin = service.saveOrUpdateAdmin(admin); */
+		//admin = medicalCenterService.saveOrUpdateAdmin(admin); 
 		boolean successfullyRegistered = registrationService.registerMedicalAdmin(admin, getSiteURL(request));
 		if(!successfullyRegistered){
 			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		}
-		if(id != "") {
-			mc.setAdmin(admin);
-			if (mc.getAdmin() == null )
+		if(!id.equals("")) {
+			mc.getMedicalAdmins().add(admin);
+			if (mc.getMedicalAdmins().isEmpty() )
 	        	return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 			medicalCenterService.saveCenter(mc);
-		}return new ResponseEntity<>(admin, HttpStatus.OK);
+		}
+		return new ResponseEntity<>(admin, HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/{id}/admin", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<User> getCenterAdmin(@PathVariable Long id, HttpServletRequest request){
+	public ResponseEntity<Set<User>> getCenterAdmin(@PathVariable Long id, HttpServletRequest request){
 		MedicalCenter mc = medicalCenterService.get(id);
-		if(mc==null)
+		if(mc.equals(null))
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-		return new ResponseEntity<>(mc.getAdmin(), HttpStatus.OK);
+		return new ResponseEntity<>(mc.getMedicalAdmins(), HttpStatus.OK);
 	}
 	
 	@PostMapping(value = "/{id}/address", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -124,7 +126,7 @@ public class MedicalCenterController {
 	}
 	
 	@GetMapping(value="/selectadmin")
-	public List<User> getFreeAdmins( HttpServletRequest request){
+	public Set<User> getFreeAdmins( HttpServletRequest request){
 		return medicalCenterService.getFreeAdmins();
 	}
 	

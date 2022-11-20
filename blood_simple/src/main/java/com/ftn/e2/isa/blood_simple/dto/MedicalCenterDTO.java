@@ -19,7 +19,7 @@ public class MedicalCenterDTO {
 	private Address address; 
 	private String name;
 	private String description;
-	private User admin;
+	private Set<User> admins;
 	private Set<User> medicalStaff;		//stavi na dto posle merge
 
 	private double grade;
@@ -28,7 +28,7 @@ public class MedicalCenterDTO {
 		this.name = model.getName();
 		this.address = model.getAddress();
 		this.description = model.getDescription();
-		this.admin = model.getAdmin();
+		this.admins = model.getMedicalAdmins();
 		this.medicalStaff = model.getMedicalStaff(); // izmeni za merge
 		this.grade = model.getGrade();
 	}

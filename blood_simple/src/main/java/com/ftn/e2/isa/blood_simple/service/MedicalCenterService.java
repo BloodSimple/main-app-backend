@@ -1,8 +1,10 @@
 package com.ftn.e2.isa.blood_simple.service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,11 +58,15 @@ public class MedicalCenterService {
 		return addRepo.save(address);
 	}
 	public User saveOrUpdateAdmin(User admin) {
-		if (admin == null || admin.getRole()!=RoleENUM.MEDICAL_ADMIN)
+		if (admin.equals(null) || admin.getRole()!=RoleENUM.MEDICAL_ADMIN)
 			return null;
 		for(MedicalCenter mc : repo.findAll()) {
-			if (  (mc.getAdmin() != null) && mc.getAdmin().getId().equals(admin.getId()) )
-				return null;
+			if (!mc.getMedicalAdmins().isEmpty()) {
+				for(User a : mc.getMedicalAdmins()) {
+					if (  a.getPersonalId().equals(admin.getPersonalId()) )
+						return null;
+				}
+			}						
 		}
 		if (admin.getAddress() != null) {
 			Address address = saveOrUpdateAddress(admin.getAddress());
@@ -93,8 +99,21 @@ public class MedicalCenterService {
 		return false;
 	}
 	
-	public List<User> getFreeAdmins(){
-		return userRepo.getFreeAdmins();
+	public Set<User> getFreeAdmins(){
+		Set<User> freeAdmins = userRepo.getAllMedicalAdmins();
+		if (!freeAdmins.isEmpty())
+		for(Iterator<User> iterator = freeAdmins.iterator(); iterator.hasNext(); ) {
+			User u = iterator.next();
+			for(Iterator<MedicalCenter> iterator2 = repo.findAll().iterator(); iterator2.hasNext();) {
+				MedicalCenter mc = iterator2.next();
+				for(Iterator<User> iterator3 = mc.getMedicalAdmins().iterator(); iterator3.hasNext();) {
+					User u1 = iterator3.next();
+					if (u1.getPersonalId().equals(u.getPersonalId()))
+						iterator.remove();
+				}
+			}
+		}
+		return freeAdmins;
 	}
 	
 	public List<User> getUsers(){

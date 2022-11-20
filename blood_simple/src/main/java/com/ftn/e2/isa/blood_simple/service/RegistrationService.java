@@ -1,8 +1,10 @@
 package com.ftn.e2.isa.blood_simple.service;
 
 import com.ftn.e2.isa.blood_simple.dto.UserDTO;
+import com.ftn.e2.isa.blood_simple.model.MedicalCenter;
 import com.ftn.e2.isa.blood_simple.model.RoleENUM;
 import com.ftn.e2.isa.blood_simple.model.User;
+import com.ftn.e2.isa.blood_simple.repository.MedicalCenterRepository;
 import com.ftn.e2.isa.blood_simple.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,6 +20,8 @@ public class RegistrationService {
     private UserRepository userRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private MedicalCenterRepository medicalCenterRepo;
 /*
     public boolean registerUser(Map<String, String> map, String siteURL){
         boolean successfullyRegistered = true;
@@ -70,6 +74,16 @@ public class RegistrationService {
         if(!checkIfEmailExists(user.getEmail())){
             user.setRole(RoleENUM.MEDICAL_ADMIN);
             try {
+            	if (user.equals(null) || user.getRole()!=RoleENUM.MEDICAL_ADMIN)
+            		successfullyRegistered = false;
+        		for(MedicalCenter mc : medicalCenterRepo.findAll()) {
+        			if (!mc.getMedicalAdmins().isEmpty()) {
+        				for(User a : mc.getMedicalAdmins()) {
+        					if (  a.getPersonalId().equals(user.getPersonalId()) )
+        		                successfullyRegistered = false;
+        				}
+        			}						
+        		}
                 userRepository.saveAndFlush(user);
             } catch (Exception e) {
                 successfullyRegistered = false;

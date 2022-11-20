@@ -22,7 +22,7 @@ public class BloodStorage {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "donation_id")
+	@Column(name = "storage_id")
 	private Long id;
 	
 	@OneToOne	

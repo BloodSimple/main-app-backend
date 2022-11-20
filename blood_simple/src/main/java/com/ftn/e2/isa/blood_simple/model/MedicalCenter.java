@@ -49,9 +49,8 @@ public class MedicalCenter {
 	@Column(name="grade", nullable= true)
 	private double grade;
 	
-	@OneToOne//(cascade = CascadeType.ALL)
-	@JoinColumn(name = "center_admin_user_id")
-	private User admin;
+	@OneToMany(fetch = FetchType.EAGER)
+	private Set<User> medicalAdmins;
 	
 	@OneToMany(fetch = FetchType.EAGER)
 	private Set<User> medicalStaff;
@@ -63,7 +62,7 @@ public class MedicalCenter {
 		this.name = dto.getName();
 		this.address = dto.getAddress();
 		this.description = dto.getDescription();
-		this.admin = dto.getAdmin();
+		this.medicalAdmins = dto.getAdmins();
 		this.medicalStaff = dto.getMedicalStaff();
 		this.grade = dto.getGrade();
 	}

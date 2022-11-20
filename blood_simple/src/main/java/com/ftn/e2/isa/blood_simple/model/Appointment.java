@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -35,8 +36,12 @@ public class Appointment {
 	@Column(name = "appointment_duration", nullable = false)
 	private int duration;
 	
-	@OneToMany
-	private List<User> donors; 
+	@OneToOne
+	private User user; 
+	
+	private BloodTypeENUM bloodType;
+	
+	private double amountOfBlood;
 	
 	@OneToMany
 	private List<User> medicalStaff;
