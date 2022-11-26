@@ -1,6 +1,7 @@
 package com.ftn.e2.isa.blood_simple.model;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Set;
 
@@ -35,7 +36,7 @@ public class Appointment {
 	private Long id;
 	
 	@Column(name = "appointment_start", nullable = false) // datum i vreme 
-	private Date startTime;
+	private Timestamp startTime;
 	
 	@Column(name = "appointment_duration", nullable = false)
 	private int duration;
