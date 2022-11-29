@@ -18,6 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.ftn.e2.isa.blood_simple.dto.AppointmentDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -40,6 +41,9 @@ public class Appointment {
 	
 	@Column(name = "appointment_duration", nullable = false)
 	private int duration;
+
+	@Column(name = "reserved", nullable = false)
+	private boolean reserved;
 	
 	@OneToOne
 	private User user; 
@@ -54,4 +58,15 @@ public class Appointment {
 	
 	@ManyToOne 	// bidirekciono
 	private MedicalCenter medicalCenter;
+
+	public Appointment(AppointmentDTO appointmentDTO) {
+		this.id = appointmentDTO.getId();
+		this.startTime = appointmentDTO.getStartTime();
+		this.duration = appointmentDTO.getDuration();
+		this.reserved = appointmentDTO.isReserved();
+	}
+
+	public boolean isReserved() {
+		return reserved;
+	}
 }
