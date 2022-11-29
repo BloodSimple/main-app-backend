@@ -1,10 +1,15 @@
 package com.ftn.e2.isa.blood_simple.model;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -31,7 +36,7 @@ public class Appointment {
 	private Long id;
 	
 	@Column(name = "appointment_start", nullable = false) // datum i vreme 
-	private Date startTime;
+	private Timestamp startTime;
 	
 	@Column(name = "appointment_duration", nullable = false)
 	private int duration;
@@ -39,12 +44,13 @@ public class Appointment {
 	@OneToOne
 	private User user; 
 	
+    @Enumerated(EnumType.STRING)
 	private BloodTypeENUM bloodType;
 	
 	private double amountOfBlood;
 	
-	@OneToMany
-	private List<User> medicalStaff;
+	@OneToMany(fetch = FetchType.EAGER)
+	private Set<User> medicalStaff;
 	
 	@ManyToOne 	// bidirekciono
 	private MedicalCenter medicalCenter;
