@@ -29,9 +29,9 @@ public class ScheduleController {
 
 	@PostMapping(value = "/defineAppointment", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Object> createAppointment(@RequestBody AppointmentDTO newAppointmentDTO){
-		AppointmentDTO appointmentDTO = scheduleService.saveAppointment(newAppointmentDTO);
-		if (appointmentDTO != null)
-			return new ResponseEntity<>(appointmentDTO, HttpStatus.CREATED);
+		Appointment appointment = scheduleService.saveAppointment(newAppointmentDTO);
+		if (appointment != null)
+			return new ResponseEntity<>(appointment, HttpStatus.CREATED);
 		return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 	}
 

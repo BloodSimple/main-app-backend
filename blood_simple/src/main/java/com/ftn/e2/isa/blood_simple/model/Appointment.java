@@ -54,17 +54,17 @@ public class Appointment {
 	private double amountOfBlood;
 	
 	@OneToMany(fetch = FetchType.EAGER)
-	private Set<User> medicalStaff;
+	private List<User> medicalStaff;
 	
 	@ManyToOne 	// bidirekciono
 	private MedicalCenter medicalCenter;
 
-	public Appointment(AppointmentDTO appointmentDTO) {
-		this.id = appointmentDTO.getId();
-		this.startTime = appointmentDTO.getStartTime();
-		this.duration = appointmentDTO.getDuration();
-		this.reserved = appointmentDTO.isReserved();
-	}
+//	public Appointment(AppointmentDTO appointmentDTO) {
+//		this.id = appointmentDTO.getId();
+//		this.startTime = appointmentDTO.getStartTime();
+//		this.duration = appointmentDTO.getDuration();
+////		this.reserved = appointmentDTO.isReserved();
+//	}
 
 	public boolean isReserved() {
 		return reserved;
