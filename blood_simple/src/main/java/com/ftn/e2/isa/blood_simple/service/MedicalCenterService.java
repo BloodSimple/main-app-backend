@@ -32,6 +32,16 @@ public class MedicalCenterService {
 	public MedicalCenter get(Long id) {
 		return repo.findById(id).orElse(null);
 	}
+
+	public MedicalCenterDTO getById(Long id){
+		MedicalCenter mc = repo.findOneById(id);
+		if(mc != null){
+			return new MedicalCenterDTO(mc);
+		}else{
+			return null;
+		}
+	}
+
 	public List<MedicalCenter> getAll(){
 		return repo.findAll();
 	}

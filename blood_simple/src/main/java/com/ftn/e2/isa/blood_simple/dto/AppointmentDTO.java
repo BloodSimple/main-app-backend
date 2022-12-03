@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -16,7 +17,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class AppointmentDTO {
     private Long id;
-    private Timestamp startTime;
+    private LocalDateTime startTime;
     private int duration;
     private Long medicalCenterId;
     private List<User> medicalStaff;
@@ -36,7 +37,7 @@ public class AppointmentDTO {
         this.id = id;
     }
 
-    public Timestamp getStartTime() {
+    public LocalDateTime getStartTime() {
         return startTime;
     }
 

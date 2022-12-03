@@ -33,6 +33,7 @@ public class ScheduleService {
 
 	public Appointment saveAppointment(AppointmentDTO appointmentDTO){
 		Appointment appointment = new Appointment();
+		System.out.println(appointmentDTO.getStartTime());
 		appointment.setStartTime(appointmentDTO.getStartTime());
 		appointment.setDuration(appointmentDTO.getDuration());
 		appointment.setReserved(false);

@@ -79,8 +79,8 @@
 -- ======================================================================
 -- APPOINTMENTS
 	insert into appointments(amount_of_blood, blood_type, appointment_duration, appointment_start, medical_center_center_id, user_user_id, reserved)
-		values(0.5, 'A', 30, '2022-11-26 19:00:00', 1, 6, false);
+		values(0.5, 'A', 30, '2022-12-05T07:00:00', 1, 6, false);
 	insert into appointments(amount_of_blood, blood_type, appointment_duration, appointment_start, medical_center_center_id, user_user_id, reserved)
-		values(0.5, 'A', 30, '2022-11-26 18:00:00', 1, 5, true);
+		values(0.5, 'A', 45, '2022-12-05T09:00:00', 1, 5, true);
 	insert into appointments(amount_of_blood, blood_type, appointment_duration, appointment_start, medical_center_center_id, user_user_id, reserved)
-		values(0.5, 'A', 30, '2022-11-27 18:00:00', 2, 5, false);
+		values(0.5, 'A', 30, '2022-12-05T08:00:00', 2, 5, false);

@@ -61,6 +61,15 @@ public class MedicalCenterController {
         return new ResponseEntity<>(mc, HttpStatus.OK);
 	}
 
+	@GetMapping(value="/dto/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Object> getMedicalCenterDTOById(@PathVariable Long id){
+		MedicalCenterDTO mcDTO = medicalCenterService.getById(id);
+		if (mcDTO == null) {
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(mcDTO, HttpStatus.OK);
+	}
+
 	@PutMapping(value="/", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Object> updateMedicalCenter(@RequestBody MedicalCenterDTO centerDto){
 		MedicalCenter mc = medicalCenterService.saveOrUpdate(centerDto);
