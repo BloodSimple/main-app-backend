@@ -1,7 +1,11 @@
 package com.ftn.e2.isa.blood_simple.controller;
 
 import com.ftn.e2.isa.blood_simple.dto.AppointmentDTO;
+import com.ftn.e2.isa.blood_simple.model.MedicalCenter;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,6 +37,14 @@ public class ScheduleController {
 		if (appointment != null)
 			return new ResponseEntity<>(appointment, HttpStatus.CREATED);
 		return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+	}
+
+	@RequestMapping(value="/freeAppointments", method = RequestMethod.GET)
+	public ResponseEntity<List<MedicalCenter>> getMedicalCenterWithAppointments(@RequestParam("startTime")
+																				@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+																				LocalDateTime startTime){
+		List<MedicalCenter> medicalCenters = scheduleService.getMedicalCenterWithAppointments(startTime);
+		return new ResponseEntity<>(medicalCenters, HttpStatus.OK);
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.ftn.e2.isa.blood_simple.service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -48,5 +49,22 @@ public class ScheduleService {
 		appointment.setMedicalStaff(staff);
 		appointmentRepo.save(appointment);
 		return appointment;
+	}
+
+	public List<MedicalCenter> getMedicalCenterWithAppointments(LocalDateTime startTime){
+		List<MedicalCenter> goodMedicalCenters = new ArrayList<>();
+		List<Appointment> goodAppointments = new ArrayList<>();
+		List<Appointment> allAppointments = appointmentRepo.findAll();
+		for(Appointment appointment: allAppointments){
+			if(appointment.isReserved() == false && appointment.getStartTime().equals(startTime) ){
+				goodAppointments.add(appointment);
+				System.out.println(appointment);
+			}
+		}
+		for(Appointment app: goodAppointments){
+			goodMedicalCenters.add(app.getMedicalCenter());
+		}
+
+		return goodMedicalCenters;
 	}
 }

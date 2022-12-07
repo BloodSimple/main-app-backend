@@ -24,6 +24,9 @@
     -- id=6 -- in the database
     insert into addresses (address_city, address_country, address_number, address_street, address_x, address_y)
     values ('Novi Sad', 'Srbija', '25', 'Mise Dimitrijevica', 11.146, 23.555);
+    -- id=7 -- in the database
+    insert into addresses (address_city, address_country, address_number, address_street, address_x, address_y)
+    values ('Novi Sad', 'Srbija', '3', 'Resavska', 11.146, 23.555);
 -- ======================================================================
 -- USERS and USER_AUTHORITIES
     -- SystemAdmin
@@ -52,17 +55,23 @@
             -- user's authority [MEDICAL_ADMIN=2, COMMON=4]
             insert into user_authorities(user_id, authority_id) values (4, 2);
             insert into user_authorities(user_id, authority_id) values (4, 4);
+        -- id=5 -- in the database -- [MedicalStaff to MedicalCenter3]
+        insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role)
+        values ('145299763044', 'tijana@email.com', 'dule23', 'Tijana', 'Tijanic','FEMALE', 4, '06313215654', 'med.sestra', 'Med.sestra', 'MEDICAL_ADMIN');
+        -- user's authority [MEDICAL_ADMIN=2, COMMON=4]
+        insert into user_authorities(user_id, authority_id) values (5, 2);
+        insert into user_authorities(user_id, authority_id) values (5, 4);
     -- RegisteredUsers
         -- id=5 -- in the database
         insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role)
         values ('2310987760011', 'miki@email.com', '$2a$10$fXmTeuKItXLA4l4mhOCfeOmV6m800N0vFq.XAO9bY1BZeA8JOwaEG', 'Miki', 'Mikic','MALE', 3, '0641123456', 'engineer', 'Faculty of Technical Sciences, University of Novi Sad', 'USER');
             -- user's authority [MEDICAL_ADMIN=2, COMMON=4]
-            insert into user_authorities(user_id, authority_id) values (5, 4);
+            insert into user_authorities(user_id, authority_id) values (6, 4);
         -- id=6 -- in the database
         insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role)
         values ('35445421760011', 'koki@email.com', '$2a$10$fXmTeuKItXLA4l4mhOCfeOmV6m800N0vFq.XAO9bY1BZeA8JOwaEG', 'Koki', 'Kokic','MALE', 3, '0641123456', 'engineer', 'Faculty of Technical Sciences, University of Novi Sad', 'USER');
             -- user's authority [MEDICAL_ADMIN=2, COMMON=4]
-            insert into user_authorities(user_id, authority_id) values (5, 4);
+            insert into user_authorities(user_id, authority_id) values (7, 4);
 -- ======================================================================
 -- MEDICAL CENTERS -- with CenterAdmins and MedicalStaff
         -- id=1 -- in the database
@@ -76,6 +85,11 @@
         values ('Klinicki Centar Lab - KCL', 'Dosta smo dobar centar za vadjenje krvi, za to smo top', 1, 5.0);
             -- Medical Staff in the Medical Center2
             insert into medical_centers_medical_staff (medical_center_center_id, medical_staff_user_id) values (2, 4);
+        -- id=3 -- in the database
+        insert into medical_centers (center_name, center_description, center_address_id,  grade)
+        values ('Medicinski centar Zdravlje', 'Najbolji u gradu!', 7, 5.0);
+        -- Medical Staff in the Medical Center3
+        insert into medical_centers_medical_staff (medical_center_center_id, medical_staff_user_id) values (3, 5);
 -- ======================================================================
 -- APPOINTMENTS
 	insert into appointments(amount_of_blood, blood_type, appointment_duration, appointment_start, medical_center_center_id, user_user_id, reserved)
@@ -84,3 +98,5 @@
 		values(0.5, 'A', 45, '2022-12-05T09:00:00', 1, 5, true);
 	insert into appointments(amount_of_blood, blood_type, appointment_duration, appointment_start, medical_center_center_id, user_user_id, reserved)
 		values(0.5, 'A', 30, '2022-12-05T08:00:00', 2, 5, false);
+    insert into appointments(amount_of_blood, blood_type, appointment_duration, appointment_start, medical_center_center_id, user_user_id, reserved)
+        values(0.5, 'AB', 30, '2022-12-05T07:00:00', 3, 6, false);
