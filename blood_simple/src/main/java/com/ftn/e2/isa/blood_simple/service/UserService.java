@@ -7,7 +7,10 @@ import com.ftn.e2.isa.blood_simple.repository.AddressRepository;
 import com.ftn.e2.isa.blood_simple.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.mail.MessagingException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,14 +21,19 @@ public class UserService {
     @Autowired
     private AddressRepository addressRepository;
 
+    @Autowired
+    MailService mailService;  //DELETE
+
     // Basic CRUD operations
 
-    public List<UserDTO> getAll(){
+    @Transactional
+    public List<UserDTO> getAll() throws MessagingException, UnsupportedEncodingException {
         List<User> users = userRepository.findAll();
         List<UserDTO> usersDTO = new ArrayList<>();
         for(User user: users){
             usersDTO.add(new UserDTO(user));
         }
+        mailService.sendSuccessfulReservationEmail();  //DELETE
         return usersDTO;
     }
 
