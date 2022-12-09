@@ -21,9 +21,6 @@ public class UserService {
     @Autowired
     private AddressRepository addressRepository;
 
-    @Autowired
-    MailService mailService;  //DELETE
-
     // Basic CRUD operations
 
     @Transactional
@@ -33,7 +30,6 @@ public class UserService {
         for(User user: users){
             usersDTO.add(new UserDTO(user));
         }
-        mailService.sendSuccessfulReservationEmail();  //DELETE
         return usersDTO;
     }
 

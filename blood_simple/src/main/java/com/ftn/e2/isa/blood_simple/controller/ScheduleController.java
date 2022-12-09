@@ -47,4 +47,17 @@ public class ScheduleController {
 		return new ResponseEntity<>(medicalCenters, HttpStatus.OK);
 	}
 
+	@PostMapping(value = "/scheduleAppointment", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Object> scheduleAppointment(@RequestParam Long medicalCenterId,
+													  @RequestParam("startTime")
+													  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+													   LocalDateTime startTime,
+													  @RequestParam String personalId){
+		Appointment appointment = scheduleService.scheduleAppointment(medicalCenterId, startTime, personalId);
+		if (appointment != null)
+			return new ResponseEntity<>(appointment, HttpStatus.OK);
+		return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+	}
+
+
 }

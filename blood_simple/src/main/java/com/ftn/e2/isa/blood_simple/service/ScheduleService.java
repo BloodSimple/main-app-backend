@@ -1,5 +1,6 @@
 package com.ftn.e2.isa.blood_simple.service;
 
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -10,12 +11,16 @@ import com.ftn.e2.isa.blood_simple.dto.AppointmentDTO;
 import com.ftn.e2.isa.blood_simple.model.MedicalCenter;
 import com.ftn.e2.isa.blood_simple.model.User;
 import com.ftn.e2.isa.blood_simple.repository.UserRepository;
+import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ftn.e2.isa.blood_simple.model.Appointment;
 import com.ftn.e2.isa.blood_simple.repository.AppointmentRepository;
 import com.ftn.e2.isa.blood_simple.repository.MedicalCenterRepository;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.mail.MessagingException;
 
 
 @Service
@@ -27,7 +32,9 @@ public class ScheduleService {
 	AppointmentRepository appointmentRepo;
 	@Autowired
 	UserRepository userRepository;
-	
+	@Autowired
+	MailService mailService;
+
 	public List<Appointment>getAppointmentsByCenter(Long id){
 		return appointmentRepo.getAppointmentsForCenter(id);
 	}
@@ -66,5 +73,26 @@ public class ScheduleService {
 		}
 
 		return goodMedicalCenters;
+	}
+
+	@Transactional
+	public Appointment scheduleAppointment(Long medicalCenterId, LocalDateTime startTime, String personalId){
+		List<Appointment> appointments = getAppointmentsByCenter(medicalCenterId);
+		for(Appointment appointment: appointments) {
+			if (appointment.getStartTime().equals(startTime) && appointment.isReserved() == false) {
+				appointment.setReserved(true);
+				appointment.setUser(userRepository.findByPersonalId(personalId));
+				appointmentRepo.save(appointment);
+				try {
+					mailService.sendSuccessfulReservationEmail(appointment.getUser(), appointment);
+				} catch (MessagingException e) {
+					e.printStackTrace();
+				} catch (UnsupportedEncodingException e) {
+					e.printStackTrace();
+				}
+				return appointment;
+			}
+		}
+		return null;
 	}
 }
