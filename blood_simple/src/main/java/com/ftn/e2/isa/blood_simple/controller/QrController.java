@@ -18,6 +18,8 @@ import com.ftn.e2.isa.blood_simple.model.Image;
 import com.ftn.e2.isa.blood_simple.repository.ImageRepository;
 import com.ftn.e2.isa.blood_simple.service.QrService;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import utils.ImageUtility;
 
 @RestController
@@ -29,11 +31,15 @@ public class QrController {
 	@Autowired
 	ImageRepository imageRepo;
 	 @GetMapping(path = {"/{name}"})
-	    public ResponseEntity<String> getAppointmentViaQR(@PathVariable("name") String name) throws IOException {
+	    public ResponseEntity<String[]> getAppointmentViaQR(@PathVariable("name") String name) throws IOException {
 		 
 		 
 		 Image dbImage = imageRepo.getByName(name);
 		 String content = qrCodeService.readQRCode(ImageUtility.decompressImage(dbImage.getImage()));
-		 return new ResponseEntity<>(content, HttpStatus.OK);
+		 String[] contentDisplay = qrCodeService.contentToDisplay(content);
+		 return new ResponseEntity<>(contentDisplay, HttpStatus.OK);
 	 }
+	 
+	 
 }
+

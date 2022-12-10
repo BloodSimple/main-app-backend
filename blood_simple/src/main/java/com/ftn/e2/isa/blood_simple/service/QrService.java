@@ -16,6 +16,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 @Service
 public class QrService {
@@ -39,4 +40,11 @@ public class QrService {
         }
         return null;
     }
+    
+    public String[] contentToDisplay(String content) {
+    	String[] display = new String[5];			// ime, prezime, jmbg, vreme pocetka, trajanje, ime centra 
+    	display = content.split(";");
+    	return display;
+    }
+    
 }
