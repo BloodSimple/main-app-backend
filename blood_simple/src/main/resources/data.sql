@@ -62,12 +62,12 @@
         insert into user_authorities(user_id, authority_id) values (5, 2);
         insert into user_authorities(user_id, authority_id) values (5, 4);
     -- RegisteredUsers
-        -- id=5 -- in the database
+        -- id=6 -- in the database
         insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role)
         values ('2310987760011', 'miki@email.com', '$2a$10$fXmTeuKItXLA4l4mhOCfeOmV6m800N0vFq.XAO9bY1BZeA8JOwaEG', 'Miki', 'Mikic','MALE', 3, '0641123456', 'engineer', 'Faculty of Technical Sciences, University of Novi Sad', 'USER');
             -- user's authority [MEDICAL_ADMIN=2, COMMON=4]
             insert into user_authorities(user_id, authority_id) values (6, 4);
-        -- id=6 -- in the database
+        -- id=7 -- in the database
         insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role)
         values ('35445421760011', 'koki@email.com', '$2a$10$fXmTeuKItXLA4l4mhOCfeOmV6m800N0vFq.XAO9bY1BZeA8JOwaEG', 'Koki', 'Kokic','MALE', 3, '0641123456', 'engineer', 'Faculty of Technical Sciences, University of Novi Sad', 'USER');
             -- user's authority [MEDICAL_ADMIN=2, COMMON=4]

@@ -47,12 +47,12 @@ public class ScheduleController {
 		return new ResponseEntity<>(medicalCenters, HttpStatus.OK);
 	}
 
-	@PostMapping(value = "/scheduleAppointment", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> scheduleAppointment(@RequestParam Long medicalCenterId,
-													  @RequestParam("startTime")
+	@PostMapping(value = "/scheduleAppointment/{medicalCenterId}/{startTime}/{personalId}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Object> scheduleAppointment(@PathVariable Long medicalCenterId,
+													  @PathVariable("startTime")
 													  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
 													   LocalDateTime startTime,
-													  @RequestParam String personalId){
+													  @PathVariable String personalId){
 		Appointment appointment = scheduleService.scheduleAppointment(medicalCenterId, startTime, personalId);
 		if (appointment != null)
 			return new ResponseEntity<>(appointment, HttpStatus.OK);
