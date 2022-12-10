@@ -59,5 +59,10 @@ public class ScheduleController {
 		return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 	}
 
+	@GetMapping(value="myAppointments/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Appointment>> getAppointmentsByUser(@PathVariable String id){
+		List<Appointment> list = scheduleService.getAppointmentsByUser(id);
+		return new ResponseEntity<>(list, HttpStatus.OK);
+	}
 
 }

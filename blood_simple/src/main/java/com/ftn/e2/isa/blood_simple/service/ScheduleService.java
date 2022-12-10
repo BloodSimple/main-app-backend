@@ -95,4 +95,16 @@ public class ScheduleService {
 		}
 		return null;
 	}
+
+	public List<Appointment> getAppointmentsByUser(String personalId){
+		List<Appointment> allAppointments = appointmentRepo.findAll();
+		List<Appointment> usersAppointments = new ArrayList<>();
+		for(Appointment appointment: allAppointments){
+			if(appointment.getUser().getPersonalId().equals(personalId)){
+				usersAppointments.add(appointment);
+//				return usersAppointments;
+			}
+		}
+		return usersAppointments;
+	}
 }
