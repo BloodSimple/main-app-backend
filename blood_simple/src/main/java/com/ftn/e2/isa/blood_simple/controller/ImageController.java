@@ -24,16 +24,14 @@ public class ImageController {
     ImageRepository imageRepository;
 
     @PostMapping("/upload/image")
-    public ResponseEntity<String> uplaodImage(@RequestParam("image") MultipartFile file)
+    public ResponseEntity<Boolean> uplaodImage(@RequestParam("image") MultipartFile file)
             throws IOException {
 
         imageRepository.save(Image.builder()
                 .name(file.getOriginalFilename())
                 .type(file.getContentType())
                 .image(ImageUtility.compressImage(file.getBytes())).build());
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(new String("Image uploaded successfully: " +
-                        file.getOriginalFilename()));
+        return new ResponseEntity<>(true, HttpStatus.OK);
     }
 
 //    @GetMapping(path = {"/get/image/info/{name}"})
