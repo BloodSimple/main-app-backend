@@ -1,6 +1,7 @@
 package com.ftn.e2.isa.blood_simple.controller;
 
 import com.ftn.e2.isa.blood_simple.dto.AppointmentDTO;
+import com.ftn.e2.isa.blood_simple.dto.AppointmentScheduleDTO;
 import com.ftn.e2.isa.blood_simple.model.MedicalCenter;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
@@ -48,15 +49,14 @@ public class ScheduleController {
 	}
 
 	@PostMapping(value = "/scheduleAppointment/{medicalCenterId}/{startTime}/{personalId}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> scheduleAppointment(@PathVariable Long medicalCenterId,
+	public ResponseEntity scheduleAppointment(@PathVariable Long medicalCenterId,
 													  @PathVariable("startTime")
 													  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
 													   LocalDateTime startTime,
 													  @PathVariable String personalId){
-		Appointment appointment = scheduleService.scheduleAppointment(medicalCenterId, startTime, personalId);
-		if (appointment != null)
-			return new ResponseEntity<>(appointment, HttpStatus.OK);
-		return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		AppointmentScheduleDTO appointmentScheduleDTO = scheduleService.scheduleAppointment(medicalCenterId, startTime, personalId);
+		return new ResponseEntity(appointmentScheduleDTO, HttpStatus.OK);
+
 	}
 
 	@GetMapping(value="myAppointments/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

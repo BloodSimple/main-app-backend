@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.ftn.e2.isa.blood_simple.dto.AppointmentDTO;
+import com.ftn.e2.isa.blood_simple.dto.AppointmentScheduleDTO;
 import com.ftn.e2.isa.blood_simple.model.MedicalCenter;
 import com.ftn.e2.isa.blood_simple.model.User;
 import com.ftn.e2.isa.blood_simple.repository.UserRepository;
@@ -76,12 +77,28 @@ public class ScheduleService {
 	}
 
 	@Transactional
-	public Appointment scheduleAppointment(Long medicalCenterId, LocalDateTime startTime, String personalId){
+	public AppointmentScheduleDTO scheduleAppointment(Long medicalCenterId, LocalDateTime startTime, String personalId){
 		List<Appointment> appointments = getAppointmentsByCenter(medicalCenterId);
+		AppointmentScheduleDTO appointmentSchedule = new AppointmentScheduleDTO();
 		for(Appointment appointment: appointments) {
 			if (appointment.getStartTime().equals(startTime) && appointment.isReserved() == false) {
+				User user = userRepository.findByPersonalId(personalId);
+					if(user.getBloodDonation() != null){
+						if(LocalDateTime.now().isBefore(user.getBloodDonation().plusMonths(6))) {
+							appointmentSchedule.setResponse("Six months haven't passed since your last blood donation.");
+							return appointmentSchedule;
+						}
+					}
+					if(user.getQuiestionnaire() == null){
+						appointmentSchedule.setResponse("You should take questionnaire before blood donation.");
+						return appointmentSchedule;
+					}else if(user.getQuiestionnaire().plusDays(1).isBefore(LocalDateTime.now())){
+						appointmentSchedule.setResponse("You should take questionnaire again...");
+						return appointmentSchedule;
+					}
+
 				appointment.setReserved(true);
-				appointment.setUser(userRepository.findByPersonalId(personalId));
+				appointment.setUser(user);
 				appointmentRepo.save(appointment);
 				try {
 					mailService.sendSuccessfulReservationEmail(appointment.getUser(), appointment);
@@ -90,10 +107,10 @@ public class ScheduleService {
 				} catch (UnsupportedEncodingException e) {
 					e.printStackTrace();
 				}
-				return appointment;
 			}
 		}
-		return null;
+		appointmentSchedule.setResponse("Successfully reserved appointment");
+		return appointmentSchedule;
 	}
 
 	public List<Appointment> getAppointmentsByUser(String personalId){
