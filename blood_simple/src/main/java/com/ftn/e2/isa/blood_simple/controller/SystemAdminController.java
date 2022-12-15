@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +25,7 @@ import com.ftn.e2.isa.blood_simple.service.SystemAdminService;
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping(value = "api/sysadmin")
+
 public class SystemAdminController {
 	
 	@Autowired
@@ -33,12 +35,16 @@ public class SystemAdminController {
 	RegistrationService registrationService;
 	
 	@GetMapping(value = "/", produces= MediaType.APPLICATION_JSON_VALUE)
+    //@PreAuthorize("hasRole('MEDICAL_ADMIN')")
+
 	public ResponseEntity<List<User>> getAllSystemAdmins(HttpServletRequest request){
 		List<User> admins = systemAdminService.getAllSystemAdmins();
 		return new ResponseEntity<>(admins, HttpStatus.OK);
 	}
 	
 	@GetMapping(value="/{id}", produces=MediaType.APPLICATION_JSON_VALUE)
+   // @PreAuthorize("hasRole('MEDICAL_ADMIN')")
+
 	public ResponseEntity<User> getSystemAdmin(@PathVariable String id,HttpServletRequest request){
 		User admin = systemAdminService.getSystemAdmin(id);
 		if (admin.equals(null))
@@ -47,6 +53,8 @@ public class SystemAdminController {
 	}
 	
 	@PostMapping(value="/",produces=MediaType.APPLICATION_JSON_VALUE, consumes=MediaType.APPLICATION_JSON_VALUE)
+  //  @PreAuthorize("hasRole('MEDICAL_ADMIN')")
+
 	public ResponseEntity<User> addSystemAdmin(@RequestBody User admin, HttpServletRequest request){
 		// TO JE BILO -- User a = service.saveOrUpdateSystemAdmin(admin);
 		boolean successfullyRegistered = registrationService.registerSystemAdmin(admin, getSiteURL(request));
@@ -57,6 +65,8 @@ public class SystemAdminController {
 	}
 	
     @DeleteMapping(value = "/{id}")
+  //  @PreAuthorize("hasRole('MEDICAL_ADMIN')")
+
     public void deleteUser(@PathVariable String id){
 		systemAdminService.delete(id);
     }
