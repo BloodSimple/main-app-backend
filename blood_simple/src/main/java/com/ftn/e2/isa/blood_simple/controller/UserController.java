@@ -12,7 +12,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +27,7 @@ public class UserController {
     private UserService userService;
 
     @GetMapping(value="/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<UserDTO>> getUsers(){
+    public ResponseEntity<List<UserDTO>> getUsers() throws MessagingException, UnsupportedEncodingException {
         List<UserDTO> list = userService.getAll();
         return new ResponseEntity<>(list, HttpStatus.OK);
     }

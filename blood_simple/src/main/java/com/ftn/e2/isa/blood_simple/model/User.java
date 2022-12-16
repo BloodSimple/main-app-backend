@@ -9,6 +9,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -77,6 +79,13 @@ public class User implements UserDetails {
 
     // UserDetails interface methods - for Authorization and Authentication:
 
+    @Column(name = "questionnaire")
+    private LocalDateTime quiestionnaire;
+
+    @Column(name = "blood_donation")
+    private LocalDateTime bloodDonation;
+
+
     // TODO: Delete this method
     public User(UserDTO dto) {
         this.id = dto.getId();
@@ -106,6 +115,22 @@ public class User implements UserDetails {
         this.gender = gender;
     }
 
+    public LocalDateTime getQuiestionnaire() {
+        return quiestionnaire;
+    }
+
+    public void setQuiestionnaire(LocalDateTime quiestionnaire) {
+        this.quiestionnaire = quiestionnaire;
+    }
+
+    public LocalDateTime getBloodDonation() {
+        return bloodDonation;
+    }
+
+    public void setBloodDonation(LocalDateTime bloodDonation) {
+        this.bloodDonation = bloodDonation;
+    }
+    
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.authorities;

@@ -2,6 +2,7 @@ package com.ftn.e2.isa.blood_simple.model;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -18,6 +19,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.ftn.e2.isa.blood_simple.dto.AppointmentDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -36,10 +38,13 @@ public class Appointment {
 	private Long id;
 	
 	@Column(name = "appointment_start", nullable = false) // datum i vreme 
-	private Timestamp startTime;
+	private LocalDateTime startTime;
 	
 	@Column(name = "appointment_duration", nullable = false)
 	private int duration;
+
+	@Column(name = "reserved", nullable = false)
+	private boolean reserved;
 	
 	@OneToOne
 	private User user; 
@@ -50,8 +55,19 @@ public class Appointment {
 	private double amountOfBlood;
 	
 	@OneToMany(fetch = FetchType.EAGER)
-	private Set<User> medicalStaff;
+	private List<User> medicalStaff;
 	
 	@ManyToOne 	// bidirekciono
 	private MedicalCenter medicalCenter;
+
+//	public Appointment(AppointmentDTO appointmentDTO) {
+//		this.id = appointmentDTO.getId();
+//		this.startTime = appointmentDTO.getStartTime();
+//		this.duration = appointmentDTO.getDuration();
+////		this.reserved = appointmentDTO.isReserved();
+//	}
+
+	public boolean isReserved() {
+		return reserved;
+	}
 }
