@@ -53,11 +53,14 @@ public class User implements UserDetails {
 
     @Column(name = "user_job")
     private String job;
+    
+    @Column(name = "first_login", columnDefinition = "boolean default false")
+    private boolean first_login;
 
     @Column(name = "user_bio")
     private String bio;
 
-    @Column(name = "user_role", nullable = false)
+    @Column(name = "user_role")
     @Enumerated(EnumType.STRING)
     private RoleENUM role;
 
