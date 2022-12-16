@@ -11,10 +11,12 @@ import org.springframework.stereotype.Service;
 
 import com.ftn.e2.isa.blood_simple.dto.MedicalCenterDTO;
 import com.ftn.e2.isa.blood_simple.model.Address;
+import com.ftn.e2.isa.blood_simple.model.BloodStorage;
 import com.ftn.e2.isa.blood_simple.model.MedicalCenter;
 import com.ftn.e2.isa.blood_simple.model.RoleENUM;
 import com.ftn.e2.isa.blood_simple.model.User;
 import com.ftn.e2.isa.blood_simple.repository.AddressRepository;
+import com.ftn.e2.isa.blood_simple.repository.BloodStorageRepository;
 import com.ftn.e2.isa.blood_simple.repository.MedicalCenterRepository;
 import com.ftn.e2.isa.blood_simple.repository.UserRepository;
 
@@ -27,6 +29,8 @@ public class MedicalCenterService {
 	AddressRepository addRepo;
 	@Autowired
 	UserRepository userRepo;
+	@Autowired
+	BloodStorageRepository bsRepo;
 	
 	/////////////////////////////////////////////
 	public MedicalCenter get(Long id) {
@@ -54,8 +58,10 @@ public class MedicalCenterService {
  			//mc.setAdmin(admin);
 			return repo.save(mc);
 		}
-		return null;
-		
+		return null;		
+	}
+	public BloodStorage saveOrUpdate(BloodStorage bs) {
+		return bsRepo.save(bs);
 	}
 	public Address saveOrUpdateAddress(Address address) {
 		if (address == null)

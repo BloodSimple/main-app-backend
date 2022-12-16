@@ -55,11 +55,14 @@ public class User implements UserDetails {
 
     @Column(name = "user_job")
     private String job;
+    
+    @Column(name = "first_login", columnDefinition = "boolean default false")
+    private boolean first_login;
 
     @Column(name = "user_bio")
     private String bio;
 
-    @Column(name = "user_role", nullable = false)
+    @Column(name = "user_role")
     @Enumerated(EnumType.STRING)
     private RoleENUM role;
 
@@ -69,10 +72,10 @@ public class User implements UserDetails {
 
     // For authentication
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_authorities",
+    @JoinTable(name = "USER_ROLE",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "authority_id"))
-    private List<Authority> authorities;
+    private List<Role> authorities;
 
     // UserDetails interface methods - for Authorization and Authentication:
 
