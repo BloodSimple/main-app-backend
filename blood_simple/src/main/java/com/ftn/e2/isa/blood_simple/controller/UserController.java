@@ -27,7 +27,7 @@ public class UserController {
     private UserService userService;
 
     @GetMapping(value="/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<UserDTO>> getUsers() throws MessagingException, UnsupportedEncodingException {
+    public ResponseEntity<List<UserDTO>> getUsers() {
         List<UserDTO> list = userService.getAll();
         return new ResponseEntity<>(list, HttpStatus.OK);
     }

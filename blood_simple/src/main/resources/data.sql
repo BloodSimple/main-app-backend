@@ -43,27 +43,27 @@
         values ('1212199760011', 'niki@email.com', '$2a$10$63J4WnT/CN7R/D81iBkqY.gl4IDMddsm4pj2f6/qaSVoN9mP2CEm2', 'Branimir', 'Nestorovic','MALE', 5, '0641123456', 'dr', 'medical doctor at KCL', 'MEDICAL_ADMIN');
             -- user's authority [MEDICAL_ADMIN=2, COMMON=4]
             insert into USER_ROLE(user_id, authority_id) values (2, 2);
-            insert into USER_ROLE(user_id, authority_id) values (2, 4);
+--             insert into USER_ROLE(user_id, authority_id) values (2, 4);
         -- id=3 -- in the database -- [CenterAdmin to MedicalCenter2] & [MedicalStaff to MedicalCenter1]
         insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role)
         values ('743199760011', 'lale@email.com', '$2a$10$63J4WnT/CN7R/D81iBkqY.gl4IDMddsm4pj2f6/qaSVoN9mP2CEm2', 'Vladimir', 'Lalic','MALE', 4, '0641123456', 'it', 'Network Administrator at KCL ', 'MEDICAL_ADMIN');
             -- user's authority [MEDICAL_ADMIN=2, COMMON=4]
             insert into USER_ROLE(user_id, authority_id) values (3, 2);
-            insert into USER_ROLE(user_id, authority_id) values (3, 4);
+--             insert into USER_ROLE(user_id, authority_id) values (3, 4);
         -- id=4 -- in the database -- [MedicalStaff to MedicalCenter2]
         insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role)
         values ('145299763041', 'ble@email.com', '$2a$10$63J4WnT/CN7R/D81iBkqY.gl4IDMddsm4pj2f6/qaSVoN9mP2CEm2', 'Boris', 'Tadic','MALE', 4, '063132156', 'menadzer', 'Unemployed manager ', 'MEDICAL_ADMIN');
             -- user's authority [MEDICAL_ADMIN=2, COMMON=4]
 
             insert into USER_ROLE(user_id, authority_id) values (4, 2);
-            insert into USER_ROLE(user_id, authority_id) values (4, 4);
+--             insert into USER_ROLE(user_id, authority_id) values (4, 4);
 
         -- id=5 -- in the database -- [MedicalStaff to MedicalCenter3]
         insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role)
         values ('145299763044', 'tijana@email.com', '$2a$10$63J4WnT/CN7R/D81iBkqY.gl4IDMddsm4pj2f6/qaSVoN9mP2CEm2', 'Tijana', 'Tijanic','FEMALE', 4, '06313215654', 'med.sestra', 'Med.sestra', 'MEDICAL_ADMIN');
         -- user's authority [MEDICAL_ADMIN=2, COMMON=4]
-        insert into user_authorities(user_id, authority_id) values (5, 2);
-        insert into user_authorities(user_id, authority_id) values (5, 4);
+        insert into USER_ROLE(user_id, authority_id) values (5, 2);
+--         insert into USER_ROLE(user_id, authority_id) values (5, 4);
 
     -- RegisteredUsers
         -- id=6 -- in the database
@@ -84,7 +84,7 @@
 -- MEDICAL CENTERS -- with CenterAdmins and MedicalStaff
         -- id=1 -- in the database
         insert into medical_centers (center_name, center_description, center_address_id, grade)
-        values ('Blood Drop', 'Vadimo krv kap po kap, kisa sprema se... ok prestacu', 2,  3.0);
+        values ('Blood Drop', 'Najmbolji medicinski centar!', 2,  3.0);
             -- Medical Staff in the Medical Center1
             insert into medical_centers_medical_staff (medical_center_center_id, medical_staff_user_id) values (1, 2);
             insert into medical_centers_medical_staff (medical_center_center_id, medical_staff_user_id) values (1, 3);

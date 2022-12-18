@@ -87,7 +87,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()      // /auth/**
                 //.antMatchers("/api/**").permitAll()
                 //.antMatchers("/api/sysadmin**").access("hasRole('SYSTEM_ADMIN')")
-               
+                .antMatchers("/api/users/profile**").access("hasRole('USER')")
+                .antMatchers("/api/users**").access("hasRole('USER')")
+                .antMatchers("/api/centers**").access("hasRole('USER')")
+                .antMatchers("/api/centers**").access("hasRole('COMMON')")
+                .antMatchers("/api/centers/1/schedule**").access("hasRole('MEDICAL_ADMIN')")
+
                 // ukoliko ne zelimo da koristimo @PreAuthorize anotacije nad metodama kontrolera, moze se iskoristiti hasRole() metoda da se ogranici
                 // koji tip korisnika moze da pristupi odgovarajucoj ruti. Npr. ukoliko zelimo da definisemo da ruti 'admin' moze da pristupi
                 // samo korisnik koji ima rolu 'ADMIN', navodimo na sledeci nacin:

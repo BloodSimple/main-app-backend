@@ -24,7 +24,7 @@ public class UserService {
     // Basic CRUD operations
 
     @Transactional
-    public List<UserDTO> getAll() throws MessagingException, UnsupportedEncodingException {
+    public List<UserDTO> getAll() {
         List<User> users = userRepository.findAll();
         List<UserDTO> usersDTO = new ArrayList<>();
         for(User user: users){
