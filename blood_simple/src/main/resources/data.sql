@@ -72,6 +72,11 @@
         values ('35445421760011', 'jankovicmaraja99@gmail.com', '$2a$10$63J4WnT/CN7R/D81iBkqY.gl4IDMddsm4pj2f6/qaSVoN9mP2CEm2', 'Marija', 'Jankovic','FEMALE', 3, '0641123456', 'engineer', 'Faculty of Technical Sciences, University of Novi Sad', 'USER');
             -- user's authority [MEDICAL_ADMIN=2, COMMON=4]
             insert into user_authorities(user_id, authority_id) values (7, 4);
+        -- id=8 -- in the database
+        insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role)
+        values ('35445421760022', 'sima@email.com', '$2a$10$63J4WnT/CN7R/D81iBkqY.gl4IDMddsm4pj2f6/qaSVoN9mP2CEm2', 'Sima', 'Simic','MALE', 3, '0641123456', 'engineer', 'Faculty of Technical Sciences, University of Novi Sad', 'USER');
+        -- user's authority [MEDICAL_ADMIN=2, COMMON=4]
+        insert into user_authorities(user_id, authority_id) values (8, 4);
 -- ======================================================================
 -- MEDICAL CENTERS -- with CenterAdmins and MedicalStaff
         -- id=1 -- in the database
@@ -93,10 +98,10 @@
 -- ======================================================================
 -- APPOINTMENTS
 	insert into appointments(amount_of_blood, blood_type, appointment_duration, appointment_start, medical_center_center_id, user_user_id, reserved)
-		values(0.5, 'A', 30, '2022-12-31T07:00:00', 1, 6, false);
+		values(0.5, 'A', 30, '2022-12-05T07:00:00', 1, 6, false);
 	insert into appointments(amount_of_blood, blood_type, appointment_duration, appointment_start, medical_center_center_id, user_user_id, reserved)
-		values(0.5, 'A', 45, '2022-12-05T09:00:00', 1, 7, true);
+		values(0.5, 'A', 45, '2022-12-11T09:00:00', 1, 8, true);
 	insert into appointments(amount_of_blood, blood_type, appointment_duration, appointment_start, medical_center_center_id, user_user_id, reserved)
-		values(0.5, 'A', 30, '2022-12-05T08:00:00', 2, 7, false);
+		values(0.5, 'A', 30, '2022-12-31T07:00:00', 2, 8, false);
     insert into appointments(amount_of_blood, blood_type, appointment_duration, appointment_start, medical_center_center_id, user_user_id, reserved)
-        values(0.5, 'AB', 30, '2022-12-31T07:00:00', 3, 6, false);
+        values(0.5, 'AB', 30, '2020-12-31T07:00:00', 3, 6, false);
