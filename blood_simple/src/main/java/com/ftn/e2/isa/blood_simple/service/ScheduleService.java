@@ -99,6 +99,7 @@ public class ScheduleService {
 
 				appointment.setReserved(true);
 				appointment.setUser(user);
+				user.setBloodDonation(startTime);
 				appointmentRepo.save(appointment);
 				try {
 					mailService.sendSuccessfulReservationEmail(appointment.getUser(), appointment);
