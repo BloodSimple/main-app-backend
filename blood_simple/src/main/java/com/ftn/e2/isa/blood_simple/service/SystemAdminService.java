@@ -3,6 +3,7 @@ package com.ftn.e2.isa.blood_simple.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ftn.e2.isa.blood_simple.model.Address;
@@ -20,9 +21,18 @@ public class SystemAdminService {
 	AddressRepository addRepo;
 	@Autowired
 	MedicalCenterService medicalService;
-	
+	@Autowired
+	PasswordEncoder passwordEncoder;
 	public User getSystemAdmin(String personalId) {
 		User admin = userRepo.findByPersonalId(personalId);
+		if (admin.equals(null) || !(admin.getRole().equals(RoleENUM.SYSTEM_ADMIN))) {
+			return null;
+		}
+		return admin;		
+	}
+	
+	public User getSystemAdminByMail(String mail) {
+		User admin = userRepo.getByEmail(mail);
 		if (admin.equals(null) || !(admin.getRole().equals(RoleENUM.SYSTEM_ADMIN))) {
 			return null;
 		}
@@ -37,6 +47,7 @@ public class SystemAdminService {
 		Address address = medicalService.saveOrUpdateAddress(admin.getAddress());
 		if (address != null) {
 			admin.setAddress(address);
+			//admin.setPassword(passwordEncoder.encode(admin.getPassword()));
 			return userRepo.save(admin);
 		}
 		return null;

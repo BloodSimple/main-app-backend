@@ -28,8 +28,8 @@
 -- USERS and USER_AUTHORITIES
     -- SystemAdmin
         -- id=1 -- in the database
-        insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role)
-        values ('2310999760011', 'dule@email.com', '$2a$10$ei9mAXAMDcHOvG5DAeoOM.S/F2Qh2RYMEAiOUNXpiy1xnK40x8vxm', 'Dusan', 'Markovic','MALE', 6, '0641123456', 'engineer', 'Software Engineer at BloodSimple', 'SYSTEM_ADMIN');
+        insert into users (first_login,user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role)
+        values (true,'2310999760011', 'dule@email.com', '$2a$10$ei9mAXAMDcHOvG5DAeoOM.S/F2Qh2RYMEAiOUNXpiy1xnK40x8vxm', 'Dusan', 'Markovic','MALE', 6, '0641123456', 'engineer', 'Software Engineer at BloodSimple', 'SYSTEM_ADMIN');
             -- user's authority [SYSTEM_ADMIN=1, COMMON=4]
             insert into USER_ROLE(user_id, authority_id) values (1, 1);
           --  insert into USER_ROLE(user_id, authority_id) values (1, 4);

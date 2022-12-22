@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import com.ftn.e2.isa.blood_simple.model.MedicalCenter;
 import com.ftn.e2.isa.blood_simple.model.User;
 
 @Repository
@@ -51,4 +52,11 @@ public interface UserRepository extends JpaRepository<com.ftn.e2.isa.blood_simpl
 			+ "  U.role = 'MEDICAL_ADMIN' " //zameni na user posle
 			+ ")")
 	public Set<User> getAllMedicalAdmins();
+	@Query("select U "
+			+ "from User U "
+			+ "where ( "
+			+ "  U.email = ?1 " //zameni na user posle
+			+ ")")
+	public User getByEmail(String id);
+
 }
