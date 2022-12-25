@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ftn.e2.isa.blood_simple.model.Appointment;
 import com.ftn.e2.isa.blood_simple.model.Image;
 import com.ftn.e2.isa.blood_simple.repository.ImageRepository;
 import com.ftn.e2.isa.blood_simple.service.QrService;
@@ -31,7 +32,7 @@ public class QrController {
 	@Autowired
 	ImageRepository imageRepo;
 	 @GetMapping(path = {"/{name}"})
-	    public ResponseEntity<String[]> getAppointmentViaQR(@PathVariable("name") String name) throws IOException {
+	    public ResponseEntity<String[]> displayDataQR(@PathVariable("name") String name) throws IOException {
 		 
 		 
 		 Image dbImage = imageRepo.getByName(name);
@@ -39,6 +40,13 @@ public class QrController {
 		 String[] contentDisplay = qrCodeService.contentToDisplay(content);
 		 return new ResponseEntity<>(contentDisplay, HttpStatus.OK);
 	 }
+	    @GetMapping(path= {"/{id}/{date}"})
+	   public ResponseEntity<Appointment> getAppointmentViaQR(@PathVariable("id") String id, @PathVariable("date") String date){
+		   Appointment a = this.qrCodeService.findAppointmentByContentData(id, date);
+		   if(a == null)
+			   return new ResponseEntity<>(a, HttpStatus.BAD_REQUEST);
+		   return new ResponseEntity<>(a, HttpStatus.OK);
+	   }
 	 
 	 
 }
