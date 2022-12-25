@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ftn.e2.isa.blood_simple.model.Appointment;
+import com.ftn.e2.isa.blood_simple.model.AppointmentReport;
+import com.ftn.e2.isa.blood_simple.repository.AppointmentReportRepository;
 import com.ftn.e2.isa.blood_simple.repository.AppointmentRepository;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.MultiFormatReader;
@@ -31,6 +33,8 @@ public class QrService {
 	
 	@Autowired 
 	AppointmentRepository appointmentRepo;
+	@Autowired
+	AppointmentReportRepository reportRepo;
 	
 	private SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
     
@@ -58,11 +62,18 @@ public class QrService {
     	return display;
     }
     
-    public Appointment findAppointmentByContentData(String id, String dateString) {
+    //na osnovu qr-a nadji appointment i kreiraj report koji ga referencira
+    public Appointment findAppointmentByContentData(String id, String dateString) { 
     	//String[] display = this.contentToDisplay(content);
     	try {
     		Date date = (Date) formatter.parse(dateString);
-        	return appointmentRepo.findAppointmentByData(id,date);
+        	Appointment a = appointmentRepo.findAppointmentByData(id,date);
+        	//preispitaj flow???
+//        	if (a!=null) {
+//        		AppointmentReport report = new AppointmentReport(a);
+//        		reportRepo.save(report);
+//        	}
+        	return a;
 
     	} catch (ParseException e) {
 			// TODO Auto-generated catch block
