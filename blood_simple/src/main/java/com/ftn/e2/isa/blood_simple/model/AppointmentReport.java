@@ -1,5 +1,6 @@
 package com.ftn.e2.isa.blood_simple.model;
 
+import java.sql.Timestamp;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -32,6 +33,9 @@ public class AppointmentReport {
 	@Column(name="blood_type", nullable = false)
 	private BloodTypeENUM bloodType;
 	
+	@Column(name="doctor_note")
+	private String doctorNote;
+	
 	@Column(name="amount_of_blood", nullable = false)
 	private double amountOfBlood;
 	
@@ -52,6 +56,12 @@ public class AppointmentReport {
 	
 	@Column(name="stop_reason")
 	private String stopReason;
+	
+	@Column(name = "appointment_start", nullable = false) // datum i vreme 
+	private Timestamp startTime;
+	
+	@Column(name = "appointment_end", nullable = false) // datum i vreme 
+	private Timestamp endTime;
 	
 	public AppointmentReport(Appointment a) {
 		this.appointment = a;
