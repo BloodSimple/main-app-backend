@@ -3,16 +3,13 @@ package com.ftn.e2.isa.blood_simple.service;
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import com.ftn.e2.isa.blood_simple.dto.AppointmentDTO;
 import com.ftn.e2.isa.blood_simple.dto.AppointmentScheduleDTO;
 import com.ftn.e2.isa.blood_simple.model.MedicalCenter;
 import com.ftn.e2.isa.blood_simple.model.User;
 import com.ftn.e2.isa.blood_simple.repository.UserRepository;
-import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -89,10 +86,10 @@ public class ScheduleService {
 							return appointmentSchedule;
 						}
 					}
-					if(user.getQuiestionnaire() == null){
+					if(user.getQuestionnaire() == null){
 						appointmentSchedule.setResponse("You should take questionnaire before blood donation.");
 						return appointmentSchedule;
-					}else if(user.getQuiestionnaire().plusDays(1).isBefore(LocalDateTime.now())){
+					}else if(user.getQuestionnaire().plusDays(1).isBefore(LocalDateTime.now())){
 						appointmentSchedule.setResponse("You should take questionnaire again...");
 						return appointmentSchedule;
 					}

@@ -1,4 +1,8 @@
 package com.ftn.e2.isa.blood_simple.config;
+
+import com.ftn.e2.isa.blood_simple.security.TokenUtils;
+import com.ftn.e2.isa.blood_simple.security.authentication.RestAuthenticationEntryPoint;
+import com.ftn.e2.isa.blood_simple.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,27 +12,23 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.ftn.e2.isa.blood_simple.security.TokenUtils;
-import com.ftn.e2.isa.blood_simple.security.authentication.RestAuthenticationEntryPoint;
-import com.ftn.e2.isa.blood_simple.security.authentication.TokenAuthenticationFilter;
-import com.ftn.e2.isa.blood_simple.service.CustomUserDetailsService;
-
 
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    // Servis koji se koristi za citanje podataka o korisnicima aplikacije
+    @Autowired
+    private CustomUserDetailsService customUserDetailsService;
+    // Handler za vracanje 401 kada klijent sa neodogovarajucim korisnickim imenom i lozinkom pokusa da pristupi resursu
+    @Autowired
+    private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
+    // Injektujemo implementaciju iz TokenUtils klase kako bismo mogli da koristimo njene metode za rad sa JWT u TokenAuthenticationFilteru
+    @Autowired
+    private TokenUtils tokenUtils;
 
     // Implementacija PasswordEncoder-a koriscenjem BCrypt hashing funkcije.
     // BCrypt po defalt-u radi 10 rundi hesiranja prosledjene vrednosti.
@@ -36,14 +36,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-    // Servis koji se koristi za citanje podataka o korisnicima aplikacije
-    @Autowired
-    private CustomUserDetailsService customUserDetailsService;
-
-    // Handler za vracanje 401 kada klijent sa neodogovarajucim korisnickim imenom i lozinkom pokusa da pristupi resursu
-    @Autowired
-    private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
 
     // Registrujemo authentication manager koji ce da uradi autentifikaciju korisnika za nas
     @Bean
@@ -67,14 +59,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .passwordEncoder(passwordEncoder());
     }
 
-    // Injektujemo implementaciju iz TokenUtils klase kako bismo mogli da koristimo njene metode za rad sa JWT u TokenAuthenticationFilteru
-    @Autowired
-    private TokenUtils tokenUtils;
-
     // Definisemo prava pristupa za zahteve ka odredjenim URL-ovima/rutama
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
+
+        /* TODO: MatchForRoles - Add it to the project
+
+         http
+
                 // komunikacija izmedju klijenta i servera je stateless posto je u pitanju REST aplikacija
                 // ovo znaci da server ne pamti nikakvo stanje, tokeni se ne cuvaju na serveru
                 // ovo nije slucaj kao sa sesijama koje se cuvaju na serverskoj strani - STATEFULL aplikacija
@@ -107,6 +99,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // umetni custom filter TokenAuthenticationFilter kako bi se vrsila provera JWT tokena umesto cistih korisnickog imena i lozinke (koje radi BasicAuthenticationFilter)
                 .addFilterBefore(new TokenAuthenticationFilter(tokenUtils, customUserDetailsService), BasicAuthenticationFilter.class);
 
+        */
         // zbog jednostavnosti primera ne koristimo Anti-CSRF token (https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html)
         http.csrf().disable();
     }
@@ -125,4 +118,3 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 "/**/*.css", "/**/*.js");
     }
 }
-

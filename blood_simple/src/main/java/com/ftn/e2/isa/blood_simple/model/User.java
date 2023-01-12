@@ -9,7 +9,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
@@ -53,6 +52,9 @@ public class User implements UserDetails {
     @Column(name = "user_phone")
     private String phoneNumber;
 
+    @Column(name="date_of_birth")
+    private String dateOfBirth;
+
     @Column(name = "user_job")
     private String job;
     
@@ -70,38 +72,35 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private GenderENUM gender;
 
-    // For authentication
+    // For authority - Which roles have authority for some actions?
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "USER_ROLE",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "authority_id"))
     private List<Role> authorities;
 
-    // UserDetails interface methods - for Authorization and Authentication:
-
+    //****************************************************
+    // I THINK WE SHOULD DELETE THESE METHODS
+    // TODO: Delete this column
     @Column(name = "questionnaire")
-    private LocalDateTime quiestionnaire;
-
+    private LocalDateTime questionnaire;
+    // TODO: What is this column? I think we should delete it
     @Column(name = "blood_donation")
     private LocalDateTime bloodDonation;
+    //****************************************************
 
+    //****************************************************
+    // ADDED NEW COLUMNS - For the Questionnaire and the BloodDonation
+    @Column(name = "number_of_blood_donations")
+    private int numberOfBloodDonations;
+    @OneToOne
+    @JoinColumn(name = "donationForm", referencedColumnName = "donation_form_id")
+    private DonationForm donationForm;
+    //****************************************************
 
-    // TODO: Delete this method
-    public User(UserDTO dto) {
-        this.id = dto.getId();
-        this.email = dto.getEmail();
-        this.password = dto.getPassword();
-        this.name = dto.getName();
-        this.surname = dto.getSurname();
-        this.gender = dto.getGender();
-        this.address = new Address(dto.getAddressStreet(), dto.getAddressNumber(), dto.getAddressCity(), dto.getAddressCountry());
-        this.phoneNumber = dto.getPhoneNumber();
-        this.job = dto.getJob();
-        this.bio = dto.getBio();
-        this.role = dto.getRole();
-    }
-
-    public User(String personalId, String email, String password, String name, String surname, Address address, String phoneNumber, String job, String bio, RoleENUM role, GenderENUM gender) {
+    public User(String personalId, String email, String password, String name,
+                String surname, Address address, String phoneNumber, String dateOfBirth,
+                String job, String bio, RoleENUM role, GenderENUM gender) {
         this.personalId = personalId;
         this.email = email;
         this.password = password;
@@ -109,18 +108,19 @@ public class User implements UserDetails {
         this.surname = surname;
         this.address = address;
         this.phoneNumber = phoneNumber;
+        this.dateOfBirth = dateOfBirth;
         this.job = job;
         this.bio = bio;
         this.role = role;
         this.gender = gender;
     }
 
-    public LocalDateTime getQuiestionnaire() {
-        return quiestionnaire;
+    public LocalDateTime getQuestionnaire() {
+        return questionnaire;
     }
 
-    public void setQuiestionnaire(LocalDateTime quiestionnaire) {
-        this.quiestionnaire = quiestionnaire;
+    public void setQuestionnaire(LocalDateTime questionnaire) {
+        this.questionnaire = questionnaire;
     }
 
     public LocalDateTime getBloodDonation() {
