@@ -42,7 +42,6 @@ public class RegistrationService {
     }
 */
 
-
     public boolean registerRegularUser(Map<String, String> map, String siteURL) {
         User user = (User) UserDTO.MapToUser(map);
         boolean successfullyRegistered = true;

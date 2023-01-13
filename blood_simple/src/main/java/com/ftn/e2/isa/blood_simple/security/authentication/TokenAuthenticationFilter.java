@@ -8,6 +8,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ftn.e2.isa.blood_simple.security.TokenUtils;
+
+import io.jsonwebtoken.ExpiredJwtException;
+import com.ftn.e2.isa.blood_simple.security.authentication.*;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,6 +27,8 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
     private UserDetailsService userDetailsService;
 
+    protected final Log LOGGER = LogFactory.getLog(getClass());
+
     public TokenAuthenticationFilter(TokenUtils tokenHelper, UserDetailsService userDetailsService) {
         this.tokenUtils = tokenHelper;
         this.userDetailsService = userDetailsService;
@@ -30,25 +38,37 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws IOException, ServletException {
 
+
         String username;
+
+        // 1. Preuzimanje JWT tokena iz zahteva
         String authToken = tokenUtils.getToken(request);
 
-        if (authToken != null) {
-            // uzmi username iz tokena
-            username = tokenUtils.getUsernameFromToken(authToken);
+        try {
 
-            if (username != null) {
-                // uzmi user-a na osnovu username-a
-                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+            if (authToken != null) {
 
-                // proveri da li je prosledjeni token validan
-                if (tokenUtils.validateToken(authToken, userDetails)) {
-                    // kreiraj autentifikaciju
-                    TokenBasedAuthentication authentication = new TokenBasedAuthentication(userDetails);
-                    authentication.setToken(authToken);
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                // 2. Citanje korisnickog imena iz tokena
+                username = tokenUtils.getUsernameFromToken(authToken);
+
+                if (username != null) {
+
+                    // 3. Preuzimanje korisnika na osnovu username-a
+                    UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+
+                    // 4. Provera da li je prosledjeni token validan
+                    if (tokenUtils.validateToken(authToken, userDetails)) {
+
+                        // 5. Kreiraj autentifikaciju
+                        TokenBasedAuthentication authentication = new TokenBasedAuthentication(userDetails);
+                        authentication.setToken(authToken);
+                        SecurityContextHolder.getContext().setAuthentication(authentication);
+                    }
                 }
             }
+
+        } catch (ExpiredJwtException ex) {
+            LOGGER.debug("Token expired!");
         }
 
         // prosledi request dalje u sledeci filter
