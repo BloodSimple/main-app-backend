@@ -1,20 +1,21 @@
 package com.ftn.e2.isa.blood_simple.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.ftn.e2.isa.blood_simple.dto.DonationFormDTO;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Getter
-@Setter
+@Data        // @getter, @setter i @requiredargsconstructor
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "DonationForm")
 public class DonationForm {
 
     // generate unique id for DonationForm
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     @Column(name = "donation_form_id")
     private Long id;
 
@@ -70,7 +71,7 @@ public class DonationForm {
     private boolean question20c; //In the past 6 months, have you: c) had acupuncture, piercing or tattoo?
     // 21
     @Column(name = "q21")
-    private boolean question21; //Have you ever voluntarily donated blood or blood components?
+    private boolean question21; // Have you drunk alcohol in the last 6 hours?
     // 22 - a,b,c,d,e,f,g
     @Column(name = "q22a")
     private boolean question22a; // a) Have you suffered or are you suffering from hepatitis (jaundice) A, B or C?
@@ -106,4 +107,96 @@ public class DonationForm {
     private boolean question25; // Are you currently on your period?
     @Column(name = "q26")
     private boolean question26; // In the last 6 months, have you given birth or had a termination of pregnancy?
+
+    public DonationForm(DonationFormDTO dto){
+        super(); // ?
+        this.setDonationForm(dto);
+    }
+
+    public DonationForm(LocalDateTime date, boolean question1, boolean question2, boolean question3, boolean question4, boolean question5, boolean question6, boolean question7, boolean question8, boolean question9, boolean question10, boolean question11, boolean question12, boolean question13, boolean question14, boolean question15, boolean question16, boolean question17, boolean question18, boolean question19, boolean question20a, boolean question20b, boolean question20c, boolean question21, boolean question22a, boolean question22b, boolean question22c, boolean question22d, boolean question22e, boolean question22f, boolean question22g, boolean question23a, boolean question23b, boolean question23c, boolean question23d, boolean question23e, boolean question23f, boolean question24, boolean question25, boolean question26) {
+        super();
+        this.date = date;
+        this.question1 = question1;
+        this.question2 = question2;
+        this.question3 = question3;
+        this.question4 = question4;
+        this.question5 = question5;
+        this.question6 = question6;
+        this.question7 = question7;
+        this.question8 = question8;
+        this.question9 = question9;
+        this.question10 = question10;
+        this.question11 = question11;
+        this.question12 = question12;
+        this.question13 = question13;
+        this.question14 = question14;
+        this.question15 = question15;
+        this.question16 = question16;
+        this.question17 = question17;
+        this.question18 = question18;
+        this.question19 = question19;
+        this.question20a = question20a;
+        this.question20b = question20b;
+        this.question20c = question20c;
+        this.question21 = question21;
+        this.question22a = question22a;
+        this.question22b = question22b;
+        this.question22c = question22c;
+        this.question22d = question22d;
+        this.question22e = question22e;
+        this.question22f = question22f;
+        this.question22g = question22g;
+        this.question23a = question23a;
+        this.question23b = question23b;
+        this.question23c = question23c;
+        this.question23d = question23d;
+        this.question23e = question23e;
+        this.question23f = question23f;
+        this.question24 = question24;
+        this.question25 = question25;
+        this.question26 = question26;
+    }
+
+    public void setDonationForm(DonationFormDTO dto) {
+        this.date = LocalDateTime.now();
+        this.question1 = dto.isQuestion1();
+        this.question2 = dto.isQuestion2();
+        this.question3 = dto.isQuestion3();
+        this.question4 = dto.isQuestion4();
+        this.question5 = dto.isQuestion5();
+        this.question6 = dto.isQuestion6();
+        this.question7 = dto.isQuestion7();
+        this.question8 = dto.isQuestion8();
+        this.question9 = dto.isQuestion9();
+        this.question10 = dto.isQuestion10();
+        this.question11 = dto.isQuestion11();
+        this.question12 = dto.isQuestion12();
+        this.question13 = dto.isQuestion13();
+        this.question14 = dto.isQuestion14();
+        this.question15 = dto.isQuestion15();
+        this.question16 = dto.isQuestion16();
+        this.question17 = dto.isQuestion17();
+        this.question18 = dto.isQuestion18();
+        this.question19 = dto.isQuestion19();
+        this.question20a = dto.isQuestion20a();
+        this.question20b = dto.isQuestion20b();
+        this.question20c = dto.isQuestion20c();
+        this.question21 = dto.isQuestion21();
+        this.question22a = dto.isQuestion22a();
+        this.question22b = dto.isQuestion22b();
+        this.question22c = dto.isQuestion22c();
+        this.question22d = dto.isQuestion22d();
+        this.question22e = dto.isQuestion22e();
+        this.question22f = dto.isQuestion22f();
+        this.question22g = dto.isQuestion22g();
+        this.question23a = dto.isQuestion23a();
+        this.question23b = dto.isQuestion23b();
+        this.question23c = dto.isQuestion23c();
+        this.question23d = dto.isQuestion23d();
+        this.question23e = dto.isQuestion23e();
+        this.question23f = dto.isQuestion23f();
+        this.question24 = dto.isQuestion24();
+        this.question25 = dto.isQuestion25();
+        this.question26 = dto.isQuestion26();
+    }
 }
