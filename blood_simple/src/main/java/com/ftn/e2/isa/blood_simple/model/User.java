@@ -91,8 +91,6 @@ public class User implements UserDetails {
 
     //****************************************************
     // ADDED NEW COLUMNS - For the Questionnaire and the BloodDonation
-    @Column(name = "number_of_blood_donations")
-    private int numberOfBloodDonations = 0;
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "donationForm", referencedColumnName = "donation_form_id")
     private DonationForm donationForm;
