@@ -33,7 +33,7 @@ public class UserController {
     }
 
     // TODO: Change the function name to 'getUserByPersonalId' and the @PathVariable name to 'personalId'
-    @GetMapping(value="/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value="/profile/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
    // @PreAuthorize("hasRole('SYSTEM_ADMIN')")
     public ResponseEntity<Object> getUserById(@PathVariable String id){
         UserDTO userDTO = userService.getUserByPersonalId(id);
@@ -47,7 +47,7 @@ public class UserController {
 
 
 
-    @PutMapping(value="/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value="/profile", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> updateUser(@RequestBody UserDTO userDTO){
        boolean status = userService.updateUser(userDTO);
        if(status){

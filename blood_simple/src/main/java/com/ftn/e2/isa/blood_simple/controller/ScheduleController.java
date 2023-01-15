@@ -26,13 +26,13 @@ public class ScheduleController {
 	@Autowired
 	ScheduleService scheduleService;
 	
-	@GetMapping(value="/{id}/schedule", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value="/admin/{id}/schedule", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Appointment>> getMedicalCenters(@PathVariable Long id, HttpServletRequest request){
 		List<Appointment> list = scheduleService.getAppointmentsByCenter(id);
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 
-	@PostMapping(value = "/defineAppointment", produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/admin/defineAppointment", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Object> createAppointment(@RequestBody AppointmentDTO newAppointmentDTO){
 		Appointment appointment = scheduleService.saveAppointment(newAppointmentDTO);
 		if (appointment != null)

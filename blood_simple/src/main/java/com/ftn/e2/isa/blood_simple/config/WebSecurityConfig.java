@@ -2,6 +2,7 @@ package com.ftn.e2.isa.blood_simple.config;
 
 import com.ftn.e2.isa.blood_simple.security.TokenUtils;
 import com.ftn.e2.isa.blood_simple.security.authentication.RestAuthenticationEntryPoint;
+import com.ftn.e2.isa.blood_simple.security.authentication.TokenAuthenticationFilter;
 import com.ftn.e2.isa.blood_simple.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -13,8 +14,10 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -63,7 +66,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        /* TODO: MatchForRoles - Add it to the project
+        // TODO: MatchForRoles - Add it to the project
 
          http
 
@@ -79,11 +82,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()      // /auth/**
                 //.antMatchers("/api/**").permitAll()
                 //.antMatchers("/api/sysadmin**").access("hasRole('SYSTEM_ADMIN')")
-                .antMatchers("/api/users/profile**").access("hasRole('USER')")
-                .antMatchers("/api/users**").access("hasRole('USER')")
-                .antMatchers("/api/centers**").access("hasRole('USER')")
-                .antMatchers("/api/centers**").access("hasRole('COMMON')")
-                .antMatchers("/api/centers/1/schedule**").access("hasRole('MEDICAL_ADMIN')")
+                 .antMatchers("/api/users/profile/{id}").access("hasRole('USER')")
+                 .antMatchers("/api/users/profile").access("hasRole('USER')")
+                 .antMatchers("/api/centers/myAppointments/{id}").access("hasRole('USER')")
+                 .antMatchers("/api/centers/scheduleAppointment/**").access("hasRole('USER')") //proveri da li radi
+                 .antMatchers("/api/centers/freeAppointments**").access("hasRole('USER')")
+                 .antMatchers("/api/centers/").permitAll()
+                 .antMatchers("/api/centers/admin/{id}/schedule").access("hasRole('MEDICAL_ADMIN')")
+                 .antMatchers("/api/centers/admin/defineAppointment").access("hasRole('MEDICAL_ADMIN')")
 
                 // ukoliko ne zelimo da koristimo @PreAuthorize anotacije nad metodama kontrolera, moze se iskoristiti hasRole() metoda da se ogranici
                 // koji tip korisnika moze da pristupi odgovarajucoj ruti. Npr. ukoliko zelimo da definisemo da ruti 'admin' moze da pristupi
@@ -99,7 +105,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // umetni custom filter TokenAuthenticationFilter kako bi se vrsila provera JWT tokena umesto cistih korisnickog imena i lozinke (koje radi BasicAuthenticationFilter)
                 .addFilterBefore(new TokenAuthenticationFilter(tokenUtils, customUserDetailsService), BasicAuthenticationFilter.class);
 
-        */
+
         // zbog jednostavnosti primera ne koristimo Anti-CSRF token (https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html)
         http.csrf().disable();
     }
