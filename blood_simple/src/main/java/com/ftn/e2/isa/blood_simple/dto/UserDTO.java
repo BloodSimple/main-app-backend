@@ -36,7 +36,6 @@ public class UserDTO {
 
 
     private String phoneNumber;
-    private String dateOfBirth;
     private String job;
     private String bio;
     private RoleENUM role;
@@ -55,7 +54,6 @@ public class UserDTO {
         this.addressCity = user.getAddress().getCity();
         this.addressCountry = user.getAddress().getCountry();
         this.phoneNumber = user.getPhoneNumber();
-        this.dateOfBirth = user.getDateOfBirth().toString();
         this.job = user.getJob();
         this.bio = user.getBio();
         this.role = user.getRole();
@@ -75,7 +73,6 @@ public class UserDTO {
                         map.get("addressCountry")
                 ),
                 map.get("phoneNumber"),
-                map.get("dateOfBirth"),
                 map.get("job"),
                 map.get("bio"),
                 RoleENUM.valueOf(map.get("role")),

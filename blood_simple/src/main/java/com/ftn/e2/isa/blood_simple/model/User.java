@@ -52,9 +52,6 @@ public class User implements UserDetails {
     @Column(name = "user_phone")
     private String phoneNumber;
 
-    @Column(name="date_of_birth")
-    private String dateOfBirth;
-
     @Column(name = "user_job")
     private String job;
     
@@ -97,7 +94,7 @@ public class User implements UserDetails {
     //****************************************************
 
     public User(String personalId, String email, String password, String name,
-                String surname, Address address, String phoneNumber, String dateOfBirth,
+                String surname, Address address, String phoneNumber,
                 String job, String bio, RoleENUM role, GenderENUM gender) {
         this.personalId = personalId;
         this.email = email;
@@ -106,7 +103,6 @@ public class User implements UserDetails {
         this.surname = surname;
         this.address = address;
         this.phoneNumber = phoneNumber;
-        this.dateOfBirth = dateOfBirth;
         this.job = job;
         this.bio = bio;
         this.role = role;
