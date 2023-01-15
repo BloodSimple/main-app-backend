@@ -27,7 +27,7 @@ public class AppointmentReport {
 	private Appointment appointment;
 	
 	@Column(name="number_of_donations")
-	private int number_of_donations;
+	private int numberOfDonations;
 	
 	@Enumerated(EnumType.STRING)
 	@Column(name="blood_type", nullable = false)
