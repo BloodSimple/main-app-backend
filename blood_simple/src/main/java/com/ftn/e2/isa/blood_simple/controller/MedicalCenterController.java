@@ -27,6 +27,7 @@ import org.springframework.http.MediaType;
 import com.ftn.e2.isa.blood_simple.dto.MedicalCenterDTO;
 import com.ftn.e2.isa.blood_simple.model.Address;
 import com.ftn.e2.isa.blood_simple.model.BloodStorage;
+import com.ftn.e2.isa.blood_simple.model.EquipmentStorage;
 import com.ftn.e2.isa.blood_simple.model.MedicalCenter;
 import com.ftn.e2.isa.blood_simple.model.User;
 import com.ftn.e2.isa.blood_simple.service.MedicalCenterService;
@@ -77,7 +78,10 @@ public class MedicalCenterController {
 		MedicalCenter mc = medicalCenterService.saveOrUpdate(newDto);
 		if (mc==null)
 			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-		BloodStorage bs = new BloodStorage();
+		EquipmentStorage es = new EquipmentStorage();
+		es.setMedicalCenter(mc);
+		
+		BloodStorage bs = new BloodStorage();		
 		bs.setMedicalCenter(mc);
 		bs.setStoredA(0);
 		bs.setStoredAB(0);
