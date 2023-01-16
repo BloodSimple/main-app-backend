@@ -5,8 +5,13 @@ import org.springframework.stereotype.Service;
 
 import com.ftn.e2.isa.blood_simple.model.Appointment;
 import com.ftn.e2.isa.blood_simple.model.AppointmentReport;
+import com.ftn.e2.isa.blood_simple.model.BloodStorage;
+import com.ftn.e2.isa.blood_simple.model.EquipmentStorage;
+import com.ftn.e2.isa.blood_simple.model.ReportRequest;
 import com.ftn.e2.isa.blood_simple.repository.AppointmentReportRepository;
 import com.ftn.e2.isa.blood_simple.repository.AppointmentRepository;
+import com.ftn.e2.isa.blood_simple.repository.BloodStorageRepository;
+import com.ftn.e2.isa.blood_simple.repository.EquipmentStorageRepository;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.MultiFormatReader;
 import com.google.zxing.NotFoundException;
@@ -35,6 +40,10 @@ public class QrService {
 	AppointmentRepository appointmentRepo;
 	@Autowired
 	AppointmentReportRepository reportRepo;
+	@Autowired 
+	EquipmentStorageRepository eqRepo; 
+	@Autowired 
+	BloodStorageRepository bsRepo;
 	
 	private SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
     
@@ -80,6 +89,49 @@ public class QrService {
 			e.printStackTrace();
 			return null;
 		} 
+    }
+    
+    public EquipmentStorage getEquipmentStorageForCenter(Long id) {
+    	return reportRepo.getEquipmentStorageFromCenter(id);
+    }
+    
+    public BloodStorage getBloodStorageForCenter(Long id) {
+    	return reportRepo.getBloodStorageFromCenter(id);
+    }
+    
+    public boolean changeBloodStorage(ReportRequest rr) {
+    	BloodStorage bs = reportRepo.getBloodStorageFromCenter(rr.getAppointmetReport().getAppointment().getMedicalCenter().getId());
+    	
+    	switch(rr.getBloodType()) {
+    	case "A":
+    		bs.setStoredA(bs.getStoredA()+rr.getAmountOfBlood());
+    		bsRepo.save(bs);
+    		return true;
+    	case "B":
+    		bs.setStoredB(bs.getStoredB()+rr.getAmountOfBlood());
+    		bsRepo.save(bs);
+    		return true;
+    	case "AB":
+    		bs.setStoredAB(bs.getStoredAB()+rr.getAmountOfBlood());
+    		bsRepo.save(bs);
+    		return true;
+    	case "O":
+    		bs.setStoredO(bs.getStoredO()+rr.getAmountOfBlood());
+    		bsRepo.save(bs);
+    		return true;    	
+    	}
+    	return false;
+    }
+    public boolean changeEquipmentStorage(ReportRequest rr) {
+    	EquipmentStorage es = reportRepo.getEquipmentStorageFromCenter(rr.getAppointmetReport().getAppointment().getMedicalCenter().getId());
+    	if(es.getBloodBag() >= rr.getBags() && es.getNeedle() >= rr.getNeedles() && es.getSyringe() >= rr.getSyringes() ) {
+    		es.setBloodBag(es.getBloodBag()-rr.getBags());
+    		es.setNeedle(es.getNeedle()-rr.getNeedles());
+    		es.setSyringe(es.getSyringe()-rr.getSyringes());
+    		eqRepo.save(es);
+    		return true;
+    	}
+    	return false;
     }
     
 }

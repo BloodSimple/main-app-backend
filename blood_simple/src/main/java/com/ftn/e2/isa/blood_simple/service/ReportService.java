@@ -15,5 +15,11 @@ public class ReportService {
 	public AppointmentReport getReportById(Long id) {
 		return reportRepo.findById(id).orElse(null);
 	}
+	
+	public AppointmentReport saveOrUpdateAppointmentReport(AppointmentReport ar) {
+		if (ar != null)
+			return reportRepo.save(ar);
+		return null;
+	}
 
 }
