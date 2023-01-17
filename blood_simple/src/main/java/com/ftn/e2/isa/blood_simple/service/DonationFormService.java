@@ -9,6 +9,7 @@ import com.ftn.e2.isa.blood_simple.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
 @Service
@@ -28,6 +29,7 @@ public class DonationFormService {
         }else{
             user.getDonationForm().setDonationForm(dto);
         }
+        user.setQuestionnaire(LocalDateTime.now());
         userRepository.saveAndFlush(user);
         return true;
     }
