@@ -1,4 +1,5 @@
 package com.ftn.e2.isa.blood_simple.service;
+
 import com.ftn.e2.isa.blood_simple.dto.UpdatePasswordDTO;
 import com.ftn.e2.isa.blood_simple.dto.UserDTO;
 import com.ftn.e2.isa.blood_simple.model.Address;
@@ -9,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.mail.MessagingException;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +26,7 @@ public class UserService {
     public List<UserDTO> getAll() {
         List<User> users = userRepository.findAll();
         List<UserDTO> usersDTO = new ArrayList<>();
-        for(User user: users){
+        for (User user : users) {
             usersDTO.add(new UserDTO(user));
         }
         return usersDTO;
@@ -35,18 +34,18 @@ public class UserService {
 
     public UserDTO getUserById(Long Id) { // Database Id {1,2,3,..}
         User user = userRepository.findById(Id).orElse(null);
-        if(user != null){
+        if (user != null) {
             return new UserDTO(user);
-        }else{
+        } else {
             return null;
         }
     }
 
     public UserDTO getUserByPersonalId(String personalId) { // JMBG in Serbia
         User user = userRepository.findByPersonalId(personalId);
-        if(user != null){
+        if (user != null) {
             return new UserDTO(user);
-        }else{
+        } else {
             return null;
         }
     }
@@ -80,12 +79,10 @@ public class UserService {
         if (status) {
             User userToUpdate = userRepository.findByPersonalId(passwordDTO.getId());
             assert userToUpdate != null;
-            if(!userToUpdate.getPassword().equals(passwordDTO.getCurrentpassword()))
-            {
+            if (!userToUpdate.getPassword().equals(passwordDTO.getCurrentpassword())) {
                 return false;
             }
-            if(!passwordDTO.getNewpassword().equals(passwordDTO.getRepeatedpassword()))
-            {
+            if (!passwordDTO.getNewpassword().equals(passwordDTO.getRepeatedpassword())) {
                 return false;
             }
             userToUpdate.setPassword(passwordDTO.getNewpassword());
@@ -95,9 +92,9 @@ public class UserService {
         return status;
     }
 
-    public boolean deleteUserByPersonalId(String personalId){
+    public boolean deleteUserByPersonalId(String personalId) {
         boolean status = userRepository.existsByPersonalId(personalId);
-        if(status){
+        if (status) {
             userRepository.deleteByPersonalId(personalId);
         }
         return status;
