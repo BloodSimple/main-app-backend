@@ -14,11 +14,13 @@ public interface UserRepository extends JpaRepository<com.ftn.e2.isa.blood_simpl
 
 	public User findByEmail(String email);
 	public User findByPersonalId(String personalId);
+	public User findByVerificationCode(String verificationCode);
 
 	public boolean existsByEmail(String email);
 	public boolean existsByPersonalId(String personalId);
 
 	public void deleteByPersonalId(String personalId);
+
 
 //	@Query("select U "
 //			+ "from User U "

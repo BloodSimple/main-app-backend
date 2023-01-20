@@ -31,52 +31,52 @@
 -- USERS and USER_ROLE
     -- SystemAdmin
         -- id=1 -- in the database
-        insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role)
-        values ('2310999760011', 'dule@email.com', '$2a$10$Ps50dvJRaYXRKturARqvme4lp6H7fTfFpritYZCAM2vZhZFASeq56', 'Dusan', 'Markovic','MALE', 6, '0641123456', 'engineer', 'Software Engineer at BloodSimple', 'SYSTEM_ADMIN');
+        insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role, is_activated, verification_code)
+        values ('2310999760011', 'dule@email.com', '$2a$10$Ps50dvJRaYXRKturARqvme4lp6H7fTfFpritYZCAM2vZhZFASeq56', 'Dusan', 'Markovic','MALE', 6, '0641123456', 'engineer', 'Software Engineer at BloodSimple', 'SYSTEM_ADMIN', true, '');
             -- user's authority [SYSTEM_ADMIN=1, COMMON=4]
             insert into USER_ROLE(user_id, authority_id) values (1, 1);
             insert into USER_ROLE(user_id, authority_id) values (1, 4);
     -- CenterAdmins and Medical Staff
         -- id=2 -- in the database -- [CenterAdmin to MedicalCenter1] & [MedicalStaff to MedicalCenter1]
-        insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role)
-        values ('1212199760011', 'niki@email.com', '$2a$10$Ps50dvJRaYXRKturARqvme4lp6H7fTfFpritYZCAM2vZhZFASeq56', 'Branimir', 'Nestorovic','MALE', 5, '0641123456', 'dr', 'medical doctor at KCL', 'MEDICAL_ADMIN');
+        insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role, is_activated, verification_code)
+        values ('1212199760011', 'niki@email.com', '$2a$10$Ps50dvJRaYXRKturARqvme4lp6H7fTfFpritYZCAM2vZhZFASeq56', 'Branimir', 'Nestorovic','MALE', 5, '0641123456', 'dr', 'medical doctor at KCL', 'MEDICAL_ADMIN', true, '');
             -- user's authority [MEDICAL_ADMIN=2, COMMON=4]
             insert into USER_ROLE(user_id, authority_id) values (2, 2);
             insert into USER_ROLE(user_id, authority_id) values (2, 4);
         -- id=3 -- in the database -- [CenterAdmin to MedicalCenter2] & [MedicalStaff to MedicalCenter1]
-        insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role)
-        values ('743199760011', 'lale@email.com', '$2a$10$Ps50dvJRaYXRKturARqvme4lp6H7fTfFpritYZCAM2vZhZFASeq56', 'Vladimir', 'Lalic','MALE', 4, '0641123456', 'it', 'Network Administrator at KCL ', 'MEDICAL_ADMIN');
+        insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role, is_activated, verification_code)
+        values ('743199760011', 'lale@email.com', '$2a$10$Ps50dvJRaYXRKturARqvme4lp6H7fTfFpritYZCAM2vZhZFASeq56', 'Vladimir', 'Lalic','MALE', 4, '0641123456', 'it', 'Network Administrator at KCL ', 'MEDICAL_ADMIN', true, '');
             -- user's authority [MEDICAL_ADMIN=2, COMMON=4]
             insert into USER_ROLE(user_id, authority_id) values (3, 2);
             insert into USER_ROLE(user_id, authority_id) values (3, 4);
         -- id=4 -- in the database -- [MedicalStaff to MedicalCenter2]
-        insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role)
-        values ('145299763041', 'ble@email.com', '$2a$10$Ps50dvJRaYXRKturARqvme4lp6H7fTfFpritYZCAM2vZhZFASeq56', 'Boris', 'Tadic','MALE', 4, '063132156', 'menadzer', 'Unemployed manager ', 'MEDICAL_ADMIN');
+        insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role, is_activated, verification_code)
+        values ('145299763041', 'ble@email.com', '$2a$10$Ps50dvJRaYXRKturARqvme4lp6H7fTfFpritYZCAM2vZhZFASeq56', 'Boris', 'Tadic','MALE', 4, '063132156', 'menadzer', 'Unemployed manager ', 'MEDICAL_ADMIN', true, '');
             -- user's authority [MEDICAL_ADMIN=2, COMMON=4]
             insert into USER_ROLE(user_id, authority_id) values (4, 2);
             insert into USER_ROLE(user_id, authority_id) values (4, 4);
         -- id=5 -- in the database -- [MedicalStaff to MedicalCenter3]
-        insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role)
-        values ('145299763044', 'tijana@email.com', '$2a$10$Ps50dvJRaYXRKturARqvme4lp6H7fTfFpritYZCAM2vZhZFASeq56', 'Tijana', 'Tijanic','FEMALE', 4, '06313215654', 'med.sestra', 'Med.sestra', 'MEDICAL_ADMIN');
+        insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role, is_activated, verification_code)
+        values ('145299763044', 'tijana@email.com', '$2a$10$Ps50dvJRaYXRKturARqvme4lp6H7fTfFpritYZCAM2vZhZFASeq56', 'Tijana', 'Tijanic','FEMALE', 4, '06313215654', 'med.sestra', 'Med.sestra', 'MEDICAL_ADMIN', true, '');
         -- user's authority [MEDICAL_ADMIN=2, COMMON=4]
         insert into USER_ROLE(user_id, authority_id) values (5, 2);
         insert into USER_ROLE(user_id, authority_id) values (5, 4);
     -- RegisteredUsers
         -- id=6 -- in the database
-        insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role)
-        values ('2310987760011', 'miki@email.com', '$2a$10$Ps50dvJRaYXRKturARqvme4lp6H7fTfFpritYZCAM2vZhZFASeq56', 'Miki', 'Mikic','MALE', 3, '0641123456', 'engineer', 'Faculty of Technical Sciences, University of Novi Sad', 'USER');
+        insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role, is_activated, verification_code)
+        values ('2310987760011', 'miki@email.com', '$2a$10$Ps50dvJRaYXRKturARqvme4lp6H7fTfFpritYZCAM2vZhZFASeq56', 'Miki', 'Mikic','MALE', 3, '0641123456', 'engineer', 'Faculty of Technical Sciences, University of Novi Sad', 'USER', true, '');
             -- user's authority [MEDICAL_ADMIN=2, COMMON=4]
             insert into USER_ROLE(user_id, authority_id) values (6, 3);
             insert into USER_ROLE(user_id, authority_id) values (6, 4);
         -- id=7 -- in the database
-        insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role)
-        values ('35445421760011', 'jankovicmaraja99@gmail.com', '$2a$10$Ps50dvJRaYXRKturARqvme4lp6H7fTfFpritYZCAM2vZhZFASeq56', 'Marija', 'Jankovic','FEMALE', 3, '0641123456', 'engineer', 'Faculty of Technical Sciences, University of Novi Sad', 'USER');
+        insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role, is_activated, verification_code)
+        values ('35445421760011', 'jankovicmaraja99@gmail.com', '$2a$10$Ps50dvJRaYXRKturARqvme4lp6H7fTfFpritYZCAM2vZhZFASeq56', 'Marija', 'Jankovic','FEMALE', 3, '0641123456', 'engineer', 'Faculty of Technical Sciences, University of Novi Sad', 'USER', true, '');
             -- user's authority [MEDICAL_ADMIN=2, COMMON=4]
             insert into USER_ROLE(user_id, authority_id) values (7, 3);
             insert into USER_ROLE(user_id, authority_id) values (7, 4);
         -- id=8 -- in the database
-        insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role)
-        values ('35445421760022', 'sima@email.com', '$2a$10$Ps50dvJRaYXRKturARqvme4lp6H7fTfFpritYZCAM2vZhZFASeq56', 'Sima', 'Simic','MALE', 3, '0641123456', 'engineer', 'Faculty of Technical Sciences, University of Novi Sad', 'USER');
+        insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role, is_activated, verification_code)
+        values ('35445421760022', 'sima@email.com', '$2a$10$Ps50dvJRaYXRKturARqvme4lp6H7fTfFpritYZCAM2vZhZFASeq56', 'Sima', 'Simic','MALE', 3, '0641123456', 'engineer', 'Faculty of Technical Sciences, University of Novi Sad', 'USER', true, '');
         -- user's authority [MEDICAL_ADMIN=2, COMMON=4]
         insert into USER_ROLE(user_id, authority_id) values (8, 3);
         insert into USER_ROLE(user_id, authority_id) values (8, 4);

@@ -20,18 +20,16 @@ public class RegistrationController {
     @PostMapping("/register")
     public boolean registerUser(@RequestBody Map<String, String> message, HttpServletRequest request){
         return registrationService.registerRegularUser(message, getSiteURL(request));
-        //return registrationService.registerCustomer(DtoToUser.MapToCustomer(message), getSiteURL(request));
     }
 
-    /* TODO: Verify User Account - With Mail Verification
-    @GetMapping("/verifyCustomerAccount")
+    @GetMapping("/verifyUserAccount")
     public String verifyUser(@Param("code") String code) {
-        return registrationService.verifyCustomerAccount(code) ? "verify_success" : "verify_fail";
+        return registrationService.verifyRegularUserAccount(code) ? "User's account is successfully verified! :)" : "User's account verification failed! :(";
     }
-    */
 
     private String getSiteURL(HttpServletRequest request) {
         String siteURL = request.getRequestURL().toString();
         return siteURL.replace(request.getServletPath(), "");
     }
+
 }

@@ -6,6 +6,7 @@ import com.ftn.e2.isa.blood_simple.model.RoleENUM;
 import com.ftn.e2.isa.blood_simple.model.User;
 import com.ftn.e2.isa.blood_simple.repository.MedicalCenterRepository;
 import com.ftn.e2.isa.blood_simple.repository.UserRepository;
+import net.bytebuddy.utility.RandomString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,55 +23,56 @@ public class RegistrationService {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private MedicalCenterRepository medicalCenterRepo;
-/*
-    public boolean registerUser(Map<String, String> map, String siteURL){
-        boolean successfullyRegistered = true;
-        RoleENUM userType = RoleENUM.valueOf(map.get("role"));
-        switch (userType) {
-            case USER:
-                successfullyRegistered = registerRegularUser( UserDTO.MapToUser(map), siteURL);
-                break;
-            case MEDICAL_ADMIN:
-                successfullyRegistered = registerMedicalAdmin(UserDTO.MapToUser(map), siteURL);
-                break;
-            case SYSTEM_ADMIN:
-                successfullyRegistered = registerSystemAdmin(UserDTO.MapToUser(map), siteURL);
-                break;
-
-        }
-        return successfullyRegistered;
-    }
-*/
+    @Autowired
+    private MailService mailService;
 
     public boolean registerRegularUser(Map<String, String> map, String siteURL) {
-        User user = (User) UserDTO.MapToUser(map);
         boolean successfullyRegistered = true;
+        User user = (User) UserDTO.MapToUser(map);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        Date date = new Date();
-        // TODO: setLastPasswordResetDate - Not necessary to set the date - this method can be deleted
-        // userDTO.setLastPasswordResetDate(new Timestamp(date.getTime()));
-        if(!checkIfEmailExists(user.getEmail())){
-            user.setRole(RoleENUM.USER);
-            // TODO: setNumberOfLogIns - Not necessary to set the date - this method can be deleted
-            //userDTO.setNumberOfLogIns(0);
-            // TODO: setVerificationCode - For the next checkpoint
-            // setVerificationCode(RandomString.make(64), user);
+        if(checkIfEmailExists(user.getEmail())){
+            user.setRole(RoleENUM.USER); // Maybe this should be done in the UserDTO.MapToUser() method
+            setVerificationCode(RandomString.make(64), user);
             try {
-                userRepository.saveAndFlush(user);
-                // TODO: mailService - For the next checkpoint
-                //mailService.sendVerificationEmail(user, siteURL);
+                mailService.sendVerificationEmail(user, siteURL);
+                /* TODO: Add Authority to the user
+                user.setAuthorities(...);       */
+                userRepository.save(user);
             } catch (Exception e) {
                 successfullyRegistered = false;
             }
+        }else{
+            successfullyRegistered = false;
         }
         return successfullyRegistered;
+    }
+
+    public boolean verifyRegularUserAccount(String verificationCode) {
+        User user = userRepository.findByVerificationCode(verificationCode);
+        boolean retVal= user == null || user.isActivated() ? false : activateRegularUserAccount(user);
+        if(retVal) {
+            // TODO: Add New Penalty for the activated regular user.
+            // penalService.addNewPenal(user);
+        }
+        return retVal;
+    }
+
+    private boolean activateRegularUserAccount(User user){
+        user.setActivated(true);
+        setVerificationCode("", user);
+        userRepository.save(user);
+        return true;
+    }
+
+    private void setVerificationCode(String code, User user){
+        user.setVerificationCode(code);
     }
 
     public boolean registerMedicalAdmin(User user, String siteURL) {
         boolean successfullyRegistered = true;
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         Date date = new Date();
-        if(!checkIfEmailExists(user.getEmail())){
+        if(checkIfEmailExists(user.getEmail())){
             user.setRole(RoleENUM.MEDICAL_ADMIN);
             try {
             	if (user.equals(null) || user.getRole()!=RoleENUM.MEDICAL_ADMIN)
@@ -95,7 +97,7 @@ public class RegistrationService {
         boolean successfullyRegistered = true;
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         Date date = new Date();
-        if(!checkIfEmailExists(user.getEmail())){
+        if(checkIfEmailExists(user.getEmail())){
             user.setRole(RoleENUM.SYSTEM_ADMIN);
             try {
                 userRepository.saveAndFlush(user);
@@ -107,7 +109,7 @@ public class RegistrationService {
     }
 
     private boolean checkIfEmailExists(String email){
-        return userRepository.findByEmail(email) != null;
+        return userRepository.findByEmail(email) == null;
     }
 
 }

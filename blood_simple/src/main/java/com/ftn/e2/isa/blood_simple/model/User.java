@@ -69,6 +69,12 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private GenderENUM gender;
 
+    @Column(name="isActivated", nullable=false)
+    protected boolean isActivated = false;
+
+    @Column(name="verificationCode", nullable=false)
+    protected String verificationCode;
+
     // For authority - Which roles have authority for some actions?
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "USER_ROLE",
@@ -92,6 +98,10 @@ public class User implements UserDetails {
     @JoinColumn(name = "donationForm", referencedColumnName = "donation_form_id")
     private DonationForm donationForm;
     //****************************************************
+
+
+
+
 
     public User(String personalId, String email, String password, String name,
                 String surname, Address address, String phoneNumber,
@@ -156,6 +166,6 @@ public class User implements UserDetails {
     @JsonIgnore
     @Override
     public boolean isEnabled() {
-        return true; // TODO: isActivated field is necessary - LATER
+        return isActivated;
     }
 }

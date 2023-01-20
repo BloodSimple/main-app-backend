@@ -19,6 +19,31 @@ public class MailService {
 
     private final String fromAddress = "isa.mejl.12345@gmail.com";
 
+    public void sendVerificationEmail(User user, String siteURL) throws UnsupportedEncodingException, MessagingException {
+        String toAddress = user.getEmail();
+        String senderName = "Blood Simple Developers";
+        String subject = "Please verify your registration";
+        String content = "Dear [[name]],<br>"
+                + "Please click the link below to verify your registration:<br>"
+                + "<h3><a href=\"[[URL]]\" target=\"_self\">VERIFY</a></h3>"
+                + "Thank you,<br>"
+                + "<i>Blood Simple developers<i>.";
+
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+
+        helper.setFrom(fromAddress, senderName);
+        helper.setTo(toAddress);
+        helper.setSubject(subject);
+
+        content = content.replace("[[name]]", user.getName());
+        String verifyURL = siteURL + "/api/verifyUserAccount?code=" + user.getVerificationCode();
+        content = content.replace("[[URL]]", verifyURL);
+        helper.setText(content, true);
+
+        mailSender.send(message);
+    }
+
     public void sendSuccessfulReservationEmail(User user, Appointment appointment)
             throws MessagingException, UnsupportedEncodingException {
 
@@ -50,4 +75,8 @@ public class MailService {
         mailSender.send(message);
 
     }
+
+
+
+
 }
