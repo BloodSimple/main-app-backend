@@ -109,12 +109,10 @@ public class DonationForm {
     private boolean question26; // In the last 6 months, have you given birth or had a termination of pregnancy?
 
     public DonationForm(DonationFormDTO dto){
-        super(); // ?
         this.setDonationForm(dto);
     }
 
     public DonationForm(LocalDateTime date, boolean question1, boolean question2, boolean question3, boolean question4, boolean question5, boolean question6, boolean question7, boolean question8, boolean question9, boolean question10, boolean question11, boolean question12, boolean question13, boolean question14, boolean question15, boolean question16, boolean question17, boolean question18, boolean question19, boolean question20a, boolean question20b, boolean question20c, boolean question21, boolean question22a, boolean question22b, boolean question22c, boolean question22d, boolean question22e, boolean question22f, boolean question22g, boolean question23a, boolean question23b, boolean question23c, boolean question23d, boolean question23e, boolean question23f, boolean question24, boolean question25, boolean question26) {
-        super();
         this.date = date;
         this.question1 = question1;
         this.question2 = question2;
@@ -199,4 +197,6 @@ public class DonationForm {
         this.question25 = dto.isQuestion25();
         this.question26 = dto.isQuestion26();
     }
+
+
 }

@@ -1,9 +1,6 @@
 package com.ftn.e2.isa.blood_simple.dto;
 
-import com.ftn.e2.isa.blood_simple.model.Address;
-import com.ftn.e2.isa.blood_simple.model.GenderENUM;
-import com.ftn.e2.isa.blood_simple.model.RoleENUM;
-import com.ftn.e2.isa.blood_simple.model.User;
+import com.ftn.e2.isa.blood_simple.model.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -35,6 +32,8 @@ public class UserDTO {
 //    private double addressY;
 
 
+    private DonationForm donationForm;
+
     private String phoneNumber;
     private String job;
     private String bio;
@@ -57,6 +56,10 @@ public class UserDTO {
         this.job = user.getJob();
         this.bio = user.getBio();
         this.role = user.getRole();
+        if(user.getDonationForm() != null)
+            this.donationForm = user.getDonationForm();
+
+
     }
 
     public static User MapToUser(Map<String, String> map) {
