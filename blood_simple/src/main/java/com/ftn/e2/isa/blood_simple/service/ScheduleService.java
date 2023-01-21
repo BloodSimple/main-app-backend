@@ -53,7 +53,6 @@ public class ScheduleService {
         return appointment;
     }
 
-
     public AppointmentScheduleDTO cancelAppointment(AppointmentDTO appointmentDTO) {
         AppointmentScheduleDTO appointmentSchedule = new AppointmentScheduleDTO();
         Optional<Appointment> appointment = appointmentRepo.findById(appointmentDTO.getId());
@@ -68,7 +67,6 @@ public class ScheduleService {
         appointmentSchedule.setResponse("Something wrong happened...");
         return appointmentSchedule;
     }
-
 
     public List<MedicalCenter> getMedicalCenterWithAppointments(LocalDateTime startTime) {
         List<MedicalCenter> goodMedicalCenters = new ArrayList<>();
@@ -140,5 +138,18 @@ public class ScheduleService {
         }
         return usersAppointments;
     }
+
+
+	public List<Appointment> getCenterFreeAppointments(Long id){
+
+		List<Appointment> allAppointments = getAppointmentsByCenter(id);
+		List<Appointment> freeAppointments = new ArrayList<>();
+		for(Appointment appointment: allAppointments){
+			if(appointment.getUser() == null){
+				freeAppointments.add(appointment);
+			}
+		}
+		return freeAppointments;
+	}
 
 }

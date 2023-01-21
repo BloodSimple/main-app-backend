@@ -4,6 +4,7 @@ import com.ftn.e2.isa.blood_simple.dto.AppointmentDTO;
 import com.ftn.e2.isa.blood_simple.dto.AppointmentScheduleDTO;
 import com.ftn.e2.isa.blood_simple.dto.UserDTO;
 import com.ftn.e2.isa.blood_simple.model.Appointment;
+import com.ftn.e2.isa.blood_simple.dto.BloodStoreDTO;
 import com.ftn.e2.isa.blood_simple.model.MedicalCenter;
 import com.ftn.e2.isa.blood_simple.service.ScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,25 @@ public class ScheduleController {
         List<MedicalCenter> medicalCenters = scheduleService.getMedicalCenterWithAppointments(startTime);
         return new ResponseEntity<>(medicalCenters, HttpStatus.OK);
     }
+
+	@PostMapping(value = "/createfreeappointment", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Object> createFreeAppointment(@RequestBody AppointmentDTO newAppointmentDTO){
+		System.out.println("Usao u kreiranje app");
+		System.out.println("Usao u kreiranje app");
+		System.out.println("Usao u kreiranje app");
+		System.out.println("Usao u kreiranje app");
+		System.out.println("Usao u kreiranje app");
+		Appointment appointment = scheduleService.saveAppointment(newAppointmentDTO);
+		if (appointment != null)
+			return new ResponseEntity<>(appointment, HttpStatus.CREATED);
+		return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+	}
+
+	@GetMapping(value="/freeappointments/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Object> getMedicalCenterFreeAppointments(@PathVariable Long id){
+		List<Appointment> list = scheduleService.getCenterFreeAppointments(id);
+		return new ResponseEntity<>(list, HttpStatus.OK);
+	}
 
     @PostMapping(value = "/scheduleAppointment/{medicalCenterId}/{startTime}/{personalId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AppointmentScheduleDTO> scheduleAppointment(@PathVariable Long medicalCenterId,

@@ -1,5 +1,15 @@
 package com.ftn.e2.isa.blood_simple.service;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
+import com.ftn.e2.isa.blood_simple.dto.BloodStoreDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.ftn.e2.isa.blood_simple.dto.MedicalCenterDTO;
 import com.ftn.e2.isa.blood_simple.model.*;
 import com.ftn.e2.isa.blood_simple.repository.AddressRepository;
@@ -26,25 +36,22 @@ public class MedicalCenterService {
     @Autowired
     BloodStorageRepository bsRepo;
 
-    /////////////////////////////////////////////
-    public MedicalCenter get(Long id) {
-        return repo.findById(id).orElse(null);
-    }
+	// Medical Center - get, getAll, saveOrUpdate, delete
 
-    public MedicalCenterDTO getById(Long id) {
-        MedicalCenter mc = repo.findOneById(id);
-        if (mc != null) {
-            return new MedicalCenterDTO(mc);
-        } else {
-            return null;
-        }
-    }
+	public MedicalCenter get(Long id) {
+		return repo.findById(id).orElse(null);
+	}
 
     public List<MedicalCenter> getAll() {
         return repo.findAll();
     }
 
-    public MedicalCenter saveOrUpdate(MedicalCenterDTO newDto) {
+    public MedicalCenter getByName(String id) {
+        // TODO Auto-generated method stub
+        return repo.getByName(id);
+    }
+
+	public MedicalCenter saveOrUpdate(MedicalCenterDTO newDto) {
         Address address = saveOrUpdateAddress(newDto.getAddress());
         //User admin = saveOrUpdateAdmin(newDto.getAdmin());
         if (address != null /* && admin != null */) {        //mora imati adresu, moze i bez admina
@@ -56,42 +63,15 @@ public class MedicalCenterService {
         return null;
     }
 
-    public BloodStorage saveOrUpdate(BloodStorage bs) {
-        return bsRepo.save(bs);
+    public void saveCenter(MedicalCenter mc) {
+        repo.save(mc);
     }
 
-    public Address saveOrUpdateAddress(Address address) {
-        if (address == null)
-            return null;
-        for (Address a : addRepo.findAll()) {
-            if (a.getStreet() == address.getStreet() && a.getNumber() == address.getNumber() && a.getCity() == address.getCity()) {
-                return a;
-            }
-        }
-        return addRepo.save(address);
-    }
-
-    public User saveOrUpdateAdmin(User admin) {
-        if (admin.equals(null) || admin.getRole() != RoleENUM.MEDICAL_ADMIN)
-            return null;
-        for (MedicalCenter mc : repo.findAll()) {
-            if (!mc.getMedicalAdmins().isEmpty()) {
-                for (User a : mc.getMedicalAdmins()) {
-                    if (a.getPersonalId().equals(admin.getPersonalId()))
-                        return null;
-                }
-            }
-        }
-        if (admin.getAddress() != null) {
-            Address address = saveOrUpdateAddress(admin.getAddress());
-            admin.setAddress(address);
-        }
-        return userRepo.save(admin);
-    }
-
-    public void delete(Long id) {
+	public void delete(Long id) {
         repo.deleteById(id);
     }
+
+	// Medical Center - special methods: addMedicalStaff
 
     public boolean addMedicalStaff(Long mcId, User staff) {
         MedicalCenter mc = repo.findById(mcId).orElse(null);
@@ -116,7 +96,93 @@ public class MedicalCenterService {
         return false;
     }
 
-    public Set<User> getFreeAdmins() {
+	// Medical Center DTO
+	
+    public MedicalCenterDTO getById(Long id) {
+        MedicalCenter mc = repo.findOneById(id);
+        if (mc != null) {
+            return new MedicalCenterDTO(mc);
+        } else {
+            return null;
+        }
+    }
+
+    public MedicalCenterDTO getDto(Long id) {
+        return new MedicalCenterDTO(repo.findById(id).orElse(null));
+    }
+
+    public List<MedicalCenterDTO> getAllDto() {
+        List<MedicalCenter> modelList = repo.findAll();
+        List<MedicalCenterDTO> dtoList = new ArrayList<MedicalCenterDTO>();
+        for (MedicalCenter model : modelList) {
+            dtoList.add(new MedicalCenterDTO(model));
+        }
+        return dtoList;
+    }
+
+	// Address - saveOrUpdateAddress
+
+	public Address saveOrUpdateAddress(Address address) {
+        if (address == null)
+            return null;
+        for (Address a : addRepo.findAll()) {
+            if (a.getStreet() == address.getStreet() && a.getNumber() == address.getNumber() && a.getCity() == address.getCity()) {
+                return a;
+            }
+        }
+        return addRepo.save(address);
+    }
+
+	// Blood Storage
+
+	public List<BloodStorage> getAllBloodStore()
+	{
+		return bsRepo.findAll();
+	}
+
+    public BloodStorage saveOrUpdate(BloodStorage bs) {
+        return bsRepo.save(bs);
+    }
+
+	// Blood Storage DTO
+
+	public List<BloodStoreDTO> getBloodStoreForCenter(Long center_id)
+	{
+		List<BloodStorage> temp = getAllBloodStore();
+		List<BloodStoreDTO> ret = new ArrayList<BloodStoreDTO>();
+
+		for(BloodStorage store : temp)
+		{
+			if(store.getCenterId() == center_id)
+			{
+
+				ret.add(new BloodStoreDTO(store.getStoredA(),store.getStoredB(),store.getStoredAB(),store.getStoredO()));
+			}
+		}
+		return ret;
+	}
+
+	// Admin 
+
+    public User saveOrUpdateAdmin(User admin) {
+        if (admin.equals(null) || admin.getRole() != RoleENUM.MEDICAL_ADMIN)
+            return null;
+        for (MedicalCenter mc : repo.findAll()) {
+            if (!mc.getMedicalAdmins().isEmpty()) {
+                for (User a : mc.getMedicalAdmins()) {
+                    if (a.getPersonalId().equals(admin.getPersonalId()))
+                        return null;
+                }
+            }
+        }
+        if (admin.getAddress() != null) {
+            Address address = saveOrUpdateAddress(admin.getAddress());
+            admin.setAddress(address);
+        }
+        return userRepo.save(admin);
+    }
+
+	public Set<User> getFreeAdmins() {
         Set<User> freeAdmins = userRepo.getAllMedicalAdmins();
         if (!freeAdmins.isEmpty())
             for (Iterator<User> iterator = freeAdmins.iterator(); iterator.hasNext(); ) {
@@ -133,30 +199,10 @@ public class MedicalCenterService {
         return freeAdmins;
     }
 
+	// Users ??
+
     public List<User> getUsers() {
         return userRepo.getUsers();
     }
 
-    //DTO/////////////////////////////////////////////
-    public MedicalCenterDTO getDto(Long id) {
-        return new MedicalCenterDTO(repo.findById(id).orElse(null));
-    }
-
-    public List<MedicalCenterDTO> getAllDto() {
-        List<MedicalCenter> modelList = repo.findAll();
-        List<MedicalCenterDTO> dtoList = new ArrayList<MedicalCenterDTO>();
-        for (MedicalCenter model : modelList) {
-            dtoList.add(new MedicalCenterDTO(model));
-        }
-        return dtoList;
-    }
-
-    public void saveCenter(MedicalCenter mc) {
-        repo.save(mc);
-    }
-
-    public MedicalCenter getByName(String id) {
-        // TODO Auto-generated method stub
-        return repo.getByName(id);
-    }
 }

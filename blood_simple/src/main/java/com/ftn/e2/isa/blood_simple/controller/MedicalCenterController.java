@@ -1,5 +1,30 @@
 package com.ftn.e2.isa.blood_simple.controller;
 
+import java.net.http.HttpRequest;
+import java.util.List;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
+
+import com.ftn.e2.isa.blood_simple.dto.BloodStoreDTO;
+import com.ftn.e2.isa.blood_simple.dto.UserDTO;
+import com.ftn.e2.isa.blood_simple.service.RegistrationService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import org.springframework.web.bind.annotation.*;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+
 import com.ftn.e2.isa.blood_simple.dto.MedicalCenterDTO;
 import com.ftn.e2.isa.blood_simple.model.Address;
 import com.ftn.e2.isa.blood_simple.model.BloodStorage;
@@ -67,20 +92,31 @@ public class MedicalCenterController {
         }
     }
 
-    @PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<MedicalCenter> createMedicalCenter(@RequestBody MedicalCenterDTO newDto, HttpServletRequest request) {
-        MedicalCenter mc = medicalCenterService.saveOrUpdate(newDto);
-        if (mc == null)
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        BloodStorage bs = new BloodStorage();
-        bs.setMedicalCenter(mc);
-        bs.setStoredA(0);
-        bs.setStoredAB(0);
-        bs.setStoredB(0);
-        bs.setStoredO(0);
-        medicalCenterService.saveOrUpdate(bs);
-        return new ResponseEntity<>(mc, HttpStatus.CREATED);
-    }
+	@GetMapping(value="/bloodstore/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Object> getMedicalCenterBloodAmount(@PathVariable Long id){
+		List<BloodStoreDTO> dto = medicalCenterService.getBloodStoreForCenter(id);
+		if(dto == null)
+		{
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(dto, HttpStatus.OK);
+	}
+
+	
+	@PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<MedicalCenter> createMedicalCenter(@RequestBody MedicalCenterDTO newDto,HttpServletRequest request){
+		MedicalCenter mc = medicalCenterService.saveOrUpdate(newDto);
+		if (mc==null)
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		BloodStorage bs = new BloodStorage();
+		bs.setMedicalCenter(mc);
+		bs.setStoredA(0);
+		bs.setStoredAB(0);
+		bs.setStoredB(0);
+		bs.setStoredO(0);
+		medicalCenterService.saveOrUpdate(bs);
+		return new ResponseEntity<>(mc, HttpStatus.CREATED);
+	}
 
     @PutMapping(value = "/{id}/admin", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> putAdminToCenter(@PathVariable String id, @RequestBody User admin, HttpServletRequest request) {
