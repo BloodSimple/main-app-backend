@@ -1,25 +1,27 @@
 package com.ftn.e2.isa.blood_simple.repository;
 
-import java.util.List;
-import java.util.Set;
-
+import com.ftn.e2.isa.blood_simple.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.ftn.e2.isa.blood_simple.model.User;
+import java.util.List;
+import java.util.Set;
 
 @Repository
-public interface UserRepository extends JpaRepository<com.ftn.e2.isa.blood_simple.model.User, Long>{
+public interface UserRepository extends JpaRepository<com.ftn.e2.isa.blood_simple.model.User, Long> {
 
-	public User findByEmail(String email);
-	public User findByPersonalId(String personalId);
-	public User findByVerificationCode(String verificationCode);
+    User findByEmail(String email);
 
-	public boolean existsByEmail(String email);
-	public boolean existsByPersonalId(String personalId);
+    User findByPersonalId(String personalId);
 
-	public void deleteByPersonalId(String personalId);
+    User findByVerificationCode(String verificationCode);
+
+    boolean existsByEmail(String email);
+
+    boolean existsByPersonalId(String personalId);
+
+    void deleteByPersonalId(String personalId);
 
 
 //	@Query("select U "
@@ -32,25 +34,25 @@ public interface UserRepository extends JpaRepository<com.ftn.e2.isa.blood_simpl
 //			+ "  )"
 //			+ ")")
 //	public List<User> getFreeAdmins();
-	
-	@Query("select U "
-			+ "from User U "
-			+ "where ( "
-			+ "  U.role = 'USER' " //zameni na user posle
-			+ ")")
-	public List<User> getUsers();
-	
-	@Query("select U "
-			+ "from User U "
-			+ "where ( "
-			+ "  U.role = 'SYSTEM_ADMIN' " //zameni na user posle
-			+ ")")
-	public List<User> getAllSystemAdmins();
 
-	@Query("select U "
-			+ "from User U "
-			+ "where ( "
-			+ "  U.role = 'MEDICAL_ADMIN' " //zameni na user posle
-			+ ")")
-	public Set<User> getAllMedicalAdmins();
+    @Query("select U "
+            + "from User U "
+            + "where ( "
+            + "  U.role = 'USER' " //zameni na user posle
+            + ")")
+	List<User> getUsers();
+
+    @Query("select U "
+            + "from User U "
+            + "where ( "
+            + "  U.role = 'SYSTEM_ADMIN' " //zameni na user posle
+            + ")")
+	List<User> getAllSystemAdmins();
+
+    @Query("select U "
+            + "from User U "
+            + "where ( "
+            + "  U.role = 'MEDICAL_ADMIN' " //zameni na user posle
+            + ")")
+	Set<User> getAllMedicalAdmins();
 }
