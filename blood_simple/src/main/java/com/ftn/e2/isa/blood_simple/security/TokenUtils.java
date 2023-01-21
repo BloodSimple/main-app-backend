@@ -1,45 +1,32 @@
 package com.ftn.e2.isa.blood_simple.security;
 
 // From model
-import com.ftn.e2.isa.blood_simple.model.User;
 
-// From JSON Web Token
+import com.ftn.e2.isa.blood_simple.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-
-// From JSON
-import org.json.JSONException;
-import org.json.JSONObject;
-
-// From SpringFramework
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-// From Java
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 @Component
 public class TokenUtils {
 
-    // Izdavac tokena
-    @Value("FishingBookingApp")
-    private String APP_NAME;
-
+    private static final String AUDIENCE_WEB = "web";
     // Tajna koju samo backend aplikacija treba da zna kako bi mogla da generise i proveri JWT https://jwt.io/
     @Value("IsaProjekat.Tim27")
     public String SECRET;
-
+    // Izdavac tokena
+    @Value("FishingBookingApp")
+    private String APP_NAME;
     // Period vazenja tokena - 30 minuta
     @Value("1800000")
     private int EXPIRES_IN;
-
-    // Naziv headera kroz koji ce se prosledjivati JWT u komunikaciji server-klijent
-    @Value("Authorization")
-    private String AUTH_HEADER;
 
     // Moguce je generisati JWT za razlicite klijente (npr. web i mobilni klijenti nece imati isto trajanje JWT,
     // JWT za mobilne klijente ce trajati duze jer se mozda aplikacija redje koristi na taj nacin)
@@ -47,11 +34,11 @@ public class TokenUtils {
     //	private static final String AUDIENCE_UNKNOWN = "unknown";
     //	private static final String AUDIENCE_MOBILE = "mobile";
     //	private static final String AUDIENCE_TABLET = "tablet";
-
-    private static final String AUDIENCE_WEB = "web";
-
+    // Naziv headera kroz koji ce se prosledjivati JWT u komunikaciji server-klijent
+    @Value("Authorization")
+    private String AUTH_HEADER;
     // Algoritam za potpisivanje JWT
-    private SignatureAlgorithm SIGNATURE_ALGORITHM = SignatureAlgorithm.HS512;
+    private final SignatureAlgorithm SIGNATURE_ALGORITHM = SignatureAlgorithm.HS512;
 
 
     // ============= Funkcije za generisanje JWT tokena =============
@@ -77,6 +64,7 @@ public class TokenUtils {
 
     /**
      * Funkcija za utvrđivanje tipa uređaja za koji se JWT kreira.
+     *
      * @return Tip uređaja.
      */
     private String generateAudience() {
@@ -130,6 +118,7 @@ public class TokenUtils {
 
     /**
      * Funkcija za preuzimanje vlasnika tokena (korisničko ime).
+     *
      * @param token JWT token.
      * @return Korisničko ime iz tokena ili null ukoliko ne postoji.
      */
@@ -150,6 +139,7 @@ public class TokenUtils {
 
     /**
      * Funkcija za preuzimanje datuma kreiranja tokena.
+     *
      * @param token JWT token.
      * @return Datum kada je token kreiran.
      */
@@ -236,7 +226,7 @@ public class TokenUtils {
     /**
      * Funkcija za validaciju JWT tokena.
      *
-     * @param token JWT token.
+     * @param token       JWT token.
      * @param userDetails Informacije o korisniku koji je vlasnik JWT tokena.
      * @return Informacija da li je token validan ili ne.
      */
@@ -253,7 +243,7 @@ public class TokenUtils {
     /**
      * Funkcija proverava da li je lozinka korisnika izmenjena nakon izdavanja tokena.
      *
-     * @param created Datum kreiranja tokena.
+     * @param created           Datum kreiranja tokena.
      * @param lastPasswordReset Datum poslednje izmene lozinke.
      * @return Informacija da li je token kreiran pre poslednje izmene lozinke ili ne.
      */
@@ -276,7 +266,6 @@ public class TokenUtils {
      * Funkcija za preuzimanje sadržaja AUTH_HEADER-a iz zahteva.
      *
      * @param request HTTP zahtev.
-     *
      * @return Sadrzaj iz AUTH_HEADER-a.
      */
     public String getAuthHeaderFromHeader(HttpServletRequest request) {
