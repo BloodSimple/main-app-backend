@@ -1,23 +1,20 @@
 package com.ftn.e2.isa.blood_simple.controller;
 
 
+import com.ftn.e2.isa.blood_simple.model.Image;
+import com.ftn.e2.isa.blood_simple.repository.ImageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import com.ftn.e2.isa.blood_simple.model.Image;
-import com.ftn.e2.isa.blood_simple.repository.ImageRepository;
-
 import utils.ImageUtility;
 
 import java.io.IOException;
-import java.util.Optional;
 
 @RestController
-@CrossOrigin() 
+@CrossOrigin()
 public class ImageController {
 
     @Autowired
@@ -49,7 +46,7 @@ public class ImageController {
     public ResponseEntity<byte[]> getImage(@PathVariable("name") String name) throws IOException {
 
         final Image dbImage = imageRepository.getByName(name);
-        
+
         return ResponseEntity
                 .ok()
                 .contentType(MediaType.valueOf(dbImage.getType()))

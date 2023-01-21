@@ -12,17 +12,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
 
 @RestController
-@RequestMapping(value="/api", produces= MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api", produces = MediaType.APPLICATION_JSON_VALUE)
 public class DonationFormController {
 
     @Autowired
     private DonationFormService donationFormService;
 
     @PostMapping("/donationForm")
-    public boolean saveDonationForm(@RequestBody DonationFormDTO message, @AuthenticationPrincipal User user, HttpServletRequest request){
+    public boolean saveDonationForm(@RequestBody DonationFormDTO message, @AuthenticationPrincipal User user, HttpServletRequest request) {
         return donationFormService.saveDonationForm(message, user, getSiteURL(request));
     }
 

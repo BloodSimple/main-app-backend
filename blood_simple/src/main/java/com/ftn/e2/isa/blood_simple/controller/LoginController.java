@@ -1,29 +1,25 @@
-
 package com.ftn.e2.isa.blood_simple.controller;
 
-import com.ftn.e2.isa.blood_simple.model.UserTokenState;
 import com.ftn.e2.isa.blood_simple.model.User;
+import com.ftn.e2.isa.blood_simple.model.UserTokenState;
 import com.ftn.e2.isa.blood_simple.security.TokenUtils;
 import com.ftn.e2.isa.blood_simple.security.authentication.JwtAuthenticationRequest;
-import org.springframework.security.core.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-
-
-import javax.management.remote.JMXAuthenticator;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
-@RequestMapping(value="/api", produces= MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api", produces = MediaType.APPLICATION_JSON_VALUE)
 public class LoginController {
 
     @Autowired
@@ -52,7 +48,7 @@ public class LoginController {
         int expiresIn = tokenUtils.getExpiredIn();
 
         // Vrati token kao odgovor na uspesnu autentifikaciju
-        return ResponseEntity.ok(new UserTokenState(user.getRole().toString(), jwt, (long)expiresIn, user.getEmail(), user.getPersonalId(), user.getName(), user.getSurname()));
+        return ResponseEntity.ok(new UserTokenState(user.getRole().toString(), jwt, (long) expiresIn, user.getEmail(), user.getPersonalId(), user.getName(), user.getSurname()));
     }
 
 }

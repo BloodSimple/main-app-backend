@@ -4,21 +4,20 @@ import com.ftn.e2.isa.blood_simple.service.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.MediaType;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 @RestController
-@RequestMapping(value="/api", produces= MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api", produces = MediaType.APPLICATION_JSON_VALUE)
 public class RegistrationController {
 
     @Autowired
     private RegistrationService registrationService;
 
     @PostMapping("/register")
-    public boolean registerUser(@RequestBody Map<String, String> message, HttpServletRequest request){
+    public boolean registerUser(@RequestBody Map<String, String> message, HttpServletRequest request) {
         return registrationService.registerRegularUser(message, getSiteURL(request));
     }
 
