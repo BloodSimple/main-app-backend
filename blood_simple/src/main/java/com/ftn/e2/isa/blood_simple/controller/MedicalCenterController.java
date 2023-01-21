@@ -6,6 +6,7 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.ftn.e2.isa.blood_simple.dto.BloodStoreDTO;
 import com.ftn.e2.isa.blood_simple.dto.UserDTO;
 import com.ftn.e2.isa.blood_simple.service.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,6 +81,17 @@ public class MedicalCenterController {
 			return new ResponseEntity<>(mc, HttpStatus.OK);
 		}
 	}
+
+	@GetMapping(value="/bloodstore/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Object> getMedicalCenterBloodAmount(@PathVariable Long id){
+		List<BloodStoreDTO> dto = medicalCenterService.getBloodStoreForCenter(id);
+		if(dto == null)
+		{
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(dto, HttpStatus.OK);
+	}
+
 	
 	@PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<MedicalCenter> createMedicalCenter(@RequestBody MedicalCenterDTO newDto,HttpServletRequest request){

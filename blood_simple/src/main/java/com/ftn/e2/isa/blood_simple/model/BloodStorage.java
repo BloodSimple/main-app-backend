@@ -39,4 +39,41 @@ public class BloodStorage {
 	
 	@Column(name = "storage_o", nullable = false)
 	private double storedO;
+
+	public Long getCenterId()
+	{
+		return medicalCenter.getId();
+	}
+
+	public double getStoredA() {
+		return storedA;
+	}
+
+	public void setStoredA(double storedA) {
+		this.storedA = storedA;
+	}
+
+	public double getStoredB() {
+		return storedB;
+	}
+
+	public void setStoredB(double storedB) {
+		this.storedB = storedB;
+	}
+
+	public double getStoredAB() {
+		return storedAB;
+	}
+
+	public void setStoredAB(double storedAB) {
+		this.storedAB = storedAB;
+	}
+
+	public double getStoredO() {
+		return storedO;
+	}
+
+	public void setStoredO(double storedO) {
+		this.storedO = storedO;
+	}
 }

@@ -108,3 +108,10 @@
 		values(0.5, 'A', 30, '2023-01-31T07:00:00', 2, 8, false);
     insert into appointments(amount_of_blood, blood_type, appointment_duration, appointment_start, medical_center_center_id, user_user_id, reserved)
         values(0.5, 'AB', 30, '2020-12-31T07:00:00', 3, 6, false);
+
+-- ======================================================================
+-- BLOD STORE
+    insert into blood_storages(storage_id, storage_a, storage_ab, storage_b, storage_o, medical_center_center_id)
+        values(1, 10,10,5,5.5, 1);
+    insert into blood_storages(storage_id, storage_a, storage_ab, storage_b, storage_o, medical_center_center_id)
+        values(2, 9.4 ,5, 15 ,8, 2);

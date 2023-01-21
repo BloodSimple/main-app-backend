@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import com.ftn.e2.isa.blood_simple.dto.BloodStoreDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +32,7 @@ public class MedicalCenterService {
 	UserRepository userRepo;
 	@Autowired
 	BloodStorageRepository bsRepo;
+
 	
 	/////////////////////////////////////////////
 	public MedicalCenter get(Long id) {
@@ -63,6 +65,28 @@ public class MedicalCenterService {
 	public BloodStorage saveOrUpdate(BloodStorage bs) {
 		return bsRepo.save(bs);
 	}
+
+	public List<BloodStorage> getAllBloodStore()
+	{
+		return bsRepo.findAll();
+	}
+
+	public List<BloodStoreDTO> getBloodStoreForCenter(Long center_id)
+	{
+		List<BloodStorage> temp = getAllBloodStore();
+		List<BloodStoreDTO> ret = new ArrayList<BloodStoreDTO>();
+
+		for(BloodStorage store : temp)
+		{
+			if(store.getCenterId() == center_id)
+			{
+
+				ret.add(new BloodStoreDTO(store.getStoredA(),store.getStoredB(),store.getStoredAB(),store.getStoredO()));
+			}
+		}
+		return ret;
+	}
+
 	public Address saveOrUpdateAddress(Address address) {
 		if (address == null)
 			return null;
