@@ -33,4 +33,8 @@ public class BloodStorage {
 
     @Column(name = "storage_o", nullable = false)
     private double storedO;
+
+    public Long getCenterId() {
+        return id;
+    }
 }
