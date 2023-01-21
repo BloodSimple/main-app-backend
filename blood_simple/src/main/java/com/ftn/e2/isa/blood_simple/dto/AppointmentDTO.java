@@ -1,16 +1,12 @@
 package com.ftn.e2.isa.blood_simple.dto;
 
-import com.ftn.e2.isa.blood_simple.model.Appointment;
-import com.ftn.e2.isa.blood_simple.model.MedicalCenter;
 import com.ftn.e2.isa.blood_simple.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @AllArgsConstructor

@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
 @Data
@@ -56,7 +54,7 @@ public class UserDTO {
         this.job = user.getJob();
         this.bio = user.getBio();
         this.role = user.getRole();
-        if(user.getDonationForm() != null)
+        if (user.getDonationForm() != null)
             this.donationForm = user.getDonationForm();
 
 
@@ -80,7 +78,7 @@ public class UserDTO {
                 map.get("bio"),
                 RoleENUM.valueOf(map.get("role")),
                 GenderENUM.valueOf(map.get("gender"))
-                );
+        );
     }
 
 }

@@ -1,7 +1,9 @@
 package com.ftn.e2.isa.blood_simple.dto;
 
 import com.ftn.e2.isa.blood_simple.model.DonationForm;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -61,8 +63,51 @@ public class DonationFormDTO {
     private boolean question26;
 
 
+    public DonationFormDTO(DonationForm donationForm) {
+        this.id = donationForm.getId();
+        this.date = donationForm.getDate();
+        this.question1 = donationForm.isQuestion1();
+        this.question2 = donationForm.isQuestion2();
+        this.question3 = donationForm.isQuestion3();
+        this.question4 = donationForm.isQuestion4();
+        this.question5 = donationForm.isQuestion5();
+        this.question6 = donationForm.isQuestion6();
+        this.question7 = donationForm.isQuestion7();
+        this.question8 = donationForm.isQuestion8();
+        this.question9 = donationForm.isQuestion9();
+        this.question10 = donationForm.isQuestion10();
+        this.question11 = donationForm.isQuestion11();
+        this.question12 = donationForm.isQuestion12();
+        this.question13 = donationForm.isQuestion13();
+        this.question14 = donationForm.isQuestion14();
+        this.question15 = donationForm.isQuestion15();
+        this.question16 = donationForm.isQuestion16();
+        this.question17 = donationForm.isQuestion17();
+        this.question18 = donationForm.isQuestion18();
+        this.question19 = donationForm.isQuestion19();
+        this.question20a = donationForm.isQuestion20a();
+        this.question20b = donationForm.isQuestion20b();
+        this.question20c = donationForm.isQuestion20c();
+        this.question21 = donationForm.isQuestion21();
+        this.question22a = donationForm.isQuestion22a();
+        this.question22b = donationForm.isQuestion22b();
+        this.question22c = donationForm.isQuestion22c();
+        this.question22d = donationForm.isQuestion22d();
+        this.question22e = donationForm.isQuestion22e();
+        this.question22f = donationForm.isQuestion22f();
+        this.question22g = donationForm.isQuestion22g();
+        this.question23a = donationForm.isQuestion23a();
+        this.question23b = donationForm.isQuestion23b();
+        this.question23c = donationForm.isQuestion23c();
+        this.question23d = donationForm.isQuestion23d();
+        this.question23e = donationForm.isQuestion23e();
+        this.question23f = donationForm.isQuestion23f();
+        this.question24 = donationForm.isQuestion24();
+        this.question25 = donationForm.isQuestion25();
+        this.question26 = donationForm.isQuestion26();
+    }
 
-    public static DonationForm MapToDonationForm(Map<String,String> map){
+    public static DonationForm MapToDonationForm(Map<String, String> map) {
         return new DonationForm(
                 LocalDateTime.now(),
                 Boolean.parseBoolean(map.get("question1")),
@@ -106,50 +151,6 @@ public class DonationFormDTO {
                 Boolean.parseBoolean(map.get("question26"))
 
         );
-    }
-
-    public DonationFormDTO(DonationForm donationForm){
-        this.id = donationForm.getId();
-        this.date = donationForm.getDate();
-        this.question1 = donationForm.isQuestion1();
-        this.question2 = donationForm.isQuestion2();
-        this.question3 = donationForm.isQuestion3();
-        this.question4 = donationForm.isQuestion4();
-        this.question5 = donationForm.isQuestion5();
-        this.question6 = donationForm.isQuestion6();
-        this.question7 = donationForm.isQuestion7();
-        this.question8 = donationForm.isQuestion8();
-        this.question9 = donationForm.isQuestion9();
-        this.question10 = donationForm.isQuestion10();
-        this.question11 = donationForm.isQuestion11();
-        this.question12 = donationForm.isQuestion12();
-        this.question13 = donationForm.isQuestion13();
-        this.question14 = donationForm.isQuestion14();
-        this.question15 = donationForm.isQuestion15();
-        this.question16 = donationForm.isQuestion16();
-        this.question17 = donationForm.isQuestion17();
-        this.question18 = donationForm.isQuestion18();
-        this.question19 = donationForm.isQuestion19();
-        this.question20a = donationForm.isQuestion20a();
-        this.question20b = donationForm.isQuestion20b();
-        this.question20c = donationForm.isQuestion20c();
-        this.question21 = donationForm.isQuestion21();
-        this.question22a = donationForm.isQuestion22a();
-        this.question22b = donationForm.isQuestion22b();
-        this.question22c = donationForm.isQuestion22c();
-        this.question22d = donationForm.isQuestion22d();
-        this.question22e = donationForm.isQuestion22e();
-        this.question22f = donationForm.isQuestion22f();
-        this.question22g = donationForm.isQuestion22g();
-        this.question23a = donationForm.isQuestion23a();
-        this.question23b = donationForm.isQuestion23b();
-        this.question23c = donationForm.isQuestion23c();
-        this.question23d = donationForm.isQuestion23d();
-        this.question23e = donationForm.isQuestion23e();
-        this.question23f = donationForm.isQuestion23f();
-        this.question24 = donationForm.isQuestion24();
-        this.question25 = donationForm.isQuestion25();
-        this.question26 = donationForm.isQuestion26();
     }
 
 }
