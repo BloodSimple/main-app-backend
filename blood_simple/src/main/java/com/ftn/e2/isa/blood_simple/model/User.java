@@ -16,17 +16,10 @@ import java.util.List;
 @Data        // @getter, @setter i @requiredargsconstructor
 @AllArgsConstructor
 @NoArgsConstructor
-
 @Inheritance(strategy = InheritanceType.JOINED)
-
-
 @Table(name = "USERS")
 public class User implements UserDetails {
 
-    @Column(name = "isActivated", nullable = false)
-    protected boolean isActivated = false;
-    @Column(name = "verificationCode", nullable = false)
-    protected String verificationCode;
     @Id
     @SequenceGenerator(name = "user_seq", sequenceName = "user_seq", initialValue = 6, allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,8 +42,6 @@ public class User implements UserDetails {
     private String phoneNumber;
     @Column(name = "user_job")
     private String job;
-    @Column(name = "first_login", columnDefinition = "boolean default false")
-    private boolean first_login;
     @Column(name = "user_bio")
     private String bio;
     @Column(name = "user_role")
@@ -59,29 +50,31 @@ public class User implements UserDetails {
     @Column(name = "user_type") // gender
     @Enumerated(EnumType.STRING)
     private GenderENUM gender;
-    // For authority - Which roles have authority for some actions?
+    @Column(name = "user_blood_type") // gender
+    @Enumerated(EnumType.STRING)
+    private BloodTypeENUM bloodType;
+
+    // For Blood Donations
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "donationForm", referencedColumnName = "donation_form_id")
+    private DonationForm donationForm;
+    @Column(name = "last_blood_donation")
+    private LocalDateTime lastBloodDonation;
+
+    // For Authority - Which roles have authority for some actions?
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "USER_ROLE",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "authority_id"))
     private List<Role> authorities;
 
-    //****************************************************
-    // I THINK WE SHOULD DELETE THESE METHODS
-    // TODO: Delete this column
-    @Column(name = "questionnaire")
-    private LocalDateTime questionnaire;
-    // TODO: What is this column? I think we should delete it
-    @Column(name = "blood_donation")
-    private LocalDateTime bloodDonation;
-    //****************************************************
-
-    //****************************************************
-    // ADDED NEW COLUMNS - For the Questionnaire and the BloodDonation
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "donationForm", referencedColumnName = "donation_form_id")
-    private DonationForm donationForm;
-    //****************************************************
+    // For Registration and Verification
+    @Column(name = "first_login", columnDefinition = "boolean default false") //
+    private boolean first_login;
+    @Column(name = "isActivated", nullable = false)
+    protected boolean isActivated = false;
+    @Column(name = "verificationCode", nullable = false)
+    protected String verificationCode;
 
     public User(String personalId, String email, String password, String name,
                 String surname, Address address, String phoneNumber,
@@ -97,22 +90,6 @@ public class User implements UserDetails {
         this.bio = bio;
         this.role = role;
         this.gender = gender;
-    }
-
-    public LocalDateTime getQuestionnaire() {
-        return questionnaire;
-    }
-
-    public void setQuestionnaire(LocalDateTime questionnaire) {
-        this.questionnaire = questionnaire;
-    }
-
-    public LocalDateTime getBloodDonation() {
-        return bloodDonation;
-    }
-
-    public void setBloodDonation(LocalDateTime bloodDonation) {
-        this.bloodDonation = bloodDonation;
     }
 
     @Override

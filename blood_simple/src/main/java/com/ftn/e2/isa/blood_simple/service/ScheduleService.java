@@ -41,7 +41,7 @@ public class ScheduleService {
         appointment.setStartTime(appointmentDTO.getStartTime());
         appointment.setDuration(appointmentDTO.getDuration());
         appointment.setReserved(false);
-        MedicalCenter medicalCenter = centerRepo.findOneById(Long.valueOf(appointmentDTO.getMedicalCenterId()));
+        MedicalCenter medicalCenter = centerRepo.findOneById(appointmentDTO.getMedicalCenterId());
         System.out.println(appointmentDTO.getMedicalCenterId());
         appointment.setMedicalCenter(medicalCenter);
         List<User> staff = new ArrayList<User>();
@@ -59,7 +59,7 @@ public class ScheduleService {
         List<Appointment> goodAppointments = new ArrayList<>();
         List<Appointment> allAppointments = appointmentRepo.findAll();
         for (Appointment appointment : allAppointments) {
-            if (appointment.isReserved() == false && appointment.getStartTime().equals(startTime)) {
+            if (!appointment.isReserved() && appointment.getStartTime().equals(startTime)) {
                 goodAppointments.add(appointment);
                 System.out.println(appointment);
             }
@@ -76,31 +76,29 @@ public class ScheduleService {
         List<Appointment> appointments = getAppointmentsByCenter(medicalCenterId);
         AppointmentScheduleDTO appointmentSchedule = new AppointmentScheduleDTO();
         for (Appointment appointment : appointments) {
-            if (appointment.getStartTime().equals(startTime) && appointment.isReserved() == false) {
+            if (appointment.getStartTime().equals(startTime) && !appointment.isReserved()) {
                 User user = userRepository.findByPersonalId(personalId);
-                if (user.getBloodDonation() != null) {
-                    if (LocalDateTime.now().isBefore(user.getBloodDonation().plusMonths(6))) {
+                if (user.getLastBloodDonation() != null) {
+                    if (LocalDateTime.now().isBefore(user.getLastBloodDonation().plusMonths(6))) {
                         appointmentSchedule.setResponse("Six months haven't passed since your last blood donation.");
                         return appointmentSchedule;
                     }
                 }
-                if (user.getQuestionnaire() == null) {
+                if (user.getDonationForm() == null) {
                     appointmentSchedule.setResponse("You should take questionnaire before blood donation.");
                     return appointmentSchedule;
-                } else if (user.getQuestionnaire().plusDays(1).isBefore(LocalDateTime.now())) {
+                } else if (user.getDonationForm().getDate().plusDays(1).isBefore(LocalDateTime.now())) {
                     appointmentSchedule.setResponse("You should take questionnaire again...");
                     return appointmentSchedule;
                 }
 
                 appointment.setReserved(true);
                 appointment.setUser(user);
-                user.setBloodDonation(startTime);
+                user.setLastBloodDonation(startTime);
                 appointmentRepo.save(appointment);
                 try {
                     mailService.sendSuccessfulReservationEmail(appointment.getUser(), appointment);
-                } catch (MessagingException e) {
-                    e.printStackTrace();
-                } catch (UnsupportedEncodingException e) {
+                } catch (MessagingException | UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
             }
