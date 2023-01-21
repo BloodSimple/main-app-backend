@@ -2,6 +2,7 @@ package com.ftn.e2.isa.blood_simple.controller;
 
 import com.ftn.e2.isa.blood_simple.dto.AppointmentDTO;
 import com.ftn.e2.isa.blood_simple.dto.AppointmentScheduleDTO;
+import com.ftn.e2.isa.blood_simple.dto.BloodStoreDTO;
 import com.ftn.e2.isa.blood_simple.model.MedicalCenter;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
@@ -46,6 +47,12 @@ public class ScheduleController {
 																				LocalDateTime startTime){
 		List<MedicalCenter> medicalCenters = scheduleService.getMedicalCenterWithAppointments(startTime);
 		return new ResponseEntity<>(medicalCenters, HttpStatus.OK);
+	}
+
+	@GetMapping(value="/freeappointments/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Object> getMedicalCenterFreeAppointments(@PathVariable Long id){
+		List<Appointment> list = scheduleService.getCenterFreeAppointments(id);
+		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 
 	@PostMapping(value = "/scheduleAppointment/{medicalCenterId}/{startTime}/{personalId}", produces = MediaType.APPLICATION_JSON_VALUE)

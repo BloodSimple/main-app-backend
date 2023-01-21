@@ -122,4 +122,18 @@ public class ScheduleService {
 		}
 		return usersAppointments;
 	}
+
+
+	public List<Appointment> getCenterFreeAppointments(Long id){
+
+		List<Appointment> allAppointments = getAppointmentsByCenter(id);
+		List<Appointment> freeAppointments = new ArrayList<>();
+		for(Appointment appointment: allAppointments){
+			if(appointment.getUser() == null){
+				freeAppointments.add(appointment);
+			}
+		}
+		return freeAppointments;
+	}
+
 }
