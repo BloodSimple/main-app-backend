@@ -25,10 +25,9 @@ public class ReportController {
 	
 	@PutMapping(value="/", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Object> postReport(@RequestBody ReportRequest rr){
-		
 		qrService.changeBloodStorage(rr);
 		qrService.changeEquipmentStorage(rr);
-		AppointmentReport report = reportService.saveOrUpdateAppointmentReport(rr.getAppointmetReport());
+		AppointmentReport report = reportService.saveOrUpdateAppointmentReport(rr.getAppointmentReport());
 		if (report == null)
 			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		return new ResponseEntity<>(report, HttpStatus.OK);

@@ -4,10 +4,12 @@ import lombok.Data;
 
 @Data
 public class ReportRequest {
-	private AppointmentReport appointmetReport; 
+	private AppointmentReport appointmentReport; 
 	private String bloodType;
 	private double amountOfBlood;
 	private int bags; 
 	private int needles; 
 	private int syringes;
+	
+	
 }

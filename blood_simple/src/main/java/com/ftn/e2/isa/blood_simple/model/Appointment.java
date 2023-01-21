@@ -44,8 +44,8 @@ public class Appointment {
 	@OneToOne
 	private User user; 
 	
-    @Enumerated(EnumType.STRING)
-	private BloodTypeENUM bloodType;
+//    @Enumerated(EnumType.STRING)
+//	private BloodTypeENUM bloodType;
 	
 	private double amountOfBlood;
 	

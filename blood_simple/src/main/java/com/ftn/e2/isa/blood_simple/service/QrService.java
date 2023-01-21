@@ -100,7 +100,7 @@ public class QrService {
     }
     
     public boolean changeBloodStorage(ReportRequest rr) {
-    	BloodStorage bs = reportRepo.getBloodStorageFromCenter(rr.getAppointmetReport().getAppointment().getMedicalCenter().getId());
+    	BloodStorage bs = reportRepo.getBloodStorageFromCenter(rr.getAppointmentReport().getAppointment().getMedicalCenter().getId());
     	
     	switch(rr.getBloodType()) {
     	case "A":
@@ -123,7 +123,7 @@ public class QrService {
     	return false;
     }
     public boolean changeEquipmentStorage(ReportRequest rr) {
-    	EquipmentStorage es = reportRepo.getEquipmentStorageFromCenter(rr.getAppointmetReport().getAppointment().getMedicalCenter().getId());
+    	EquipmentStorage es = reportRepo.getEquipmentStorageFromCenter(rr.getAppointmentReport().getAppointment().getMedicalCenter().getId());
     	if(es.getBloodBag() >= rr.getBags() && es.getNeedle() >= rr.getNeedles() && es.getSyringe() >= rr.getSyringes() ) {
     		es.setBloodBag(es.getBloodBag()-rr.getBags());
     		es.setNeedle(es.getNeedle()-rr.getNeedles());

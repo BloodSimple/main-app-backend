@@ -24,6 +24,7 @@ public class AppointmentReport {
 	private Long id;
 	
 	@OneToOne
+    @JoinColumn(name = "appointment_id", referencedColumnName = "appointment_id", unique = true)
 	private Appointment appointment;
 	
 	@Column(name="number_of_donations")

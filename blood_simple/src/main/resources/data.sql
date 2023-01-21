@@ -71,16 +71,22 @@
             -- Medical Staff in the Medical Center1
             insert into medical_centers_medical_staff (medical_center_center_id, medical_staff_user_id) values (1, 2);
             insert into medical_centers_medical_staff (medical_center_center_id, medical_staff_user_id) values (1, 3);
+	--storages
+	    insert into blood_storages(storage_a, storage_ab, storage_b, storage_o, medical_center_center_id) values (12,5,23,2, 1);
+	    insert into equipment_storages(blood_bag, needle, syringe, medical_center_center_id) values (120, 342, 89, 1);
         -- id=2 -- in the database
         insert into medical_centers (center_name, center_description, center_address_id,  grade)
         values ('Klinicki Centar Lab - KCL', 'Dosta smo dobar centar za vadjenje krvi, za to smo top', 1, 5.0);
             -- Medical Staff in the Medical Center2
             insert into medical_centers_medical_staff (medical_center_center_id, medical_staff_user_id) values (2, 4);
+	--storages	    
+	    insert into blood_storages(storage_a, storage_ab, storage_b, storage_o, medical_center_center_id) values (2,35,3,5, 2);
+	    insert into equipment_storages(blood_bag, needle, syringe, medical_center_center_id) values (300,225, 49, 2);
 -- ======================================================================
 -- APPOINTMENTS
-	insert into appointments(amount_of_blood, blood_type, appointment_duration, appointment_start, medical_center_center_id, user_user_id) 
-		values(0.5, 'A', 30, '2022-11-26 19:00:00', 1, 6);
-	insert into appointments(amount_of_blood, blood_type, appointment_duration, appointment_start, medical_center_center_id, user_user_id) 
-		values(0.5, 'A', 30, '2022-11-26 18:00:00', 1, 5);
-	insert into appointments(amount_of_blood, blood_type, appointment_duration, appointment_start, medical_center_center_id, user_user_id) 
-		values(0.5, 'A', 30, '2022-11-27 18:00:00', 2, 5);
+	insert into appointments(amount_of_blood, appointment_duration, appointment_start, medical_center_center_id, user_user_id) 
+		values(0.5, 30, '2022-11-26 19:00:00', 1, 6);
+	insert into appointments(amount_of_blood, appointment_duration, appointment_start, medical_center_center_id, user_user_id) 
+		values(0.5, 30, '2022-11-26 18:00:00', 1, 5);
+	insert into appointments(amount_of_blood, appointment_duration, appointment_start, medical_center_center_id, user_user_id) 
+		values(0.5, 30, '2022-11-27 18:00:00', 2, 5);
