@@ -2,6 +2,7 @@ package com.ftn.e2.isa.blood_simple.controller;
 
 import com.ftn.e2.isa.blood_simple.dto.AppointmentDTO;
 import com.ftn.e2.isa.blood_simple.dto.AppointmentScheduleDTO;
+import com.ftn.e2.isa.blood_simple.dto.UserDTO;
 import com.ftn.e2.isa.blood_simple.model.Appointment;
 import com.ftn.e2.isa.blood_simple.model.MedicalCenter;
 import com.ftn.e2.isa.blood_simple.service.ScheduleService;
@@ -46,13 +47,20 @@ public class ScheduleController {
     }
 
     @PostMapping(value = "/scheduleAppointment/{medicalCenterId}/{startTime}/{personalId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity scheduleAppointment(@PathVariable Long medicalCenterId,
-                                              @PathVariable("startTime")
-                                              @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-                                                      LocalDateTime startTime,
-                                              @PathVariable String personalId) {
+    public ResponseEntity<AppointmentScheduleDTO> scheduleAppointment(@PathVariable Long medicalCenterId,
+                                                                      @PathVariable("startTime")
+                                                                      @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+                                                                              LocalDateTime startTime,
+                                                                      @PathVariable String personalId) {
         AppointmentScheduleDTO appointmentScheduleDTO = scheduleService.scheduleAppointment(medicalCenterId, startTime, personalId);
-        return new ResponseEntity(appointmentScheduleDTO, HttpStatus.OK);
+        return new ResponseEntity<>(appointmentScheduleDTO, HttpStatus.OK);
+
+    }
+
+    @PostMapping(value = "/cancelAppointment", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<AppointmentScheduleDTO> cancelAppointment(@RequestBody AppointmentDTO appointmentDTO) {
+        AppointmentScheduleDTO appointmentScheduleDTO = scheduleService.cancelAppointment(appointmentDTO);
+        return new ResponseEntity<>(appointmentScheduleDTO, HttpStatus.OK);
 
     }
 

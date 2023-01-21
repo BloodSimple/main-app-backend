@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data        // @getter, @setter i @requiredargsconstructor
@@ -41,6 +42,9 @@ public class Appointment {
 
     @OneToMany(fetch = FetchType.EAGER)
     private List<User> medicalStaff;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<User> cancelledUsers;
 
     @ManyToOne    // bidirekciono
     private MedicalCenter medicalCenter;

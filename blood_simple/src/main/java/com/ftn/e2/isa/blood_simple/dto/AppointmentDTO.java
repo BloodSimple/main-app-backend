@@ -17,6 +17,9 @@ public class AppointmentDTO {
     private int duration;
     private Long medicalCenterId;
     private List<User> medicalStaff;
+    private List<User> cancelledUsers;
+    private boolean reserved;
+    private User user;
 
 //    public AppointmentDTO(Appointment appointment) {
 //        this.id = appointment.getId();

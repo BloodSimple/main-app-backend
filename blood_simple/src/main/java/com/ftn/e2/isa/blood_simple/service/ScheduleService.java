@@ -15,8 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.mail.MessagingException;
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 
 @Service
@@ -53,6 +52,23 @@ public class ScheduleService {
         appointmentRepo.save(appointment);
         return appointment;
     }
+
+
+    public AppointmentScheduleDTO cancelAppointment(AppointmentDTO appointmentDTO) {
+        AppointmentScheduleDTO appointmentSchedule = new AppointmentScheduleDTO();
+        Optional<Appointment> appointment = appointmentRepo.findById(appointmentDTO.getId());
+        if(appointment.isPresent()){
+            appointment.get().setReserved(false);
+            appointment.get().getCancelledUsers().add(appointmentDTO.getUser());
+            appointment.get().setUser(null);
+            appointmentRepo.save(appointment.get());
+            appointmentSchedule.setResponse("Successfully cancelled appointment");
+            return appointmentSchedule;
+        }
+        appointmentSchedule.setResponse("Something wrong happened...");
+        return appointmentSchedule;
+    }
+
 
     public List<MedicalCenter> getMedicalCenterWithAppointments(LocalDateTime startTime) {
         List<MedicalCenter> goodMedicalCenters = new ArrayList<>();
@@ -91,9 +107,13 @@ public class ScheduleService {
                     appointmentSchedule.setResponse("You should take questionnaire again...");
                     return appointmentSchedule;
                 }
+                if(appointment.getCancelledUsers().contains(user)){
+                    appointmentSchedule.setResponse("You have cancelled this appointment, you can't schedule it again.");
+                    return appointmentSchedule;
+                }
                 appointment.setReserved(true);
                 appointment.setUser(user);
-                user.setLastBloodDonation(startTime);
+               //user.setLastBloodDonation(startTime); TODO: Delete it! We don't put it till the end of the blood donation process
                 appointmentRepo.save(appointment);
                 try {
                     mailService.sendSuccessfulReservationEmail(appointment.getUser(), appointment);
