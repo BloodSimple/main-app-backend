@@ -1,6 +1,5 @@
 package com.ftn.e2.isa.blood_simple.service;
 
-import org.springframework.stereotype.Service;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.MultiFormatReader;
 import com.google.zxing.NotFoundException;
@@ -14,18 +13,15 @@ import org.springframework.stereotype.Service;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 @Service
 public class QrService {
-	private Logger logger = LoggerFactory.getLogger(QrService.class);
+    private final Logger logger = LoggerFactory.getLogger(QrService.class);
 
-    
     public String readQRCode(byte[] qrCodeBytes) {
         try {
-        	ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(qrCodeBytes);
+            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(qrCodeBytes);
             BufferedImage bufferedImage = ImageIO.read(byteArrayInputStream);
             BufferedImageLuminanceSource bufferedImageLuminanceSource = new BufferedImageLuminanceSource(bufferedImage);
             HybridBinarizer hybridBinarizer = new HybridBinarizer(bufferedImageLuminanceSource);
@@ -40,11 +36,11 @@ public class QrService {
         }
         return null;
     }
-    
+
     public String[] contentToDisplay(String content) {
-    	String[] display = new String[5];			// ime, prezime, jmbg, vreme pocetka, trajanje, ime centra 
-    	display = content.split(";");
-    	return display;
+        String[] display = new String[5];            // ime, prezime, jmbg, vreme pocetka, trajanje, ime centra
+        display = content.split(";");
+        return display;
     }
-    
+
 }

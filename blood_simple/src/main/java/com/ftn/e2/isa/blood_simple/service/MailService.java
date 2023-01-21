@@ -14,10 +14,9 @@ import java.io.UnsupportedEncodingException;
 @Service
 public class MailService {
 
+    private final String fromAddress = "isa.mejl.12345@gmail.com";
     @Autowired
     private JavaMailSender mailSender;
-
-    private final String fromAddress = "isa.mejl.12345@gmail.com";
 
     public void sendVerificationEmail(User user, String siteURL) throws UnsupportedEncodingException, MessagingException {
         String toAddress = user.getEmail();
@@ -50,8 +49,8 @@ public class MailService {
     public void sendSuccessfulReservationEmail(User user, Appointment appointment)
             throws MessagingException, UnsupportedEncodingException {
 
-        String toAddress= user.getEmail();
-        String senderName= "Blood Simple";
+        String toAddress = user.getEmail();
+        String senderName = "Blood Simple";
         String subject = "Your reservation is successful.";
         String content = "Dear [[name]],<br>"
                 + "You made reservation for an appointment:<br>"
@@ -78,8 +77,5 @@ public class MailService {
         mailSender.send(message);
 
     }
-
-
-
 
 }

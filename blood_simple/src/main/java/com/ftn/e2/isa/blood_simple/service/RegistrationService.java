@@ -28,9 +28,9 @@ public class RegistrationService {
 
     public boolean registerRegularUser(Map<String, String> map, String siteURL) {
         boolean successfullyRegistered = true;
-        User user = (User) UserDTO.MapToUser(map);
+        User user = UserDTO.MapToUser(map);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        if(checkIfEmailExists(user.getEmail())){
+        if (checkIfEmailExists(user.getEmail())) {
             user.setRole(RoleENUM.USER); // Maybe this should be done in the UserDTO.MapToUser() method
             setVerificationCode(RandomString.make(64), user);
             try {
@@ -41,7 +41,7 @@ public class RegistrationService {
             } catch (Exception e) {
                 successfullyRegistered = false;
             }
-        }else{
+        } else {
             successfullyRegistered = false;
         }
         return successfullyRegistered;
@@ -49,22 +49,22 @@ public class RegistrationService {
 
     public boolean verifyRegularUserAccount(String verificationCode) {
         User user = userRepository.findByVerificationCode(verificationCode);
-        boolean retVal= user == null || user.isActivated() ? false : activateRegularUserAccount(user);
-        if(retVal) {
+        boolean retVal = user != null && !user.isActivated() && activateRegularUserAccount(user);
+        if (retVal) {
             // TODO: Add New Penalty for the activated regular user.
             // penalService.addNewPenal(user);
         }
         return retVal;
     }
 
-    private boolean activateRegularUserAccount(User user){
+    private boolean activateRegularUserAccount(User user) {
         user.setActivated(true);
         setVerificationCode("", user);
         userRepository.save(user);
         return true;
     }
 
-    private void setVerificationCode(String code, User user){
+    private void setVerificationCode(String code, User user) {
         user.setVerificationCode(code);
     }
 
@@ -72,19 +72,19 @@ public class RegistrationService {
         boolean successfullyRegistered = true;
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         Date date = new Date();
-        if(checkIfEmailExists(user.getEmail())){
+        if (checkIfEmailExists(user.getEmail())) {
             user.setRole(RoleENUM.MEDICAL_ADMIN);
             try {
-            	if (user.equals(null) || user.getRole()!=RoleENUM.MEDICAL_ADMIN)
-            		successfullyRegistered = false;
-        		for(MedicalCenter mc : medicalCenterRepo.findAll()) {
-        			if (!mc.getMedicalAdmins().isEmpty()) {
-        				for(User a : mc.getMedicalAdmins()) {
-        					if (  a.getPersonalId().equals(user.getPersonalId()) )
-        		                successfullyRegistered = false;
-        				}
-        			}						
-        		}
+                if (user.equals(null) || user.getRole() != RoleENUM.MEDICAL_ADMIN)
+                    successfullyRegistered = false;
+                for (MedicalCenter mc : medicalCenterRepo.findAll()) {
+                    if (!mc.getMedicalAdmins().isEmpty()) {
+                        for (User a : mc.getMedicalAdmins()) {
+                            if (a.getPersonalId().equals(user.getPersonalId()))
+                                successfullyRegistered = false;
+                        }
+                    }
+                }
                 userRepository.saveAndFlush(user);
             } catch (Exception e) {
                 successfullyRegistered = false;
@@ -97,7 +97,7 @@ public class RegistrationService {
         boolean successfullyRegistered = true;
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         Date date = new Date();
-        if(checkIfEmailExists(user.getEmail())){
+        if (checkIfEmailExists(user.getEmail())) {
             user.setRole(RoleENUM.SYSTEM_ADMIN);
             try {
                 userRepository.saveAndFlush(user);
@@ -108,7 +108,7 @@ public class RegistrationService {
         return successfullyRegistered;
     }
 
-    private boolean checkIfEmailExists(String email){
+    private boolean checkIfEmailExists(String email) {
         return userRepository.findByEmail(email) == null;
     }
 
