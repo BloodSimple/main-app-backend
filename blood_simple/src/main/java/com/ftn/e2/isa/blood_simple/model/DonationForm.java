@@ -1,7 +1,9 @@
 package com.ftn.e2.isa.blood_simple.model;
 
 import com.ftn.e2.isa.blood_simple.dto.DonationFormDTO;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -108,7 +110,7 @@ public class DonationForm {
     @Column(name = "q26")
     private boolean question26; // In the last 6 months, have you given birth or had a termination of pregnancy?
 
-    public DonationForm(DonationFormDTO dto){
+    public DonationForm(DonationFormDTO dto) {
         this.setDonationForm(dto);
     }
 

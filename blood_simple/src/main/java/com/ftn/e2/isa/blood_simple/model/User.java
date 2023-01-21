@@ -1,6 +1,5 @@
 package com.ftn.e2.isa.blood_simple.model;
 
-import com.ftn.e2.isa.blood_simple.dto.UserDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,57 +23,42 @@ import java.util.List;
 @Table(name = "USERS")
 public class User implements UserDetails {
 
+    @Column(name = "isActivated", nullable = false)
+    protected boolean isActivated = false;
+    @Column(name = "verificationCode", nullable = false)
+    protected String verificationCode;
     @Id
     @SequenceGenerator(name = "user_seq", sequenceName = "user_seq", initialValue = 6, allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long id; // id in the database {1,2,3,...}
-
     @Column(name = "user_personal_id", nullable = false, unique = true)
     private String personalId; // JMBG in Serbia
-
     @Column(name = "user_email", nullable = false, unique = true)
     private String email; // username
-
     @Column(name = "user_password", nullable = false)
     private String password;
-
     @Column(name = "user_name", nullable = false)
     private String name; // firstName
-
     @Column(name = "user_surname", nullable = false)
     private String surname; // lastName
-
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_address_id")
     private Address address;
-
     @Column(name = "user_phone")
     private String phoneNumber;
-
     @Column(name = "user_job")
     private String job;
-    
     @Column(name = "first_login", columnDefinition = "boolean default false")
     private boolean first_login;
-
     @Column(name = "user_bio")
     private String bio;
-
     @Column(name = "user_role")
     @Enumerated(EnumType.STRING)
     private RoleENUM role;
-
     @Column(name = "user_type") // gender
     @Enumerated(EnumType.STRING)
     private GenderENUM gender;
-
-    @Column(name="isActivated", nullable=false)
-    protected boolean isActivated = false;
-
-    @Column(name="verificationCode", nullable=false)
-    protected String verificationCode;
-
     // For authority - Which roles have authority for some actions?
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "USER_ROLE",
@@ -98,10 +82,6 @@ public class User implements UserDetails {
     @JoinColumn(name = "donationForm", referencedColumnName = "donation_form_id")
     private DonationForm donationForm;
     //****************************************************
-
-
-
-
 
     public User(String personalId, String email, String password, String name,
                 String surname, Address address, String phoneNumber,
@@ -134,7 +114,7 @@ public class User implements UserDetails {
     public void setBloodDonation(LocalDateTime bloodDonation) {
         this.bloodDonation = bloodDonation;
     }
-    
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.authorities;
