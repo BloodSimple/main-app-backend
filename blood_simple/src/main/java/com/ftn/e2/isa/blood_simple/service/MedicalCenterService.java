@@ -153,7 +153,7 @@ public class MedicalCenterService {
 
 		for(BloodStorage store : temp)
 		{
-			if(store.getCenterId() == center_id)
+			if(store.getMedicalCenter().getId().equals(center_id))
 			{
 
 				ret.add(new BloodStoreDTO(store.getStoredA(),store.getStoredB(),store.getStoredAB(),store.getStoredO()));
