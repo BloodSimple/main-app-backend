@@ -1,23 +1,22 @@
 package com.ftn.e2.isa.blood_simple.model;
 
 import net.minidev.json.annotate.JsonIgnore;
-
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name="ROLE")
+@Table(name = "ROLE")
 public class Role implements GrantedAuthority {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name="authority_id")
+    @Column(name = "authority_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @Column(name="name")
+    @Column(name = "name")
     String name;
 
     @Override
@@ -25,13 +24,13 @@ public class Role implements GrantedAuthority {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     @JsonIgnore
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @JsonIgnore
