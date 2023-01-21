@@ -91,7 +91,6 @@ public class ScheduleService {
                     appointmentSchedule.setResponse("You should take questionnaire again...");
                     return appointmentSchedule;
                 }
-
                 appointment.setReserved(true);
                 appointment.setUser(user);
                 user.setLastBloodDonation(startTime);
@@ -101,9 +100,11 @@ public class ScheduleService {
                 } catch (MessagingException | UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
+                appointmentSchedule.setResponse("Successfully reserved appointment");
+                return appointmentSchedule;
             }
         }
-        appointmentSchedule.setResponse("Successfully reserved appointment");
+        appointmentSchedule.setResponse("There is no defined appointment for this medical center");
         return appointmentSchedule;
     }
 
@@ -111,11 +112,13 @@ public class ScheduleService {
         List<Appointment> allAppointments = appointmentRepo.findAll();
         List<Appointment> usersAppointments = new ArrayList<>();
         for (Appointment appointment : allAppointments) {
-            if (appointment.getUser().getPersonalId().equals(personalId)) {
-                usersAppointments.add(appointment);
-//				return usersAppointments;
+            if (appointment.getUser() != null) {
+                if (appointment.getUser().getPersonalId().equals(personalId)) {
+                    usersAppointments.add(appointment);
+                }
             }
         }
         return usersAppointments;
     }
+
 }

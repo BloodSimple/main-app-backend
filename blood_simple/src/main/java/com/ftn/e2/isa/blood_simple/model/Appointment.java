@@ -25,7 +25,7 @@ public class Appointment {
     private LocalDateTime startTime;
 
     @Column(name = "appointment_duration", nullable = false)
-    private int duration;
+    private Integer duration;
 
     @Column(name = "reserved", nullable = false)
     private boolean reserved;
@@ -36,7 +36,8 @@ public class Appointment {
     @Enumerated(EnumType.STRING)
     private BloodTypeENUM bloodType;
 
-    private double amountOfBlood;
+    @Column(name = "amount_of_blood")
+    private Double amountOfBlood;
 
     @OneToMany(fetch = FetchType.EAGER)
     private List<User> medicalStaff;
