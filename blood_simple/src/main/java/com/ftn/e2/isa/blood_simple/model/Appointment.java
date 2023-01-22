@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -40,6 +41,7 @@ public class Appointment {
 	
 	@Column(name = "appointment_duration", nullable = false)
 	private int duration;
+
 	
 	@OneToOne
 	private User user; 

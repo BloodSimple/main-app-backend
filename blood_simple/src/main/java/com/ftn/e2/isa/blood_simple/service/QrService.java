@@ -23,6 +23,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -31,8 +33,11 @@ import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 @Service
+@Transactional(readOnly=true)
 public class QrService {
 	private Logger logger = LoggerFactory.getLogger(QrService.class);
 	
@@ -72,6 +77,7 @@ public class QrService {
     }
     
     //na osnovu qr-a nadji appointment i kreiraj report koji ga referencira
+    @Transactional(readOnly=false)
     public Appointment findAppointmentByContentData(String id, String dateString) { 
     	//String[] display = this.contentToDisplay(content);
     	try {
@@ -122,6 +128,7 @@ public class QrService {
     	}
     	return false;
     }
+    @Transactional(readOnly=false)
     public boolean changeEquipmentStorage(ReportRequest rr) {
     	EquipmentStorage es = reportRepo.getEquipmentStorageFromCenter(rr.getAppointmentReport().getAppointment().getMedicalCenter().getId());
     	if(es.getBloodBag() >= rr.getBags() && es.getNeedle() >= rr.getNeedles() && es.getSyringe() >= rr.getSyringes() ) {
