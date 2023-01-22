@@ -22,6 +22,9 @@ public class Appointment {
     @Column(name = "appointment_id")
     private Long id;
 
+    @Version
+    private int version;
+
     @Column(name = "appointment_start", nullable = false) // datum i vreme
     private LocalDateTime startTime;
 

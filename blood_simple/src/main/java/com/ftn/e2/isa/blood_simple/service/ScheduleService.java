@@ -2,6 +2,7 @@ package com.ftn.e2.isa.blood_simple.service;
 
 import com.ftn.e2.isa.blood_simple.dto.AppointmentDTO;
 import com.ftn.e2.isa.blood_simple.dto.AppointmentScheduleDTO;
+import com.ftn.e2.isa.blood_simple.dto.AppointmentScheduleResponseDTO;
 import com.ftn.e2.isa.blood_simple.model.Appointment;
 import com.ftn.e2.isa.blood_simple.model.MedicalCenter;
 import com.ftn.e2.isa.blood_simple.model.User;
@@ -53,19 +54,19 @@ public class ScheduleService {
         return appointment;
     }
 
-    public AppointmentScheduleDTO cancelAppointment(AppointmentDTO appointmentDTO) {
-        AppointmentScheduleDTO appointmentSchedule = new AppointmentScheduleDTO();
+    public AppointmentScheduleResponseDTO cancelAppointment(AppointmentDTO appointmentDTO) {
+        AppointmentScheduleResponseDTO appointmentScheduleResponseDTO = new AppointmentScheduleResponseDTO();
         Optional<Appointment> appointment = appointmentRepo.findById(appointmentDTO.getId());
         if(appointment.isPresent()){
             appointment.get().setReserved(false);
             appointment.get().getCancelledUsers().add(appointmentDTO.getUser());
             appointment.get().setUser(null);
             appointmentRepo.save(appointment.get());
-            appointmentSchedule.setResponse("Successfully cancelled appointment");
-            return appointmentSchedule;
+            appointmentScheduleResponseDTO.setResponse("Successfully cancelled appointment");
+            return appointmentScheduleResponseDTO;
         }
-        appointmentSchedule.setResponse("Something wrong happened...");
-        return appointmentSchedule;
+        appointmentScheduleResponseDTO.setResponse("Something wrong happened...");
+        return appointmentScheduleResponseDTO;
     }
 
     public List<MedicalCenter> getMedicalCenterWithAppointments(LocalDateTime startTime) {
@@ -86,28 +87,28 @@ public class ScheduleService {
     }
 
     @Transactional
-    public AppointmentScheduleDTO scheduleAppointment(Long medicalCenterId, LocalDateTime startTime, String personalId) {
+    public AppointmentScheduleResponseDTO scheduleAppointment(Long medicalCenterId, LocalDateTime startTime, String personalId) {
         List<Appointment> appointments = getAppointmentsByCenter(medicalCenterId);
-        AppointmentScheduleDTO appointmentSchedule = new AppointmentScheduleDTO();
+        AppointmentScheduleResponseDTO appointmentScheduleResponseDTO = new AppointmentScheduleResponseDTO();
         for (Appointment appointment : appointments) {
             if (appointment.getStartTime().equals(startTime) && !appointment.isReserved()) {
                 User user = userRepository.findByPersonalId(personalId);
                 if (user.getLastBloodDonation() != null) {
                     if (LocalDateTime.now().isBefore(user.getLastBloodDonation().plusMonths(6))) {
-                        appointmentSchedule.setResponse("Six months haven't passed since your last blood donation.");
-                        return appointmentSchedule;
+                        appointmentScheduleResponseDTO.setResponse("Six months haven't passed since your last blood donation.");
+                        return appointmentScheduleResponseDTO;
                     }
                 }
                 if (user.getDonationForm() == null) {
-                    appointmentSchedule.setResponse("You should take questionnaire before blood donation.");
-                    return appointmentSchedule;
+                    appointmentScheduleResponseDTO.setResponse("You should take questionnaire before blood donation.");
+                    return appointmentScheduleResponseDTO;
                 } else if (user.getDonationForm().getDate().plusDays(1).isBefore(LocalDateTime.now())) {
-                    appointmentSchedule.setResponse("You should take questionnaire again...");
-                    return appointmentSchedule;
+                    appointmentScheduleResponseDTO.setResponse("You should take questionnaire again...");
+                    return appointmentScheduleResponseDTO;
                 }
                 if(appointment.getCancelledUsers().contains(user)){
-                    appointmentSchedule.setResponse("You have cancelled this appointment, you can't schedule it again.");
-                    return appointmentSchedule;
+                    appointmentScheduleResponseDTO.setResponse("You have cancelled this appointment, you can't schedule it again.");
+                    return appointmentScheduleResponseDTO;
                 }
                 appointment.setReserved(true);
                 appointment.setUser(user);
@@ -118,12 +119,12 @@ public class ScheduleService {
                 } catch (MessagingException | UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
-                appointmentSchedule.setResponse("Successfully reserved appointment");
-                return appointmentSchedule;
+                appointmentScheduleResponseDTO.setResponse("Successfully reserved appointment");
+                return appointmentScheduleResponseDTO;
             }
         }
-        appointmentSchedule.setResponse("There is no defined appointment for this medical center");
-        return appointmentSchedule;
+        appointmentScheduleResponseDTO.setResponse("There is no defined appointment for this medical center");
+        return appointmentScheduleResponseDTO;
     }
 
     public List<Appointment> getAppointmentsByUser(String personalId) {
