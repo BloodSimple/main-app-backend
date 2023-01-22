@@ -101,10 +101,10 @@
 -- ======================================================================
 -- APPOINTMENTS
 	insert into appointments(amount_of_blood, blood_type, appointment_duration, appointment_start, medical_center_center_id, user_user_id, reserved)
-		values(0.5, 'A', 30, '2023-01-31T07:00:00', 1, 6, false);
-	insert into appointments(amount_of_blood, blood_type, appointment_duration, appointment_start, medical_center_center_id, user_user_id, reserved)
-		values(0.5, 'A', 45, '2023-02-05T09:00:00', 1, 8, true);
+		values(0.5, 'A', 30, '2023-02-02T07:00:00', 1, 6, false);
+-- 	insert into appointments(amount_of_blood, blood_type, appointment_duration, appointment_start, medical_center_center_id, user_user_id, reserved)
+-- 		values(0.5, 'A', 45, '2023-02-05T09:00:00', 1, 8, true);
 	insert into appointments(amount_of_blood, blood_type, appointment_duration, appointment_start, medical_center_center_id, user_user_id, reserved)
 		values(0.5, 'A', 30, '2023-01-31T07:00:00', 2, 8, false);
     insert into appointments(amount_of_blood, blood_type, appointment_duration, appointment_start, medical_center_center_id, user_user_id, reserved)
-        values(0.5, 'AB', 30, '2020-05-05T07:00:00', 3, 7, false);
+        values(0.5, 'AB', 20, '2020-05-05T07:00:00', 3, 7, true);

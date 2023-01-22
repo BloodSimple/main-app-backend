@@ -76,12 +76,10 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "authority_id"))
     private List<Role> authorities;
 
-    //****************************************************
-    // I THINK WE SHOULD DELETE THESE METHODS
-    // TODO: Delete this column
+    //***************************************************
     @Column(name = "questionnaire")
     private LocalDateTime questionnaire;
-    // TODO: What is this column? I think we should delete it
+
     @Column(name = "blood_donation")
     private LocalDateTime bloodDonation;
     //****************************************************
