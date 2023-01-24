@@ -1,5 +1,6 @@
 package com.ftn.e2.isa.blood_simple.controller;
 
+import com.ftn.e2.isa.blood_simple.dto.SearchUserDTO;
 import com.ftn.e2.isa.blood_simple.dto.UpdatePasswordDTO;
 import com.ftn.e2.isa.blood_simple.dto.UserDTO;
 import com.ftn.e2.isa.blood_simple.service.UserService;
@@ -68,5 +69,13 @@ public class UserController {
 
     }
 
+
+    @GetMapping(value = "/search_users_with_donation", produces = MediaType.APPLICATION_JSON_VALUE)
+    public  ResponseEntity<Object> searchUsersWithBloodDonation(@PathVariable String id)
+    {
+        List<UserDTO> foundUsersDto = userService.getUsersByWithBloodDonations(Long.getLong(id));
+
+        return new ResponseEntity<>( foundUsersDto, HttpStatus.OK);
+    }
 
 }

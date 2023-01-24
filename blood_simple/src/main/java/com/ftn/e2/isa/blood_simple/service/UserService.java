@@ -1,5 +1,6 @@
 package com.ftn.e2.isa.blood_simple.service;
 
+import com.ftn.e2.isa.blood_simple.dto.SearchUserDTO;
 import com.ftn.e2.isa.blood_simple.dto.UpdatePasswordDTO;
 import com.ftn.e2.isa.blood_simple.dto.UserDTO;
 import com.ftn.e2.isa.blood_simple.model.Address;
@@ -100,4 +101,15 @@ public class UserService {
         return status;
     }
 
+    public List<UserDTO> getUsersByWithBloodDonations(Long id)
+    {
+        ArrayList<User> foundUsers = new ArrayList<>(userRepository.findUsersWithBloodDonations(id));
+        ArrayList<UserDTO> foundUsersDto = new ArrayList<>();
+        for(User u : foundUsers)
+        {
+            UserDTO dto = new UserDTO(u);
+            foundUsersDto.add(dto);
+        }
+        return foundUsersDto;
+    }
 }

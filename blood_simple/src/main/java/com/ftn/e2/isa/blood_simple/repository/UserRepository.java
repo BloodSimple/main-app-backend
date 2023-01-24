@@ -55,4 +55,11 @@ public interface UserRepository extends JpaRepository<com.ftn.e2.isa.blood_simpl
             + "  U.role = 'MEDICAL_ADMIN' " //zameni na user posle
             + ")")
 	Set<User> getAllMedicalAdmins();
+
+
+
+    @Query("select u "
+            + "from User u join Appointment a on u.id = a.user_id "
+            + "where a.medical_center = ?1")
+    Set<User> findUsersWithBloodDonations(Long id);
 }
