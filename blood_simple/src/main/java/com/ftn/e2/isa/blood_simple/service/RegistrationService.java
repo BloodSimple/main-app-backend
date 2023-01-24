@@ -7,10 +7,17 @@ import com.ftn.e2.isa.blood_simple.model.User;
 import com.ftn.e2.isa.blood_simple.repository.MedicalCenterRepository;
 import com.ftn.e2.isa.blood_simple.repository.UserRepository;
 import net.bytebuddy.utility.RandomString;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Date;
 import java.util.Map;
 
@@ -28,6 +35,7 @@ public class RegistrationService {
 
     public boolean registerRegularUser(Map<String, String> map, String siteURL) {
         boolean successfullyRegistered = true;
+
         User user = UserDTO.MapToUser(map);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         if (checkIfEmailExists(user.getEmail())) {

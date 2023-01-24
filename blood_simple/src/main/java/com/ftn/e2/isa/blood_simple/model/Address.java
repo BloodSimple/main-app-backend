@@ -37,12 +37,14 @@ public class Address {
     @Column(name = "address_y", nullable = true)
     private double y;
 
-    public Address(String street, String number, String city, String country) {
+    public Address(String street, String number, String city, String country, double x, double y) {
         super();
         this.street = street;
         this.number = number;
         this.city = city;
         this.country = country;
+        this.x = x;
+        this.y = y;
     }
 
 
