@@ -105,6 +105,7 @@ public class QrService {
     	return reportRepo.getBloodStorageFromCenter(id);
     }
     
+    @Transactional(readOnly=false)
     public boolean changeBloodStorage(ReportRequest rr) {
     	BloodStorage bs = reportRepo.getBloodStorageFromCenter(rr.getAppointmentReport().getAppointment().getMedicalCenter().getId());
     	

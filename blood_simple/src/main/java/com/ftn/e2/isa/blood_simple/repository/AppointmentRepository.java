@@ -11,11 +11,12 @@ import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.QueryHints;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import com.ftn.e2.isa.blood_simple.model.Appointment;
 
 
-
+@Repository
 public interface AppointmentRepository extends JpaRepository<Appointment, Long>{
 	@Query("select A from Appointment A where A.medicalCenter.id = ?1 ")
 	public List<Appointment> getAppointmentsForCenter(Long id);

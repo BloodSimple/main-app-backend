@@ -2,11 +2,13 @@ package com.ftn.e2.isa.blood_simple.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import com.ftn.e2.isa.blood_simple.model.AppointmentReport;
 import com.ftn.e2.isa.blood_simple.model.BloodStorage;
 import com.ftn.e2.isa.blood_simple.model.EquipmentStorage;
 
+@Repository
 public interface AppointmentReportRepository extends JpaRepository<AppointmentReport, Long>{
 
 	@Query("select ES from EquipmentStorage ES where ES.medicalCenter.id = ?1")

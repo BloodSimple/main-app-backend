@@ -63,6 +63,61 @@
         values ('35445421760011', 'koki@email.com', '$2a$10$fXmTeuKItXLA4l4mhOCfeOmV6m800N0vFq.XAO9bY1BZeA8JOwaEG', 'Koki', 'Kokic','MALE', 3, '0641123456', 'engineer', 'Faculty of Technical Sciences, University of Novi Sad', 'USER');
             -- user's authority [MEDICAL_ADMIN=2, COMMON=4]
             insert into USER_ROLE(user_id, authority_id) values (5, 4);
+        -- id=7 -- in the database
+        insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role)
+        values ('35445422312011', 'boki@email.com', '$2a$10$fXmTeuKItXLA4l4mhOCfeOmV6m800N0vFq.XAO9bY1BZeA8JOwaEG', 'Boki', 'Bokic','MALE', 3, '0641123456', 'engineer', 'Faculty of Technical Sciences, University of Novi Sad', 'USER');
+            -- user's authority [MEDICAL_ADMIN=2, COMMON=4]
+            insert into USER_ROLE(user_id, authority_id) values (5, 4);
+        -- id=8 -- in the database
+        insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role)
+        values ('675343443460011', 'deki@email.com', '$2a$10$fXmTeuKItXLA4l4mhOCfeOmV6m800N0vFq.XAO9bY1BZeA8JOwaEG', 'Deki', 'Dekic','MALE', 3, '0641123456', 'engineer', 'Faculty of Technical Sciences, University of Novi Sad', 'USER');
+            -- user's authority [MEDICAL_ADMIN=2, COMMON=4]
+            insert into USER_ROLE(user_id, authority_id) values (5, 4);
+        -- id=9 -- in the database
+        insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role)
+        values ('212124324', 'dobi@email.com', '$2a$10$fXmTeuKItXLA4l4mhOCfeOmV6m800N0vFq.XAO9bY1BZeA8JOwaEG', 'Dragan', 'Kokic','MALE', 3, '0641123456', 'engineer', 'Faculty of Technical Sciences, University of Novi Sad', 'USER');
+            -- user's authority [MEDICAL_ADMIN=2, COMMON=4]
+            insert into USER_ROLE(user_id, authority_id) values (5, 4);
+        -- id=10 -- in the database
+        insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role)
+        values ('32323243', 'fiki@email.com', '$2a$10$fXmTeuKItXLA4l4mhOCfeOmV6m800N0vFq.XAO9bY1BZeA8JOwaEG', 'Filip', 'Miljkovic','MALE', 3, '0641123456', 'engineer', 'Faculty of Technical Sciences, University of Novi Sad', 'USER');
+            -- user's authority [MEDICAL_ADMIN=2, COMMON=4]
+            insert into USER_ROLE(user_id, authority_id) values (5, 4);
+        -- id=11 -- in the database
+        insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role)
+        values ('54545465', 'krlja@email.com', '$2a$10$fXmTeuKItXLA4l4mhOCfeOmV6m800N0vFq.XAO9bY1BZeA8JOwaEG', 'Kristina', 'Rao','MALE', 3, '0641123456', 'engineer', 'Faculty of Technical Sciences, University of Novi Sad', 'USER');
+            -- user's authority [MEDICAL_ADMIN=2, COMMON=4]
+            insert into USER_ROLE(user_id, authority_id) values (5, 4);
+        -- id=12 -- in the database
+        insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role)
+        values ('23566768', 'mici@email.com', '$2a$10$fXmTeuKItXLA4l4mhOCfeOmV6m800N0vFq.XAO9bY1BZeA8JOwaEG', 'Milan', 'Stojkovic','MALE', 3, '0641123456', 'engineer', 'Faculty of Technical Sciences, University of Novi Sad', 'USER');
+            -- user's authority [MEDICAL_ADMIN=2, COMMON=4]
+            insert into USER_ROLE(user_id, authority_id) values (5, 4);
+        -- id=13 -- in the database
+        insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role)
+        values ('78654543', 'danica@email.com', '$2a$10$fXmTeuKItXLA4l4mhOCfeOmV6m800N0vFq.XAO9bY1BZeA8JOwaEG', 'Danica', 'Prijovic','MALE', 3, '0641123456', 'engineer', 'Faculty of Technical Sciences, University of Novi Sad', 'USER');
+            -- user's authority [MEDICAL_ADMIN=2, COMMON=4]
+            insert into USER_ROLE(user_id, authority_id) values (5, 4);
+        -- id=14 -- in the database
+        insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role)
+        values ('65690007', 'ana@email.com', '$2a$10$fXmTeuKItXLA4l4mhOCfeOmV6m800N0vFq.XAO9bY1BZeA8JOwaEG', 'Ana', 'Aleksic','MALE', 3, '0641123456', 'engineer', 'Faculty of Technical Sciences, University of Novi Sad', 'USER');
+            -- user's authority [MEDICAL_ADMIN=2, COMMON=4]
+            insert into USER_ROLE(user_id, authority_id) values (5, 4);
+        -- id=15 -- in the database
+        insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role)
+        values ('555553239', 'pred@email.com', '$2a$10$fXmTeuKItXLA4l4mhOCfeOmV6m800N0vFq.XAO9bY1BZeA8JOwaEG', 'Predrag', 'Jankovic','MALE', 3, '0641123456', 'engineer', 'Faculty of Technical Sciences, University of Novi Sad', 'USER');
+            -- user's authority [MEDICAL_ADMIN=2, COMMON=4]
+            insert into USER_ROLE(user_id, authority_id) values (5, 4);
+        -- id=16 -- in the database
+        insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role)
+        values ('0976564533', 'ii@email.com', '$2a$10$fXmTeuKItXLA4l4mhOCfeOmV6m800N0vFq.XAO9bY1BZeA8JOwaEG', 'Ivana', 'Ivanovic','MALE', 3, '0641123456', 'engineer', 'Faculty of Technical Sciences, University of Novi Sad', 'USER');
+            -- user's authority [MEDICAL_ADMIN=2, COMMON=4]
+            insert into USER_ROLE(user_id, authority_id) values (5, 4);
+        -- id=17 -- in the database
+        insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role)
+        values ('43333389', 'petar@email.com', '$2a$10$fXmTeuKItXLA4l4mhOCfeOmV6m800N0vFq.XAO9bY1BZeA8JOwaEG', 'Petar', 'Draskovic','MALE', 3, '0641123456', 'engineer', 'Faculty of Technical Sciences, University of Novi Sad', 'USER');
+            -- user's authority [MEDICAL_ADMIN=2, COMMON=4]
+            insert into USER_ROLE(user_id, authority_id) values (5, 4);
 -- ======================================================================
 -- MEDICAL CENTERS -- with CenterAdmins and MedicalStaff
         -- id=1 -- in the database
@@ -89,4 +144,24 @@
 	insert into appointments(amount_of_blood, appointment_duration, appointment_start, medical_center_center_id, user_user_id) 
 		values(0.5, 30, '2022-11-26 18:00:00', 1, 5);
 	insert into appointments(amount_of_blood, appointment_duration, appointment_start, medical_center_center_id, user_user_id) 
-		values(0.5, 30, '2022-11-27 18:00:00', 2, 5);
+		values(0.5, 30, '2022-11-27 18:00:00', 2, 6);
+    insert into appointments(amount_of_blood, appointment_duration, appointment_start, medical_center_center_id, user_user_id) 
+		values(0.5, 30, '2023-11-27 18:30:00', 2, 15);
+    insert into appointments(amount_of_blood, appointment_duration, appointment_start, medical_center_center_id, user_user_id) 
+		values(0.5, 30, '2023-01-27 19:00:00', 2, 11);
+    insert into appointments(amount_of_blood, appointment_duration, appointment_start, medical_center_center_id, user_user_id) 
+		values(0.5, 30, '2023-01-27 19:30:00', 2, 12);
+    insert into appointments(amount_of_blood, appointment_duration, appointment_start, medical_center_center_id, user_user_id) 
+		values(0.5, 30, '2023-01-27 12:00:00', 2, 13);
+    insert into appointments(amount_of_blood, appointment_duration, appointment_start, medical_center_center_id, user_user_id) 
+		values(0.5, 30, '2023-01-27 12:30:00', 2, 10);
+    insert into appointments(amount_of_blood, appointment_duration, appointment_start, medical_center_center_id, user_user_id) 
+		values(0.5, 30, '2023-01-27 13:00:00', 2, 11);
+    insert into appointments(amount_of_blood, appointment_duration, appointment_start, medical_center_center_id, user_user_id) 
+		values(0.5, 30, '2023-01-27 14:00:00', 2, 9);
+    insert into appointments(amount_of_blood, appointment_duration, appointment_start, medical_center_center_id, user_user_id) 
+		values(0.5, 30, '2023-01-27 15:30:00', 2, 8);
+    insert into appointments(amount_of_blood, appointment_duration, appointment_start, medical_center_center_id, user_user_id) 
+		values(0.5, 30, '2023-01-27 11:20:00', 2, 16);
+    insert into appointments(amount_of_blood, appointment_duration, appointment_start, medical_center_center_id, user_user_id) 
+		values(0.5, 30, '2023-01-27 10:10:00', 2, 7);
