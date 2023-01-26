@@ -10,7 +10,10 @@ import com.ftn.e2.isa.blood_simple.repository.AppointmentRepository;
 import com.ftn.e2.isa.blood_simple.repository.MedicalCenterRepository;
 import com.ftn.e2.isa.blood_simple.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.OptimisticLockingFailureException;
+import org.springframework.dao.PessimisticLockingFailureException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.mail.MessagingException;
@@ -21,7 +24,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-
+@Transactional(readOnly = true)
 @Service
 public class ScheduleService {
 
@@ -57,95 +60,109 @@ public class ScheduleService {
         return appointment;
     }
 
-    @Transactional
+    @Transactional(readOnly = false)
     public AppointmentScheduleResponseDTO cancelAppointment(AppointmentDTO appointmentDTO) {
         AppointmentScheduleResponseDTO appointmentScheduleResponseDTO = new AppointmentScheduleResponseDTO();
-        Optional<Appointment> appointment = appointmentRepo.findById(appointmentDTO.getId());
-        if (appointment.isPresent()) {
-            appointment.get().setReserved(false);
-            appointment.get().getCancelledUsers().add(appointmentDTO.getUser());
-            appointment.get().setUser(null);
-            appointmentRepo.save(appointment.get());
-            appointmentScheduleResponseDTO.setResponse("Successfully cancelled appointment");
+        try {
+            Optional<Appointment> appointment = appointmentRepo.findById(appointmentDTO.getId());
+            if (appointment.isPresent()) {
+                appointment.get().setReserved(false);
+                appointment.get().getCancelledUsers().add(appointmentDTO.getUser());
+                appointment.get().setUser(null);
+                appointmentRepo.save(appointment.get());
+                appointmentScheduleResponseDTO.setResponse("Successfully cancelled appointment");
+                return appointmentScheduleResponseDTO;
+            }
+            appointmentScheduleResponseDTO.setResponse("Something wrong happened...");
             return appointmentScheduleResponseDTO;
+        } catch (OptimisticLockingFailureException e) {
+            System.out.println("ERROR - OptimisticLockingFailureException");
+            appointmentScheduleResponseDTO.setResponse("Successfully cancelled appointment");
+            return null;
         }
-        appointmentScheduleResponseDTO.setResponse("Something wrong happened...");
-        return appointmentScheduleResponseDTO;
     }
 
-    // @Transactional
+    @Transactional(readOnly = true)
     public List<MedicalCenter> getMedicalCenterWithAppointments(LocalDateTime startTime, User user) {
         if (user == null) {
             return null;
         } else {
-            List<MedicalCenter> goodMedicalCenters = new ArrayList<>();
-            List<Appointment> goodAppointments = new ArrayList<>();
-            List<Appointment> allAppointments = appointmentRepo.findAll();
-            for (Appointment appointment : allAppointments) {
-                if (!appointment.isReserved() && appointment.getStartTime().equals(startTime) && !appointment.getCancelledUsers().contains(user)) {
-                    goodAppointments.add(appointment);
-                    System.out.println(appointment);
+            try {
+                List<MedicalCenter> goodMedicalCenters = new ArrayList<>();
+                List<Appointment> goodAppointments = new ArrayList<>();
+                List<Appointment> allAppointments = appointmentRepo.findAll();
+                for (Appointment appointment : allAppointments) {
+                    if (!appointment.isReserved() && appointment.getStartTime().equals(startTime) && !appointment.getCancelledUsers().contains(user)) {
+                        goodAppointments.add(appointment);
+                        System.out.println(appointment);
+                    }
                 }
+                for (Appointment app : goodAppointments) {
+                    goodMedicalCenters.add(app.getMedicalCenter());
+                }
+                return goodMedicalCenters;
+            } catch (OptimisticLockingFailureException e) {
+                System.out.println("ERROR - OptimisticLockingFailureException");
+                return null;
             }
-            for (Appointment app : goodAppointments) {
-                goodMedicalCenters.add(app.getMedicalCenter());
-            }
-
-            return goodMedicalCenters;
         }
-
     }
 
-    //@Transactional
-    public AppointmentScheduleResponseDTO scheduleAppointment(AppointmentScheduleDTO dto, User user, String siteURL)  {
+    @Transactional(readOnly = false)
+    public AppointmentScheduleResponseDTO scheduleAppointment(AppointmentScheduleDTO dto, User user, String siteURL) {
         AppointmentScheduleResponseDTO appointmentScheduleResponseDTO = new AppointmentScheduleResponseDTO();
-
         if (user == null) {
             return null;
         } else {
-            List<Appointment> appointments = getAppointmentsByCenter(dto.getMedicalCenterId());
-            for (Appointment appointment : appointments) {
-                if (appointment.getStartTime().equals(dto.getStartTime()) && !appointment.isReserved()) {
-                    Set<User> cancelledUsers = appointment.getCancelledUsers();
-                    for(User cancelUser : cancelledUsers){
-                        if (!cancelUser.getId().equals(user.getId())) {
-                            continue;
+            try {
+                List<Appointment> appointments = getAppointmentsByCenter(dto.getMedicalCenterId());
+                for (Appointment appointment : appointments) {
+                    if (appointment.getStartTime().equals(dto.getStartTime()) && !appointment.isReserved()) {
+                        Set<User> cancelledUsers = appointment.getCancelledUsers();
+                        for (User cancelUser : cancelledUsers) {
+                            if (!cancelUser.getId().equals(user.getId())) {
+                                continue;
+                            }
+                            appointmentScheduleResponseDTO.setResponse("You have already cancelled this appointment");
+                            return appointmentScheduleResponseDTO;
                         }
-                        appointmentScheduleResponseDTO.setResponse("You have already cancelled this appointment");
+                        if (user.getLastBloodDonation() != null && LocalDateTime.now().isBefore(user.getLastBloodDonation().plusMonths(6))) {
+                            appointmentScheduleResponseDTO.setResponse("Six months haven't passed since your last blood donation.");
+                            return appointmentScheduleResponseDTO;
+                        }
+                        if (user.getDonationForm() == null) {
+                            appointmentScheduleResponseDTO.setResponse("You should take questionnaire before blood donation.");
+                            return appointmentScheduleResponseDTO;
+                        } else if (user.getDonationForm().getDate().plusDays(1).isBefore(LocalDateTime.now())) {
+                            appointmentScheduleResponseDTO.setResponse("You should take questionnaire again...");
+                            return appointmentScheduleResponseDTO;
+                        }
+                        if (appointment.getCancelledUsers().contains(user)) {
+                            appointmentScheduleResponseDTO.setResponse("You have cancelled this appointment, you can't schedule it again.");
+                            return appointmentScheduleResponseDTO;
+                        }
+                        appointment.setReserved(true);
+                        appointment.setUser(user);
+                        //user.setLastBloodDonation(startTime); TODO: Delete it! We don't put it till the end of the blood donation process
+                        appointmentRepo.save(appointment);
+                        try {
+                            mailService.sendSuccessfulReservationEmail(appointment.getUser(), appointment);
+                        } catch (MessagingException | UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        }
+                        appointmentScheduleResponseDTO.setResponse("Successfully reserved appointment");
                         return appointmentScheduleResponseDTO;
                     }
-                    if (user.getLastBloodDonation() != null && LocalDateTime.now().isBefore(user.getLastBloodDonation().plusMonths(6))) {
-                        appointmentScheduleResponseDTO.setResponse("Six months haven't passed since your last blood donation.");
-                        return appointmentScheduleResponseDTO;
-                    }
-                    if (user.getDonationForm() == null) {
-                        appointmentScheduleResponseDTO.setResponse("You should take questionnaire before blood donation.");
-                        return appointmentScheduleResponseDTO;
-                    } else if (user.getDonationForm().getDate().plusDays(1).isBefore(LocalDateTime.now())) {
-                        appointmentScheduleResponseDTO.setResponse("You should take questionnaire again...");
-                        return appointmentScheduleResponseDTO;
-                    }
-                    if (appointment.getCancelledUsers().contains(user)) {
-                        appointmentScheduleResponseDTO.setResponse("You have cancelled this appointment, you can't schedule it again.");
-                        return appointmentScheduleResponseDTO;
-                    }
-                    appointment.setReserved(true);
-                    appointment.setUser(user);
-                    //user.setLastBloodDonation(startTime); TODO: Delete it! We don't put it till the end of the blood donation process
-                    appointmentRepo.save(appointment);
-                    try {
-                        mailService.sendSuccessfulReservationEmail(appointment.getUser(), appointment);
-                    } catch (MessagingException | UnsupportedEncodingException e) {
-                        e.printStackTrace();
-                    }
-                    appointmentScheduleResponseDTO.setResponse("Successfully reserved appointment");
-                    return appointmentScheduleResponseDTO;
                 }
-            }
-            appointmentScheduleResponseDTO.setResponse("There is no defined appointment for this medical center");
-            return appointmentScheduleResponseDTO;
-        }
+                appointmentScheduleResponseDTO.setResponse("There is no defined appointment for this medical center");
+                return appointmentScheduleResponseDTO;
 
+            } catch (OptimisticLockingFailureException e) {
+                System.out.println("ERROR - OptimisticLockingFailureException");
+                appointmentScheduleResponseDTO.setResponse("ERROR - Optimistic Locking Failure Exception");
+                return null;
+            }
+        }
     }
 
     public List<Appointment> getAppointmentsByUser(String personalId) {
@@ -160,7 +177,6 @@ public class ScheduleService {
         }
         return usersAppointments;
     }
-
 
     public List<Appointment> getCenterFreeAppointments(Long id) {
 

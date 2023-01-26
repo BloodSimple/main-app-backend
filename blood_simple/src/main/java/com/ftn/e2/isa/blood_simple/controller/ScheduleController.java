@@ -67,7 +67,7 @@ public class ScheduleController {
                                                                            LocalDateTime startTime,
                                                                    @AuthenticationPrincipal User user) {
         try {
-            List<MedicalCenter> list = scheduleService.getMedicalCenterWithAppointments(startTime, user);
+            var list = scheduleService.getMedicalCenterWithAppointments(startTime, user);
             return new ResponseEntity<>(list, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Something wrong happened.", HttpStatus.BAD_REQUEST);
