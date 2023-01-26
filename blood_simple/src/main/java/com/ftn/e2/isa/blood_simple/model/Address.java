@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Data
@@ -46,6 +47,5 @@ public class Address {
         this.x = x;
         this.y = y;
     }
-
 
 }

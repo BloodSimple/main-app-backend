@@ -3,6 +3,7 @@ package com.ftn.e2.isa.blood_simple.controller;
 import com.ftn.e2.isa.blood_simple.dto.DonationFormDTO;
 import com.ftn.e2.isa.blood_simple.model.User;
 import com.ftn.e2.isa.blood_simple.service.DonationFormService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 
-
+@Tag(name = "DonationForm controller", description = "The donation form API")
 @RestController
 @RequestMapping(value = "/api", produces = MediaType.APPLICATION_JSON_VALUE)
 public class DonationFormController {

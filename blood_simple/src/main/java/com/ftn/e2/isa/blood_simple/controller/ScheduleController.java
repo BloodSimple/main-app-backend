@@ -8,6 +8,13 @@ import com.ftn.e2.isa.blood_simple.model.MedicalCenter;
 import com.ftn.e2.isa.blood_simple.model.User;
 import com.ftn.e2.isa.blood_simple.security.TokenUtils;
 import com.ftn.e2.isa.blood_simple.service.ScheduleService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -23,6 +30,7 @@ import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Tag(name = "Schedule controller", description = "The schedule API")
 @RestController
 @RequestMapping(value = "/api/centers", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ScheduleController {
@@ -32,6 +40,12 @@ public class ScheduleController {
     @Autowired
     private TokenUtils tokenUtils;
 
+    @Operation(summary = "Get all appointments", description = "Get all appointments", method="GET")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "successful operation",
+                    content = @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = Appointment.class))))
+    })
     @GetMapping(value = "/{id}/schedule")
     public ResponseEntity<List<Appointment>> getMedicalCenters(@PathVariable Long id, HttpServletRequest request) {
         List<Appointment> list = scheduleService.getAppointmentsByCenter(id);

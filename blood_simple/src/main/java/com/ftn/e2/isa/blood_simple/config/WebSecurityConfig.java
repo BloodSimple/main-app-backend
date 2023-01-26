@@ -118,5 +118,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // Ovim smo dozvolili pristup statickim resursima aplikacije
         web.ignoring().antMatchers(HttpMethod.GET, "/", "/webjars/**", "/*.html", "favicon.ico", "/**/*.html",
                 "/**/*.css", "/**/*.js");
+
+        web.ignoring().antMatchers("/swagger-ui/**", "/v3/api-docs/**");
     }
 }
