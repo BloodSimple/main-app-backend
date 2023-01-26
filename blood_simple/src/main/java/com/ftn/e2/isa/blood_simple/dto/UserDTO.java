@@ -78,7 +78,7 @@ public class UserDTO {
         double[] coordinates = getCoordinates(map.get("addressCity"), map.get("addressCountry"), map.get("addressStreet"), map.get("addressNumber"));
 
         assert coordinates != null;
-        System.out.println("Coordinates: " + coordinates[0] + " " + coordinates[1]);
+        System.out.println("Coordinates:  " + coordinates[0] + " " + coordinates[1]);
         return new User(
                 map.get("personalId"),
                 map.get("email"),
