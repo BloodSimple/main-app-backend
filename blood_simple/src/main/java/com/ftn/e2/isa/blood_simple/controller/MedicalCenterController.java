@@ -94,7 +94,9 @@ public class MedicalCenterController {
 	@PutMapping(value = "/{id}/admin", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<User> putAdminToCenter(@PathVariable String id, @RequestBody User admin, HttpServletRequest request){
 		MedicalCenter mc = medicalCenterService.getByName(id);
-		if (mc.equals(null) && !id.equals(""))
+		System.out.print(mc);
+		System.out.print("sadasd");
+		if (mc ==null && !id.equals(""))
         	return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		//admin = medicalCenterService.saveOrUpdateAdmin(admin); 
 		boolean successfullyRegistered = registrationService.registerMedicalAdmin(admin, getSiteURL(request));

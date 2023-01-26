@@ -50,7 +50,7 @@ public class MedicalCenterService {
  			MedicalCenter mc = new MedicalCenter(newDto);
  			//mc.setAddress(address);
  			//mc.setAdmin(admin);
-			return repo.save(mc);
+			return repo.saveAndFlush(mc);
 		}
 		return null;		
 	}
