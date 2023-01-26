@@ -3,7 +3,9 @@ package com.ftn.e2.isa.blood_simple.controller;
 import com.ftn.e2.isa.blood_simple.service.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,8 +19,13 @@ public class RegistrationController {
     private RegistrationService registrationService;
 
     @PostMapping("/register")
-    public boolean registerUser(@RequestBody Map<String, String> message, HttpServletRequest request) {
-        return registrationService.registerRegularUser(message, getSiteURL(request));
+    public ResponseEntity<Object> registerUser(@RequestBody Map<String, String> message, HttpServletRequest request) {
+        boolean result = registrationService.registerRegularUser(message, getSiteURL(request));
+        if (result) {
+            return new ResponseEntity<>("Successfully registered. Verify your account before login.", HttpStatus.OK);
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Something went wrong. Maybe a user with this email already exists.");
+        }
     }
 
     @GetMapping("/verifyUserAccount")

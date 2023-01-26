@@ -50,7 +50,7 @@ public class User implements UserDetails {
     @Column(name = "user_type") // gender
     @Enumerated(EnumType.STRING)
     private GenderENUM gender;
-    @Column(name = "user_blood_type") // gender
+    @Column(name = "user_blood_type") // bloodType
     @Enumerated(EnumType.STRING)
     private BloodTypeENUM bloodType;
 

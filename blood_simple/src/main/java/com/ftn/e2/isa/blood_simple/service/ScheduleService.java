@@ -16,7 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.mail.MessagingException;
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 
 @Service
@@ -54,10 +57,11 @@ public class ScheduleService {
         return appointment;
     }
 
+    @Transactional
     public AppointmentScheduleResponseDTO cancelAppointment(AppointmentDTO appointmentDTO) {
         AppointmentScheduleResponseDTO appointmentScheduleResponseDTO = new AppointmentScheduleResponseDTO();
         Optional<Appointment> appointment = appointmentRepo.findById(appointmentDTO.getId());
-        if(appointment.isPresent()){
+        if (appointment.isPresent()) {
             appointment.get().setReserved(false);
             appointment.get().getCancelledUsers().add(appointmentDTO.getUser());
             appointment.get().setUser(null);
@@ -69,62 +73,79 @@ public class ScheduleService {
         return appointmentScheduleResponseDTO;
     }
 
-    public List<MedicalCenter> getMedicalCenterWithAppointments(LocalDateTime startTime) {
-        List<MedicalCenter> goodMedicalCenters = new ArrayList<>();
-        List<Appointment> goodAppointments = new ArrayList<>();
-        List<Appointment> allAppointments = appointmentRepo.findAll();
-        for (Appointment appointment : allAppointments) {
-            if (!appointment.isReserved() && appointment.getStartTime().equals(startTime)) {
-                goodAppointments.add(appointment);
-                System.out.println(appointment);
+    // @Transactional
+    public List<MedicalCenter> getMedicalCenterWithAppointments(LocalDateTime startTime, User user) {
+        if (user == null) {
+            return null;
+        } else {
+            List<MedicalCenter> goodMedicalCenters = new ArrayList<>();
+            List<Appointment> goodAppointments = new ArrayList<>();
+            List<Appointment> allAppointments = appointmentRepo.findAll();
+            for (Appointment appointment : allAppointments) {
+                if (!appointment.isReserved() && appointment.getStartTime().equals(startTime) && !appointment.getCancelledUsers().contains(user)) {
+                    goodAppointments.add(appointment);
+                    System.out.println(appointment);
+                }
             }
-        }
-        for (Appointment app : goodAppointments) {
-            goodMedicalCenters.add(app.getMedicalCenter());
+            for (Appointment app : goodAppointments) {
+                goodMedicalCenters.add(app.getMedicalCenter());
+            }
+
+            return goodMedicalCenters;
         }
 
-        return goodMedicalCenters;
     }
 
-    @Transactional
-    public AppointmentScheduleResponseDTO scheduleAppointment(Long medicalCenterId, LocalDateTime startTime, String personalId) {
-        List<Appointment> appointments = getAppointmentsByCenter(medicalCenterId);
+    //@Transactional
+    public AppointmentScheduleResponseDTO scheduleAppointment(AppointmentScheduleDTO dto, User user, String siteURL)  {
         AppointmentScheduleResponseDTO appointmentScheduleResponseDTO = new AppointmentScheduleResponseDTO();
-        for (Appointment appointment : appointments) {
-            if (appointment.getStartTime().equals(startTime) && !appointment.isReserved()) {
-                User user = userRepository.findByPersonalId(personalId);
-                if (user.getLastBloodDonation() != null) {
-                    if (LocalDateTime.now().isBefore(user.getLastBloodDonation().plusMonths(6))) {
+
+        if (user == null) {
+            return null;
+        } else {
+            List<Appointment> appointments = getAppointmentsByCenter(dto.getMedicalCenterId());
+            for (Appointment appointment : appointments) {
+                if (appointment.getStartTime().equals(dto.getStartTime()) && !appointment.isReserved()) {
+                    Set<User> cancelledUsers = appointment.getCancelledUsers();
+                    for(User cancelUser : cancelledUsers){
+                        if (!cancelUser.getId().equals(user.getId())) {
+                            continue;
+                        }
+                        appointmentScheduleResponseDTO.setResponse("You have already cancelled this appointment");
+                        return appointmentScheduleResponseDTO;
+                    }
+                    if (user.getLastBloodDonation() != null && LocalDateTime.now().isBefore(user.getLastBloodDonation().plusMonths(6))) {
                         appointmentScheduleResponseDTO.setResponse("Six months haven't passed since your last blood donation.");
                         return appointmentScheduleResponseDTO;
                     }
-                }
-                if (user.getDonationForm() == null) {
-                    appointmentScheduleResponseDTO.setResponse("You should take questionnaire before blood donation.");
+                    if (user.getDonationForm() == null) {
+                        appointmentScheduleResponseDTO.setResponse("You should take questionnaire before blood donation.");
+                        return appointmentScheduleResponseDTO;
+                    } else if (user.getDonationForm().getDate().plusDays(1).isBefore(LocalDateTime.now())) {
+                        appointmentScheduleResponseDTO.setResponse("You should take questionnaire again...");
+                        return appointmentScheduleResponseDTO;
+                    }
+                    if (appointment.getCancelledUsers().contains(user)) {
+                        appointmentScheduleResponseDTO.setResponse("You have cancelled this appointment, you can't schedule it again.");
+                        return appointmentScheduleResponseDTO;
+                    }
+                    appointment.setReserved(true);
+                    appointment.setUser(user);
+                    //user.setLastBloodDonation(startTime); TODO: Delete it! We don't put it till the end of the blood donation process
+                    appointmentRepo.save(appointment);
+                    try {
+                        mailService.sendSuccessfulReservationEmail(appointment.getUser(), appointment);
+                    } catch (MessagingException | UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                    appointmentScheduleResponseDTO.setResponse("Successfully reserved appointment");
                     return appointmentScheduleResponseDTO;
-                } else if (user.getDonationForm().getDate().plusDays(1).isBefore(LocalDateTime.now())) {
-                    appointmentScheduleResponseDTO.setResponse("You should take questionnaire again...");
-                    return appointmentScheduleResponseDTO;
                 }
-                if(appointment.getCancelledUsers().contains(user)){
-                    appointmentScheduleResponseDTO.setResponse("You have cancelled this appointment, you can't schedule it again.");
-                    return appointmentScheduleResponseDTO;
-                }
-                appointment.setReserved(true);
-                appointment.setUser(user);
-               //user.setLastBloodDonation(startTime); TODO: Delete it! We don't put it till the end of the blood donation process
-                appointmentRepo.save(appointment);
-                try {
-                    mailService.sendSuccessfulReservationEmail(appointment.getUser(), appointment);
-                } catch (MessagingException | UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-                appointmentScheduleResponseDTO.setResponse("Successfully reserved appointment");
-                return appointmentScheduleResponseDTO;
             }
+            appointmentScheduleResponseDTO.setResponse("There is no defined appointment for this medical center");
+            return appointmentScheduleResponseDTO;
         }
-        appointmentScheduleResponseDTO.setResponse("There is no defined appointment for this medical center");
-        return appointmentScheduleResponseDTO;
+
     }
 
     public List<Appointment> getAppointmentsByUser(String personalId) {
@@ -141,16 +162,16 @@ public class ScheduleService {
     }
 
 
-	public List<Appointment> getCenterFreeAppointments(Long id){
+    public List<Appointment> getCenterFreeAppointments(Long id) {
 
-		List<Appointment> allAppointments = getAppointmentsByCenter(id);
-		List<Appointment> freeAppointments = new ArrayList<>();
-		for(Appointment appointment: allAppointments){
-			if(appointment.getUser() == null){
-				freeAppointments.add(appointment);
-			}
-		}
-		return freeAppointments;
-	}
+        List<Appointment> allAppointments = getAppointmentsByCenter(id);
+        List<Appointment> freeAppointments = new ArrayList<>();
+        for (Appointment appointment : allAppointments) {
+            if (appointment.getUser() == null) {
+                freeAppointments.add(appointment);
+            }
+        }
+        return freeAppointments;
+    }
 
 }

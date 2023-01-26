@@ -2,23 +2,20 @@ package com.ftn.e2.isa.blood_simple.service;
 
 import com.ftn.e2.isa.blood_simple.dto.UserDTO;
 import com.ftn.e2.isa.blood_simple.model.MedicalCenter;
+import com.ftn.e2.isa.blood_simple.model.Role;
 import com.ftn.e2.isa.blood_simple.model.RoleENUM;
 import com.ftn.e2.isa.blood_simple.model.User;
 import com.ftn.e2.isa.blood_simple.repository.MedicalCenterRepository;
+import com.ftn.e2.isa.blood_simple.repository.RoleRepository;
 import com.ftn.e2.isa.blood_simple.repository.UserRepository;
 import net.bytebuddy.utility.RandomString;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -30,6 +27,9 @@ public class RegistrationService {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private MedicalCenterRepository medicalCenterRepo;
+    @Autowired
+    private RoleRepository roleRepository;
+
     @Autowired
     private MailService mailService;
 
@@ -43,8 +43,10 @@ public class RegistrationService {
             setVerificationCode(RandomString.make(64), user);
             try {
                 mailService.sendVerificationEmail(user, siteURL);
-                /* TODO: Add Authority to the user
-                user.setAuthorities(...);       */
+                List<Role> roles = new ArrayList<>();
+                roles.add(roleRepository.findByName("ROLE_USER"));
+                roles.add(roleRepository.findByName("ROLE_COMMON"));
+                user.setAuthorities(roles);
                 userRepository.save(user);
             } catch (Exception e) {
                 successfullyRegistered = false;

@@ -2,6 +2,7 @@ package com.ftn.e2.isa.blood_simple.config;
 
 import com.ftn.e2.isa.blood_simple.security.TokenUtils;
 import com.ftn.e2.isa.blood_simple.security.authentication.RestAuthenticationEntryPoint;
+import com.ftn.e2.isa.blood_simple.security.authentication.TokenAuthenticationFilter;
 import com.ftn.e2.isa.blood_simple.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -13,8 +14,10 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -63,9 +66,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        /* TODO: MatchForRoles - Add it to the project
-
-         http
+        http
 
                 // komunikacija izmedju klijenta i servera je stateless posto je u pitanju REST aplikacija
                 // ovo znaci da server ne pamti nikakvo stanje, tokeni se ne cuvaju na serveru
@@ -77,18 +78,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 // svim korisnicima dopusti da pristupe sledecim putanjama:
                 .authorizeRequests()      // /auth/**
+                    .antMatchers("/api/login", "/api/register", "/api/verifyUserAccount").permitAll()
                 //.antMatchers("/api/**").permitAll()
-                //.antMatchers("/api/sysadmin**").access("hasRole('SYSTEM_ADMIN')")
-                .antMatchers("/api/users/profile**").access("hasRole('USER')")
-                .antMatchers("/api/users**").access("hasRole('USER')")
-                .antMatchers("/api/centers**").access("hasRole('USER')")
-                .antMatchers("/api/centers**").access("hasRole('COMMON')")
-                .antMatchers("/api/centers/1/schedule**").access("hasRole('MEDICAL_ADMIN')")
+                    //.antMatchers("api/centers/scheduleAppointment/{medicalCenterId}/{startTime}/{personalId}").hasRole("USER")
+                    //.antMatchers("/api/centers/**").access("hasRole('MEDICAL_ADMIN')")
+
 
                 // ukoliko ne zelimo da koristimo @PreAuthorize anotacije nad metodama kontrolera, moze se iskoristiti hasRole() metoda da se ogranici
                 // koji tip korisnika moze da pristupi odgovarajucoj ruti. Npr. ukoliko zelimo da definisemo da ruti 'admin' moze da pristupi
                 // samo korisnik koji ima rolu 'ADMIN', navodimo na sledeci nacin:
                 // .antMatchers("/admin").hasRole("ADMIN") ili .antMatchers("/admin").hasAuthority("ROLE_ADMIN")
+                    .antMatchers("/api/centers/**").permitAll() // <-- zbog testa
+
 
                 // za svaki drugi zahtev korisnik mora biti autentifikovan
                 .anyRequest().authenticated().and()
@@ -99,7 +100,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // umetni custom filter TokenAuthenticationFilter kako bi se vrsila provera JWT tokena umesto cistih korisnickog imena i lozinke (koje radi BasicAuthenticationFilter)
                 .addFilterBefore(new TokenAuthenticationFilter(tokenUtils, customUserDetailsService), BasicAuthenticationFilter.class);
 
-        */
+
         // zbog jednostavnosti primera ne koristimo Anti-CSRF token (https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html)
         http.csrf().disable();
     }
@@ -112,6 +113,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         // Dozvoljena POST metoda na ruti /auth/login, za svaki drugi tip HTTP metode greska je 401 Unauthorized
         web.ignoring().antMatchers(HttpMethod.POST, "/api/login");
+
 
         // Ovim smo dozvolili pristup statickim resursima aplikacije
         web.ignoring().antMatchers(HttpMethod.GET, "/", "/webjars/**", "/*.html", "favicon.ico", "/**/*.html",

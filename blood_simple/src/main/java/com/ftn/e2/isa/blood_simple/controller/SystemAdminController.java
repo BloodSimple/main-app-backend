@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping(value = "api/sysadmin")
+@RequestMapping(value = "/api/sysadmin")
 
 public class SystemAdminController {
 

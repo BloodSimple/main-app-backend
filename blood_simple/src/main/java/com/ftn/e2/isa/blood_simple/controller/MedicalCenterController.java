@@ -44,7 +44,7 @@ import java.util.Set;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping(value = "api/centers")
+@RequestMapping(value = "/api/centers")
 public class MedicalCenterController {
 
     @Autowired

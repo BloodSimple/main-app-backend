@@ -19,10 +19,10 @@ public class TokenUtils {
 
     private static final String AUDIENCE_WEB = "web";
     // Tajna koju samo backend aplikacija treba da zna kako bi mogla da generise i proveri JWT https://jwt.io/
-    @Value("IsaProjekat.Tim27")
+    @Value("ISA-Project-Team-09")
     public String SECRET;
     // Izdavac tokena
-    @Value("FishingBookingApp")
+    @Value("BloodSimple")
     private String APP_NAME;
     // Period vazenja tokena - 30 minuta
     @Value("1800000")
