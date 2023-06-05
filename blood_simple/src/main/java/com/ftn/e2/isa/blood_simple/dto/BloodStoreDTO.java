@@ -5,18 +5,27 @@ import javax.persistence.Column;
 public class BloodStoreDTO {
 
 
-    public double storedA;
-    public double storedB;
-    public double storedAB;
-    public double storedO;
+    public double storedAP;
+    public double storedAN;
+    public double storedBP;
+    public double storedBN;
+    public double storedABP;
+    public double storedABN;
+    public double storedOP;
+    public double storedON;
 
     public BloodStoreDTO() {
     }
 
-    public BloodStoreDTO(double storedA, double storedB, double storedAB, double storedO) {
-        this.storedA = storedA;
-        this.storedB = storedB;
-        this.storedAB = storedAB;
-        this.storedO = storedO;
+    public BloodStoreDTO(double storedAP,double storedAN, double storedBP, double storedBN,
+                         double storedABP,double storedABN, double storedOP,double storedON) {
+        this.storedAP = storedAP;
+        this.storedAN = storedAN;
+        this.storedBP = storedBP;
+        this.storedBN = storedBN;
+        this.storedABP = storedABP;
+        this.storedABN = storedABN;
+        this.storedOP = storedOP;
+        this.storedON = storedON;
     }
 }

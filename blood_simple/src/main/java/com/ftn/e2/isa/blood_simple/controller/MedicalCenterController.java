@@ -110,10 +110,18 @@ public class MedicalCenterController {
 			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		BloodStorage bs = new BloodStorage();
 		bs.setMedicalCenter(mc);
-		bs.setStoredA(0);
-		bs.setStoredAB(0);
-		bs.setStoredB(0);
-		bs.setStoredO(0);
+		bs.setStoredAP(0);
+        bs.setStoredAN(0);
+
+		bs.setStoredABP(0);
+        bs.setStoredABN(0);
+
+		bs.setStoredBP(0);
+        bs.setStoredBN(0);
+
+		bs.setStoredOP(0);
+        bs.setStoredON(0);
+
 		medicalCenterService.saveOrUpdate(bs);
 		return new ResponseEntity<>(mc, HttpStatus.CREATED);
 	}

@@ -22,17 +22,25 @@ public class BloodStorage {
     @OneToOne
     private MedicalCenter medicalCenter;
 
-    @Column(name = "storage_a", nullable = false)
-    private double storedA;
+    @Column(name = "storage_ap", nullable = false)
+    private double storedAP;
+    @Column(name = "storage_an", nullable = false)
+    private double storedAN;
 
-    @Column(name = "storage_b", nullable = false)
-    private double storedB;
+    @Column(name = "storage_bp", nullable = false)
+    private double storedBP;
+    @Column(name = "storage_bn", nullable = false)
+    private double storedBN;
 
-    @Column(name = "storage_ab", nullable = false)
-    private double storedAB;
+    @Column(name = "storage_abp", nullable = false)
+    private double storedABP;
+    @Column(name = "storage_abn", nullable = false)
+    private double storedABN;
 
-    @Column(name = "storage_o", nullable = false)
-    private double storedO;
+    @Column(name = "storage_op", nullable = false)
+    private double storedOP;
+    @Column(name = "storage_on", nullable = false)
+    private double storedON;
 
     public Long getCenterId() {
         return id;

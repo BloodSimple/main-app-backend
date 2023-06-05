@@ -58,8 +58,8 @@ public interface UserRepository extends JpaRepository<com.ftn.e2.isa.blood_simpl
 
 
 
-    @Query("select u "
-            + "from User u join Appointment a on u.id = a.user_id "
-            + "where a.medical_center = ?1")
-    Set<User> findUsersWithBloodDonations(Long id);
+//    @Query("select u "
+//            + "from User u join Appointment a on u.id = a.user_id "
+//            + "where a.medical_center = ?1")
+//    Set<User> findUsersWithBloodDonations(Long id);
 }

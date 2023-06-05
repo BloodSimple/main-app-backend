@@ -156,7 +156,8 @@ public class MedicalCenterService {
 			if(store.getCenterId() == center_id)
 			{
 
-				ret.add(new BloodStoreDTO(store.getStoredA(),store.getStoredB(),store.getStoredAB(),store.getStoredO()));
+				ret.add(new BloodStoreDTO(store.getStoredAP(), store.getStoredAN(), store.getStoredBP(), store.getStoredBN(),
+                        store.getStoredABP(), store.getStoredABN(), store.getStoredOP(), store.getStoredON()));
 			}
 		}
 		return ret;

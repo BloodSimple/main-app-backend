@@ -103,13 +103,13 @@ public class UserService {
 
     public List<UserDTO> getUsersByWithBloodDonations(Long id)
     {
-        ArrayList<User> foundUsers = new ArrayList<>(userRepository.findUsersWithBloodDonations(id));
+        //ArrayList<User> foundUsers = new ArrayList<>(userRepository.findUsersWithBloodDonations(id));
         ArrayList<UserDTO> foundUsersDto = new ArrayList<>();
-        for(User u : foundUsers)
-        {
-            UserDTO dto = new UserDTO(u);
-            foundUsersDto.add(dto);
-        }
+//        for(User u : foundUsers)
+//        {
+//            UserDTO dto = new UserDTO(u);
+//            foundUsersDto.add(dto);
+//        }
         return foundUsersDto;
     }
 }

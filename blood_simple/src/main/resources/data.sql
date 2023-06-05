@@ -208,7 +208,11 @@ insert into appointments(appointment_duration, appointment_start, medical_center
 
 -- ======================================================================
 -- BLOOD STORE
-    insert into blood_storages(storage_id, storage_a, storage_ab, storage_b, storage_o, medical_center_center_id)
-        values(1, 10,10,5,5.5, 1);
-    insert into blood_storages(storage_id, storage_a, storage_ab, storage_b, storage_o, medical_center_center_id)
-        values(2, 9.4 ,5, 15 ,8, 2);
+    insert into blood_storages(storage_id, storage_ap, storage_an, storage_abp, storage_abn,
+     storage_bp, storage_bn, storage_op, storage_on, medical_center_center_id)
+        values(1, 10000,10000,8000,8000,11000,11000,9000,9000, 1);
+    insert into blood_storages(storage_id, storage_ap, storage_an, storage_abp, storage_abn,
+         storage_bp, storage_bn, storage_op, storage_on, medical_center_center_id)
+            values(2, 8000,8000,7000,7000,6000,6000,5000,5000, 2);
+--    insert into blood_storages(storage_id, storage_a, storage_ab, storage_b, storage_o, medical_center_center_id)
+--        values(2, 9.4 ,5, 15 ,8, 2);
