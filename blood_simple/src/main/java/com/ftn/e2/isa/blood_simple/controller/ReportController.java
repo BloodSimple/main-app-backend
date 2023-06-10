@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
+//@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping(value = "api/reports")
 public class ReportController {
 
@@ -25,7 +26,7 @@ public class ReportController {
     private MedicalCenterService medicalCenterService;
 
     @PutMapping(value = "/create-report", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> createAppointmentReport(@RequestBody CreateReportDTO newDto, HttpServletRequest request){
+    public ResponseEntity<Object> createAppointmentReport(@RequestBody CreateReportDTO newDto){
 
         Appointment foundAppointment = medicalCenterService.getAppointmentById(newDto.appointmentId);
         if (foundAppointment==null)
@@ -45,8 +46,8 @@ public class ReportController {
         return new ResponseEntity<>("OK", HttpStatus.CREATED);
     }
 
-    @PostMapping(value = "/user-miss-appointment", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> userMissAppointment(@RequestBody MissAppointmentDTO newDto, HttpServletRequest request){
+    @PutMapping(value = "/user-miss-appointment", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> userMissAppointment(@RequestBody MissAppointmentDTO newDto){
 //
         if(reportService.userMissAppointment(newDto))
         {
@@ -55,8 +56,8 @@ public class ReportController {
         return new ResponseEntity<>("Something went wrong.", HttpStatus.BAD_REQUEST);
     }
 
-    @PostMapping(value = "/appointment-condition-unfulfilled", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> appointmentConditionUnfulfilled(@RequestBody MissAppointmentDTO newDto, HttpServletRequest request){
+    @PutMapping(value = "/appointment-condition-unfulfilled")
+    public ResponseEntity<Object> appointmentConditionUnfulfilled(@RequestBody MissAppointmentDTO newDto, HttpServletRequest request){
 
         if(reportService.appointmentConditionUnfulfilled(newDto))
         {
@@ -64,5 +65,7 @@ public class ReportController {
         }
         return new ResponseEntity<>("Something went wrong.", HttpStatus.BAD_REQUEST);
     }
+
+
 
 }

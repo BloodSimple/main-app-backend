@@ -102,6 +102,8 @@ public class MedicalCenterController {
 		return new ResponseEntity<>(dto, HttpStatus.OK);
 	}
 
+
+
 	
 	@PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<MedicalCenter> createMedicalCenter(@RequestBody MedicalCenterDTO newDto,HttpServletRequest request){

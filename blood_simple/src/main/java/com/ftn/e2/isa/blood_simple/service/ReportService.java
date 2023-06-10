@@ -41,7 +41,7 @@ public class ReportService {
 
         if (app.isPresent()) {
             Appointment appointment = app.get();
-            appointment.setStatus(AppointmentStatus.MISSED);
+            appointment.setStatus(AppointmentStatus.missed);
         appointmentRepository.save(appointment);
         } else {
             return false;
@@ -57,7 +57,7 @@ public class ReportService {
 
         if (app.isPresent()) {
             Appointment appointment = app.get();
-            appointment.setStatus(AppointmentStatus.UNFULFILLED_CONDITIONS);
+            appointment.setStatus(AppointmentStatus.unfulfilled_conditions);
             appointmentRepository.save(appointment);
         } else {
             return false;
@@ -111,28 +111,28 @@ public class ReportService {
         if (optionalBloodStorage.isPresent()) {
             bloodStorage = optionalBloodStorage.get();
 
-            if(bloodData.bloodType == "A+")
+            if(bloodData.bloodType.equals("A+"))
             {
                 bloodStorage.setStoredAP(bloodStorage.getStoredAP()+bloodData.bloodAmount);
-            } else if(bloodData.bloodType == "A-")
+            } else if(bloodData.bloodType.equals("A-"))
             {
                 bloodStorage.setStoredAN(bloodStorage.getStoredAN()+bloodData.bloodAmount);
-            }else if(bloodData.bloodType == "B+")
+            }else if(bloodData.bloodType.equals("B+"))
             {
                 bloodStorage.setStoredBP(bloodStorage.getStoredBP()+bloodData.bloodAmount);
-            } else if(bloodData.bloodType == "B-")
+            } else if(bloodData.bloodType.equals("B-"))
             {
                 bloodStorage.setStoredBN(bloodStorage.getStoredBN()+bloodData.bloodAmount);
-            } else if(bloodData.bloodType == "O+")
+            } else if(bloodData.bloodType.equals("O+"))
             {
                 bloodStorage.setStoredOP(bloodStorage.getStoredOP()+bloodData.bloodAmount);
-            } else if(bloodData.bloodType == "O-")
+            } else if(bloodData.bloodType.equals("O-"))
             {
                 bloodStorage.setStoredON(bloodStorage.getStoredON()+bloodData.bloodAmount);
-            } else if(bloodData.bloodType == "AB+")
+            } else if(bloodData.bloodType.equals("AB+"))
             {
                 bloodStorage.setStoredABP(bloodStorage.getStoredABP()+bloodData.bloodAmount);
-            } else if(bloodData.bloodType == "AB-")
+            } else if(bloodData.bloodType.equals("AB-"))
             {
                 bloodStorage.setStoredABN(bloodStorage.getStoredABN()+bloodData.bloodAmount);
             }
@@ -152,6 +152,8 @@ public class ReportService {
             return new CreateReportError(true,"Spent equipment is more that in storage.");
         }
 
+
+        //TODO: dodati da se appointment status promeni na finished
         equipmentRepository.save(equipment);
         bloodStorageRepository.save(bloodStorage);
         reportRepository.save(report);

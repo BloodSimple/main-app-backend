@@ -1,8 +1,7 @@
 package com.ftn.e2.isa.blood_simple.controller;
 
-import com.ftn.e2.isa.blood_simple.dto.SearchUserDTO;
-import com.ftn.e2.isa.blood_simple.dto.UpdatePasswordDTO;
-import com.ftn.e2.isa.blood_simple.dto.UserDTO;
+import com.ftn.e2.isa.blood_simple.dto.*;
+import com.ftn.e2.isa.blood_simple.model.Appointment;
 import com.ftn.e2.isa.blood_simple.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -76,6 +75,33 @@ public class UserController {
         List<UserDTO> foundUsersDto = userService.getUsersByWithBloodDonations(Long.getLong(id));
 
         return new ResponseEntity<>( foundUsersDto, HttpStatus.OK);
+    }
+
+    @GetMapping(value="/donated-blood/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> getUsersWhoDonatedBlood(@PathVariable Long id){
+//        List<BloodStoreDTO> dto = medicalCenterService.getBloodStoreForCenter(id);
+//        if(dto == null)
+//        {
+//            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+//        }
+        //call user service
+        List<UserDonatedReportDTO> list = userService.getUsersWhoDonatedBlood(id);
+
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    @GetMapping(value="/history/{userId}/{mcId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> getUserAppointmentHistory(@PathVariable Long userId, @PathVariable Long mcId){
+        List<AppointReportDTO> list = userService.getUserAppointmentHistory(userId, mcId);
+
+        //poslati objekat sa reportom
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    @GetMapping(value="/appointments-taken/{userId}/{mcId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> getUserTakenAppointments(@PathVariable Long userId, @PathVariable Long mcId){
+        List<Appointment> list = userService.getUserTakenAppointments(userId, mcId);
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
 }

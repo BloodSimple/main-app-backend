@@ -1,18 +1,16 @@
 package com.ftn.e2.isa.blood_simple.service;
 
-import com.ftn.e2.isa.blood_simple.dto.SearchUserDTO;
-import com.ftn.e2.isa.blood_simple.dto.UpdatePasswordDTO;
-import com.ftn.e2.isa.blood_simple.dto.UserDTO;
-import com.ftn.e2.isa.blood_simple.model.Address;
-import com.ftn.e2.isa.blood_simple.model.User;
+import com.ftn.e2.isa.blood_simple.dto.*;
+import com.ftn.e2.isa.blood_simple.model.*;
 import com.ftn.e2.isa.blood_simple.repository.AddressRepository;
+import com.ftn.e2.isa.blood_simple.repository.AppointmentRepository;
+import com.ftn.e2.isa.blood_simple.repository.ReportRepository;
 import com.ftn.e2.isa.blood_simple.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class UserService {
@@ -20,6 +18,12 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private AddressRepository addressRepository;
+    @Autowired
+    private AppointmentRepository appointmentRepository;
+
+    @Autowired
+    private ReportRepository reportRepository;
+
 
     // Basic CRUD operations
 
@@ -112,4 +116,119 @@ public class UserService {
 //        }
         return foundUsersDto;
     }
+
+    public List<UserDonatedReportDTO> getUsersWhoDonatedBlood(Long id)
+    {
+//        List<Object[]> results = userRepository.findUsersAndAppointmentsWithFinishedAppointments(id);
+
+        List<UserDonatedReportDTO> users = new ArrayList<>();
+
+        List<Appointment> allAppointmentsForMC = appointmentRepository.getAppointmentsForCenter(id);
+        List<Appointment> appointmentWithStatus = new ArrayList<>();
+
+        for (Appointment a : allAppointmentsForMC)
+        {
+
+            if (a.getStatus() == AppointmentStatus.finished)
+            {
+                appointmentWithStatus.add(a);
+            }
+        }
+
+        Set<Long> userIds = new HashSet<>();
+
+        for (Appointment a: appointmentWithStatus)
+        {
+            userIds.add(a.getUser().getId());
+        }
+
+        for (Long userID : userIds) {
+
+            Optional<User> u = userRepository.findById(userID);
+            if(u.isPresent())
+            {
+                User found = u.get();
+                UserDonatedReportDTO dto = new UserDonatedReportDTO();
+                dto.id = found.getId();
+                dto.job = found.getJob();
+                dto.phoneNumber = found.getPhoneNumber();
+                dto.name = found.getName();
+                dto.address = found.getAddress().getCity() + " " + found.getAddress().getStreet() + " " + found.getAddress().getNumber();
+                dto.lastName = found.getSurname();
+                dto.latestBloodDonation = found.getLastBloodDonation().toString();
+                dto.personalId = found.getPersonalId();
+                dto.email = found.getEmail();
+                users.add(dto);
+
+            }
+        }
+
+        return users;
+    }
+
+    public List<AppointReportDTO> getUserAppointmentHistory(Long userId, Long medicalCenterId)
+    {
+        //naci sve appointment ja korisnka koji nisu free i taken i poslati ih nazad,
+
+        List<Appointment> allAppointmentsForMC = appointmentRepository.getAppointmentsForCenter(medicalCenterId);
+
+        List<Appointment> allAppointmentsForUser = new ArrayList<>();
+
+        for (Appointment a : allAppointmentsForMC)
+        {
+
+            if (a.getUser()!=null)
+            {
+                if(a.getUser().getId()==userId && (a.getStatus()==AppointmentStatus.finished || a.getStatus()==AppointmentStatus.missed || a.getStatus()==AppointmentStatus.unfulfilled_conditions))
+                {
+                    allAppointmentsForUser.add(a);
+                }
+            }
+        }
+
+        List<AppointReportDTO> finalList = new ArrayList<>();
+
+        for (Appointment a : allAppointmentsForUser)
+        {
+            Optional<Report> r = reportRepository.findById(a.getId());
+
+            Report found = null;
+            if(r.isPresent())
+            {
+                found = r.get();
+            }
+            AppointReportDTO dto = new AppointReportDTO();
+            dto.appointment = a;
+            dto.report = found;
+            finalList.add(dto);
+
+        }
+
+
+        return finalList;
+    }
+
+    public List<Appointment> getUserTakenAppointments(Long userId, Long medicalCenterId)
+    {
+
+        //naci sve appointment koje je korisnik zauzeo i da bi bili zapoceti
+        List<Appointment> allAppointmentsForMC = appointmentRepository.getAppointmentsForCenter(medicalCenterId);
+
+        List<Appointment> allAppointmentsForUser = new ArrayList<>();
+
+        for (Appointment a : allAppointmentsForMC)
+        {
+
+            if (a.getUser()!=null)
+            {
+                if(a.getUser().getId()==userId && a.getStatus()==AppointmentStatus.taken)
+                {
+                    allAppointmentsForUser.add(a);
+                }
+            }
+        }
+
+        return allAppointmentsForUser;
+    }
+
 }

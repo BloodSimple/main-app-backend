@@ -100,11 +100,17 @@
         insert into medical_centers_medical_staff (medical_center_center_id, medical_staff_user_id) values (3, 5);
 -- ======================================================================
 -- APPOINTMENTS (What Marija added)
+
+
+insert into appointments(appointment_duration, appointment_start, medical_center_center_id, reserved, status, user_user_id) values
+    -- 2023 - 01 - 29
+        -- Center 01 -
+        (30, '2023-01-29T08:00:00', 1, false, 'finished', 1 ), (30, '2023-01-29T08:20:00', 1, false, 'finished', 2), (30, '2023-01-29T08:40:00', 1, false, 'finished', 1),
+        (30, '2023-01-29T09:00:00', 1, false, 'missed', 1), (30, '2023-01-29T09:20:00', 1, false, 'unfulfilled_conditions', 1), (30, '2023-01-29T09:40:00', 1, false, 'taken', 1);
+
 insert into appointments(appointment_duration, appointment_start, medical_center_center_id, reserved, status) values
     -- 2023 - 01 - 29
         -- Center 01 -
-        (30, '2023-01-29T08:00:00', 1, false, 'free'), (30, '2023-01-29T08:20:00', 1, false, 'free'), (30, '2023-01-29T08:40:00', 1, false, 'free'),
-        (30, '2023-01-29T09:00:00', 1, false, 'free'), (30, '2023-01-29T09:20:00', 1, false, 'free'), (30, '2023-01-29T09:40:00', 1, false, 'free'),
         (30, '2023-01-29T10:00:00', 1, false, 'free'), (30, '2023-01-29T10:20:00', 1, false, 'free'), (30, '2023-01-29T10:40:00', 1, false, 'free'),
         (30, '2023-01-29T11:00:00', 1, false, 'free'), (30, '2023-01-29T11:20:00', 1, false, 'free'), (30, '2023-01-29T11:40:00', 1, false, 'free'),
         (30, '2023-01-29T12:00:00', 1, false, 'free'), (30, '2023-01-29T12:20:00', 1, false, 'free'), (30, '2023-01-29T12:40:00', 1, false, 'free'),
@@ -208,6 +214,7 @@ insert into appointments(appointment_duration, appointment_start, medical_center
 
 -- ======================================================================
 -- BLOOD STORE
+
     insert into blood_storages(storage_id, storage_ap, storage_an, storage_abp, storage_abn,
      storage_bp, storage_bn, storage_op, storage_on, medical_center_center_id)
         values(1, 10000,10000,8000,8000,11000,11000,9000,9000, 1);
@@ -219,7 +226,7 @@ insert into appointments(appointment_duration, appointment_start, medical_center
 
 
 -- ======================================================================
--- EQUIPMENT (What Marija added)
+-- EQUIPMENT
 
 insert into equipment_storages(equipment_id, medical_center_center_id, sbag150, sbag400, sbag600,
     dbag150, dbag400, dbag600, tbag150, tbag400, tbag600, blood_lancet)
@@ -229,4 +236,11 @@ insert into equipment_storages(equipment_id, medical_center_center_id, sbag150, 
     dbag150, dbag400, dbag600, tbag150, tbag400, tbag600, blood_lancet)
     values(2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 7);
 
-
+-- ======================================================================
+-- REPORT
+insert into report_storages(blood_amount, appointment_appointment_id)
+    values(300, 1);
+insert into report_storages(blood_amount, appointment_appointment_id)
+    values(400, 2);
+insert into report_storages(blood_amount, appointment_appointment_id)
+    values(500, 3);
