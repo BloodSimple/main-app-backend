@@ -7,15 +7,12 @@ import java.util.Optional;
 import java.util.Set;
 
 import com.ftn.e2.isa.blood_simple.dto.BloodStoreDTO;
+import com.ftn.e2.isa.blood_simple.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ftn.e2.isa.blood_simple.dto.MedicalCenterDTO;
 import com.ftn.e2.isa.blood_simple.model.*;
-import com.ftn.e2.isa.blood_simple.repository.AddressRepository;
-import com.ftn.e2.isa.blood_simple.repository.BloodStorageRepository;
-import com.ftn.e2.isa.blood_simple.repository.MedicalCenterRepository;
-import com.ftn.e2.isa.blood_simple.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +32,8 @@ public class MedicalCenterService {
     UserRepository userRepo;
     @Autowired
     BloodStorageRepository bsRepo;
+    @Autowired
+    AppointmentRepository appointmentRepository;
 
 	// Medical Center - get, getAll, saveOrUpdate, delete
 
@@ -204,6 +203,17 @@ public class MedicalCenterService {
 
     public List<User> getUsers() {
         return userRepo.getUsers();
+    }
+
+    public Appointment getAppointmentById(Long id)
+    {
+        Optional<Appointment> app = appointmentRepository.findById(id);
+
+        if (app.isPresent()) {
+            Appointment appointment = app.get();
+            return appointment;
+        }
+        return null;
     }
 
 }

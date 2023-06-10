@@ -49,6 +49,8 @@ public class Appointment {
     @ManyToOne    // bidirekciono
     private MedicalCenter medicalCenter;
 
+    @Enumerated(EnumType.STRING)
+    private AppointmentStatus status;
 //	public Appointment(AppointmentDTO appointmentDTO) {
 //		this.id = appointmentDTO.getId();
 //		this.startTime = appointmentDTO.getStartTime();
@@ -59,4 +61,6 @@ public class Appointment {
     public boolean isReserved() {
         return reserved;
     }
+
+    public void setStatus(AppointmentStatus status){this.status = status;}
 }
