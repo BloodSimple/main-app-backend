@@ -11,6 +11,8 @@ import com.ftn.e2.isa.blood_simple.service.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -50,6 +52,8 @@ public class MedicalCenterController {
 
     @Autowired
     RegistrationService registrationService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 //	@GetMapping
 //	public List<MedicalCenter> get(){
@@ -57,8 +61,19 @@ public class MedicalCenterController {
 //	}
 
     @PostMapping(value = "/create-appointment-free", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('MEDICAL_ADMIN')")
     public ResponseEntity<String> createAppointmentFree(@RequestBody NewAppointmentFree dto) {
 
+        System.out.println("Pravi sifru");
+
+//        User user = UserDTO.MapToUser(message);
+//        System.out.println("Poslat korisnik sa sifrom:");
+//        System.out.println(user.getPassword());
+//        System.out.println("Pokusaj kodovanja:");
+//        String sifra = passwordEncoder.encode("aA123456789!");
+//        System.out.println(sifra);
+//        return null;
+        System.out.println("OVDE!!!!!!!!!!!!!!!!!!!!!!!!");
         String ret = medicalCenterService.createFreeAppointment(dto);
         return new ResponseEntity<>(ret, HttpStatus.OK);
     }

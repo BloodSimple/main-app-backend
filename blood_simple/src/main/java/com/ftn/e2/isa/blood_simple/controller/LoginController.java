@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -35,8 +36,22 @@ public class LoginController {
         // Ukoliko kredencijali nisu ispravni, logovanje nece biti uspesno, desice se
         // AuthenticationException
 
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                authenticationRequest.getEmail(), authenticationRequest.getPassword()));
+        System.out.println("mejl:");
+        System.out.println(authenticationRequest.getEmail());
+        System.out.println("sifra:");
+        System.out.println(authenticationRequest.getPassword());
+//        return null;
+
+//        try {
+            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                    authenticationRequest.getEmail(), authenticationRequest.getPassword()));
+//        }catch (BadCredentialsException e)
+//        {
+//            System.out.println("poruka greske");
+//            e.printStackTrace();
+//            return null;
+//        }
+//        return null;
 
         // Ukoliko je autentifikacija uspesna, ubaci korisnika u trenutni security
         // kontekst
@@ -49,6 +64,7 @@ public class LoginController {
 
         // Vrati token kao odgovor na uspesnu autentifikaciju
         return ResponseEntity.ok(new UserTokenState(user.getRole().toString(), jwt, (long) expiresIn, user.getEmail(), user.getPersonalId(), user.getName(), user.getSurname()));
+
     }
 
 }

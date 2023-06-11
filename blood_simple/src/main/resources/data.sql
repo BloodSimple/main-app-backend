@@ -90,7 +90,9 @@ values (3, '2023-01-29T08:20:00', false, false, false, false, false,false,false,
             insert into USER_ROLE(user_id, authority_id) values (2, 4);
         -- id=3 -- in the database -- [CenterAdmin to MedicalCenter2] & [MedicalStaff to MedicalCenter1]
         insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role, is_activated, verification_code)
-        values ('743199760011', 'lale@email.com', '$2a$10$/ZVwaiu9wxLt.UcwpLn21OrXwLC.y6ykH8bpIEMfVdFcB0Rxfb.LK', 'Vladimir', 'Lalic','MALE', 4, '0641123456', 'it', 'Network Administrator at KCL ', 'MEDICAL_ADMIN', true, '');
+        values ('743199760011', 'lale@email.com', '$2a$10$2Zq8hqDWclD1Up4Ho9e0jeky19W8cZTbHTvFNa3rxQKGO7K1RX5pG', 'Vladimir', 'Lalic','MALE', 4, '0641123456', 'it', 'Network Administrator at KCL ', 'MEDICAL_ADMIN', true, '');
+
+--        values ('743199760011', 'lale@email.com', '$2a$10$/ZVwaiu9wxLt.UcwpLn21OrXwLC.y6ykH8bpIEMfVdFcB0Rxfb.LK', 'Vladimir', 'Lalic','MALE', 4, '0641123456', 'it', 'Network Administrator at KCL ', 'MEDICAL_ADMIN', true, '');
             -- user's authority [MEDICAL_ADMIN=2, COMMON=4]
             insert into USER_ROLE(user_id, authority_id) values (3, 2);
             insert into USER_ROLE(user_id, authority_id) values (3, 4);

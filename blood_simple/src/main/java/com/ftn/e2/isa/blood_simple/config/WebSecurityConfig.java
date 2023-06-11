@@ -2,6 +2,7 @@ package com.ftn.e2.isa.blood_simple.config;
 
 import com.ftn.e2.isa.blood_simple.security.TokenUtils;
 import com.ftn.e2.isa.blood_simple.security.authentication.RestAuthenticationEntryPoint;
+import com.ftn.e2.isa.blood_simple.security.authentication.TokenAuthenticationFilter;
 import com.ftn.e2.isa.blood_simple.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -13,8 +14,10 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -63,8 +66,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        /* TODO: MatchForRoles - Add it to the project
-
+        // TODO: MatchForRoles - Add it to the project
+/*
          http
 
                 // komunikacija izmedju klijenta i servera je stateless posto je u pitanju REST aplikacija
@@ -99,7 +102,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // umetni custom filter TokenAuthenticationFilter kako bi se vrsila provera JWT tokena umesto cistih korisnickog imena i lozinke (koje radi BasicAuthenticationFilter)
                 .addFilterBefore(new TokenAuthenticationFilter(tokenUtils, customUserDetailsService), BasicAuthenticationFilter.class);
 
-        */
+*/
         // zbog jednostavnosti primera ne koristimo Anti-CSRF token (https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html)
         http.csrf().disable();
     }
