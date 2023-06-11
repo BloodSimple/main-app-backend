@@ -27,6 +27,51 @@
     -- id=7 -- in the database
     insert into addresses (address_city, address_country, address_number, address_street, address_x, address_y)
     values ('Novi Sad', 'Srbija', '3', 'Resavska', 11.146, 23.555);
+
+
+
+-- ======================================================================
+-- DONATION FORM
+
+
+-- q13 <50kg
+-- q03 healthy
+-- q18 alergies, rash
+-- q11 temperagure, medicine
+-- q25 period(menstrual cycle)
+-- q10 tooth
+-- q20a q20c operation tattoo
+insert into donation_form (donation_form_id, donation_form_date, q13, q03, q11, q25, q10, q20a, q20c, q18, user_id,
+ q01, q02, q04,q05,q06,q7,q08,q09,q12,q14,q15,q16,q17,q19,q20b,q21,q22a,q22b,q22c,q22d,q22e,q22f,q22g,
+ q23a,q23b,q23c,q23d,q23e,q23f,q24, q26)
+values (1, '2023-01-29T08:20:00', false, false, false, false, false,false,false, false, 6,
+ false, false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false
+ ,false,false,false,false,false,false,false,false,false,false,false,false,false);
+
+
+insert into donation_form (donation_form_id, donation_form_date, q13, q03, q11, q25, q10, q20a, q20c, q18, user_id,
+ q01, q02, q04,q05,q06,q7,q08,q09,q12,q14,q15,q16,q17,q19,q20b,q21,q22a,q22b,q22c,q22d,q22e,q22f,q22g,
+ q23a,q23b,q23c,q23d,q23e,q23f,q24, q26)
+values (2, '2023-01-29T08:20:00', false, false, false, false, true,false,false, true, 7,
+ false, false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false
+ ,false,false,false,false,false,false,false,false,false,false,false,false,false);
+
+insert into donation_form (donation_form_id, donation_form_date, q13, q03, q11, q25, q10, q20a, q20c, q18, user_id,
+ q01, q02, q04,q05,q06,q7,q08,q09,q12,q14,q15,q16,q17,q19,q20b,q21,q22a,q22b,q22c,q22d,q22e,q22f,q22g,
+ q23a,q23b,q23c,q23d,q23e,q23f,q24, q26)
+values (3, '2023-01-29T08:20:00', false, false, false, false, false,false,false,false, 8,
+ false, false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false
+ ,false,false,false,false,false,false,false,false,false,false,false,false,false);
+
+--
+
+
+
+
+
+
+
+
 -- ======================================================================
 -- USERS and USER_ROLE
     -- SystemAdmin
@@ -251,3 +296,5 @@ insert into report_storages(blood_amount, appointment_appointment_id)
     values(400, 2);
 insert into report_storages(blood_amount, appointment_appointment_id)
     values(500, 3);
+
+

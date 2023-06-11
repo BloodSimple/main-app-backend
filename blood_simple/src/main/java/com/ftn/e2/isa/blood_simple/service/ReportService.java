@@ -65,6 +65,75 @@ public class ReportService {
         return true;
     }
 
+    public String appointmentConditionCheck(Long id)
+    {
+        String error = "Error:";
+        boolean isError = false;
+        Optional<Appointment> app = appointmentRepository.findById(id);
+
+        if (app.isPresent()) {
+            Appointment appointment = app.get();
+
+            Long userId = appointment.getUser().getId();
+            System.out.println("id je : "+ userId);
+//            return null;
+            List<DonationForm> list = donationFormRepository.findByUserId(userId);
+            if(list.size()==0)
+            {
+                return "User probably didnt fill form.";
+            }
+            else {
+//                return "ima nesto";
+                DonationForm d = list.get(0);
+                if(d.isQuestion13())
+                {
+                    isError = true;
+                    error += "Less than 50kg|";
+                }
+                if(d.isQuestion3())
+                {
+                    isError = true;
+                    error += "Not feeling good|";
+                }
+                if(d.isQuestion18())
+                {
+                    isError = true;
+                    error += "User has allergy or rash|";
+                }
+                if(d.isQuestion11())
+                {
+                    isError = true;
+                    error += "User takes therapy or medicine|";
+                }
+                if(d.isQuestion25())
+                {
+                    isError = true;
+                    error += "User has period|";
+                }
+                if(d.isQuestion10())
+                {
+                    isError = true;
+                    error += "User had tooth removed < 7 days|";
+                }
+                if(d.isQuestion20a() || d.isQuestion20c())
+                {
+                    isError = true;
+                    error += "User has been on tattoo or had operation|";
+                }
+
+                if (isError)
+                {
+                    return error;
+                }
+                else {
+                    return "OK";
+                }
+            }
+        } else {
+            return "Server[Error]: loading conditions";
+        }
+    }
+
     public CreateReportError createAppointmentReport(Report report, BloodReportData bloodData, Equipment spentEquipment) {
 
 

@@ -21,6 +21,11 @@ public class DonationForm {
     @Column(name = "donation_form_id")
     private Long id;
 
+
+    @Column(name = "user_id")
+    private Long userId;
+
+
     @Column(name = "donation_form_date", nullable = false)
     private LocalDateTime date;
 

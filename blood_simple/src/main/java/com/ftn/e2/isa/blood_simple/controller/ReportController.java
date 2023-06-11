@@ -66,6 +66,15 @@ public class ReportController {
         return new ResponseEntity<>("Something went wrong.", HttpStatus.BAD_REQUEST);
     }
 
+    @PutMapping(value = "/appointment-condition-check")
+    public ResponseEntity<Object> appointmentConditionCheck(@RequestBody Long id, HttpServletRequest request){
+
+        String ret = reportService.appointmentConditionCheck(id);
+        return new ResponseEntity<>(ret, HttpStatus.OK);
+    }
+
+
+
 
 
 }
