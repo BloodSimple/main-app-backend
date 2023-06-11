@@ -184,6 +184,13 @@ public class MedicalCenterController {
         return medicalCenterService.getUsers();
     }
 
+    @GetMapping(value="/allRegUsers", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<UserDTO>> getAllUsers()
+    {
+        List<UserDTO> list = medicalCenterService.getAllUsers();
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
     private String getSiteURL(HttpServletRequest request) {
         String siteURL = request.getRequestURL().toString();
         return siteURL.replace(request.getServletPath(), "");

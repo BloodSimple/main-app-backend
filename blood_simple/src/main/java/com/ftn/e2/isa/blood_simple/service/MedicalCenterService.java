@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import com.ftn.e2.isa.blood_simple.dto.BloodStoreDTO;
+import com.ftn.e2.isa.blood_simple.dto.UserDTO;
 import com.ftn.e2.isa.blood_simple.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -203,6 +204,17 @@ public class MedicalCenterService {
 
     public List<User> getUsers() {
         return userRepo.getUsers();
+    }
+
+    public List<UserDTO> getAllUsers() {
+
+        List<User> allUsers = userRepo.getUsers();
+        List<UserDTO> dto = new ArrayList<>();
+        for(User u : allUsers)
+        {
+            dto.add(new UserDTO(u));
+        }
+        return  dto;
     }
 
     public Appointment getAppointmentById(Long id)

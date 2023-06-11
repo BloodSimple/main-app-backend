@@ -108,6 +108,13 @@ insert into appointments(appointment_duration, appointment_start, medical_center
         (30, '2023-01-29T08:00:00', 1, false, 'finished', 1 ), (30, '2023-01-29T08:20:00', 1, false, 'finished', 2), (30, '2023-01-29T08:40:00', 1, false, 'finished', 1),
         (30, '2023-01-29T09:00:00', 1, false, 'missed', 1), (30, '2023-01-29T09:20:00', 1, false, 'unfulfilled_conditions', 1), (30, '2023-01-29T09:40:00', 1, false, 'taken', 1);
 
+insert into appointments(appointment_duration, appointment_start, medical_center_center_id, reserved, status, user_user_id) values
+    -- 2023 - 01 - 29
+        -- Center 01 -
+        (30, '2023-01-29T08:00:00', 1, false, 'finished', 6 ), (30, '2023-01-29T08:20:00', 1, false, 'free', 6), (30, '2023-01-29T08:40:00', 1, false, 'taken', 6),
+        (30, '2023-01-29T09:00:00', 1, false, 'taken', 7), (30, '2023-01-29T09:20:00', 1, false, 'taken', 8), (30, '2023-01-29T09:40:00', 1, false, 'taken', 8);
+
+
 insert into appointments(appointment_duration, appointment_start, medical_center_center_id, reserved, status) values
     -- 2023 - 01 - 29
         -- Center 01 -
