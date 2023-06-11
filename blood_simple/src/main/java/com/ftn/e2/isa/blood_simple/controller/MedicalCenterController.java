@@ -6,8 +6,7 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.ftn.e2.isa.blood_simple.dto.BloodStoreDTO;
-import com.ftn.e2.isa.blood_simple.dto.UserDTO;
+import com.ftn.e2.isa.blood_simple.dto.*;
 import com.ftn.e2.isa.blood_simple.service.RegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +24,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
-import com.ftn.e2.isa.blood_simple.dto.MedicalCenterDTO;
 import com.ftn.e2.isa.blood_simple.model.Address;
 import com.ftn.e2.isa.blood_simple.model.BloodStorage;
 import com.ftn.e2.isa.blood_simple.model.MedicalCenter;
@@ -57,6 +55,13 @@ public class MedicalCenterController {
 //	public List<MedicalCenter> get(){
 //		return service.getAll();
 //	}
+
+    @PostMapping(value = "/create-appointment-free", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> createAppointmentFree(@RequestBody NewAppointmentFree dto) {
+
+        String ret = medicalCenterService.createFreeAppointment(dto);
+        return new ResponseEntity<>(ret, HttpStatus.OK);
+    }
 
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<MedicalCenter>> getMedicalCenters(HttpServletRequest request) {
@@ -195,5 +200,7 @@ public class MedicalCenterController {
         String siteURL = request.getRequestURL().toString();
         return siteURL.replace(request.getServletPath(), "");
     }
+
+
 
 }

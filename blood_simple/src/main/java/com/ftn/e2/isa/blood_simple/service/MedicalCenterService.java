@@ -6,13 +6,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import com.ftn.e2.isa.blood_simple.dto.BloodStoreDTO;
-import com.ftn.e2.isa.blood_simple.dto.UserDTO;
+import com.ftn.e2.isa.blood_simple.dto.*;
 import com.ftn.e2.isa.blood_simple.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ftn.e2.isa.blood_simple.dto.MedicalCenterDTO;
 import com.ftn.e2.isa.blood_simple.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -228,4 +226,46 @@ public class MedicalCenterService {
         return null;
     }
 
+
+    public String createFreeAppointment(NewAppointmentFree dto)
+    {
+        Appointment newAppointment = new Appointment();
+        newAppointment.setReserved(false);
+
+        List<User> allMedicalStaff = new ArrayList<>();
+
+
+
+        for(MedicalStuffSelection u : dto.medicalStaff)
+        {
+
+            Optional<User> foundUser = userRepo.findById(Long.valueOf(u.id));
+            if (foundUser.isPresent())
+            {
+                allMedicalStaff.add(foundUser.get());
+//                System.out.println("Usao ovde");
+//                return "Ima osoblja";
+            }
+        }
+
+        System.out.println("Prosao");
+
+        Optional<MedicalCenter> mc = repo.findById(dto.medicalCenterId);
+        if(mc.isPresent())
+        {
+            MedicalCenter center = mc.get();
+            newAppointment.setMedicalCenter(center);
+            newAppointment.setMedicalStaff(allMedicalStaff);
+            newAppointment.setStatus(AppointmentStatus.free);
+            newAppointment.setDuration(dto.duration);
+            newAppointment.setStartTime(dto.startTime);
+
+            appointmentRepository.save(newAppointment);
+            System.out.println("Sacuvano!!!!!!!");
+            return "Appointment added.";
+        }
+
+        return "Server[error]";
+
+    }
 }
