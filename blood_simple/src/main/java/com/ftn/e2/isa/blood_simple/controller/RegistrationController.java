@@ -24,17 +24,17 @@ public class RegistrationController {
 
     @PostMapping("/register")
     public boolean registerUser(@RequestBody Map<String, String> message, HttpServletRequest request) {
-//        System.out.println("Pravi sifru");
-//
-//        User user = UserDTO.MapToUser(message);
-//        System.out.println("Poslat korisnik sa sifrom:");
-//        System.out.println(user.getPassword());
-//        System.out.println("Pokusaj kodovanja:");
-//        String sifra = passwordEncoder.encode("aA123456789!");
-//        System.out.println(sifra);
-//        return false;
+        System.out.println("Pravi sifru");
+
+        User user = UserDTO.MapToUser(message);
+        System.out.println("Poslat korisnik sa sifrom:");
+        System.out.println(user.getPassword());
+        System.out.println("Pokusaj kodovanja:");
+        String sifra = passwordEncoder.encode("aA123456789!");
+        System.out.println(sifra);
+        return false;
 //        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return registrationService.registerRegularUser(message, getSiteURL(request));
+//        return registrationService.registerRegularUser(message, getSiteURL(request));
     }
 
     @GetMapping("/verifyUserAccount")

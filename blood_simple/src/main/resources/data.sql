@@ -76,54 +76,54 @@ values (3, '2023-01-29T08:20:00', false, false, false, false, false,false,false,
 -- USERS and USER_ROLE
     -- SystemAdmin
         -- id=1 -- in the database
-        insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role, is_activated, verification_code, negative_points)
-        values ('2310999760011', 'dule@email.com', '$2a$10$2Zq8hqDWclD1Up4Ho9e0jeky19W8cZTbHTvFNa3rxQKGO7K1RX5pG', 'Dusan', 'Markovic','MALE', 6, '0641123456', 'engineer', 'Software Engineer at BloodSimple', 'SYSTEM_ADMIN', true, '', 0);
+        insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role, is_activated, verification_code, negative_points, last_blood_donation, first_login)
+        values ('2310999760011', 'dule@email.com', '$2a$10$2Zq8hqDWclD1Up4Ho9e0jeky19W8cZTbHTvFNa3rxQKGO7K1RX5pG', 'Dusan', 'Markovic','MALE', 6, '0641123456', 'engineer', 'Software Engineer at BloodSimple', 'SYSTEM_ADMIN', true, '', 0, '2023-05-29T08:00:00', false);
             -- user's authority [SYSTEM_ADMIN=1, COMMON=4]
             insert into USER_ROLE(user_id, authority_id) values (1, 1);
             insert into USER_ROLE(user_id, authority_id) values (1, 4);
     -- CenterAdmins and Medical Staff
         -- id=2 -- in the database -- [CenterAdmin to MedicalCenter1] & [MedicalStaff to MedicalCenter1]
-        insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role, is_activated, verification_code, negative_points)
-        values ('1212199760011', 'niki@email.com', '$2a$10$2Zq8hqDWclD1Up4Ho9e0jeky19W8cZTbHTvFNa3rxQKGO7K1RX5pG', 'Branimir', 'Nestorovic','MALE', 5, '0641123456', 'dr', 'medical doctor at KCL', 'MEDICAL_ADMIN', true, '', 0);
+        insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role, is_activated, verification_code, negative_points, last_blood_donation, first_login)
+        values ('1212199760011', 'niki@email.com', '$2a$10$2Zq8hqDWclD1Up4Ho9e0jeky19W8cZTbHTvFNa3rxQKGO7K1RX5pG', 'Branimir', 'Nestorovic','MALE', 5, '0641123456', 'dr', 'medical doctor at KCL', 'MEDICAL_ADMIN', true, '', 0, '2023-04-29T08:00:00', true);
             -- user's authority [MEDICAL_ADMIN=2, COMMON=4]
             insert into USER_ROLE(user_id, authority_id) values (2, 2);
             insert into USER_ROLE(user_id, authority_id) values (2, 4);
         -- id=3 -- in the database -- [CenterAdmin to MedicalCenter2] & [MedicalStaff to MedicalCenter1]
-        insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role, is_activated, verification_code, negative_points)
-        values ('743199760011', 'lale@email.com', '$2a$10$2Zq8hqDWclD1Up4Ho9e0jeky19W8cZTbHTvFNa3rxQKGO7K1RX5pG', 'Vladimir', 'Lalic','MALE', 4, '0641123456', 'it', 'Network Administrator at KCL ', 'MEDICAL_ADMIN', true, '', 0);
+        insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role, is_activated, verification_code, negative_points, last_blood_donation, first_login)
+        values ('743199760011', 'lale@email.com', '$2a$10$2Zq8hqDWclD1Up4Ho9e0jeky19W8cZTbHTvFNa3rxQKGO7K1RX5pG', 'Vladimir', 'Lalic','MALE', 4, '0641123456', 'it', 'Network Administrator at KCL ', 'MEDICAL_ADMIN', true, '', 0, '2023-05-15T09:00:00', false);
 
 --        values ('743199760011', 'lale@email.com', '$2a$10$/ZVwaiu9wxLt.UcwpLn21OrXwLC.y6ykH8bpIEMfVdFcB0Rxfb.LK', 'Vladimir', 'Lalic','MALE', 4, '0641123456', 'it', 'Network Administrator at KCL ', 'MEDICAL_ADMIN', true, '');
             -- user's authority [MEDICAL_ADMIN=2, COMMON=4]
             insert into USER_ROLE(user_id, authority_id) values (3, 2);
             insert into USER_ROLE(user_id, authority_id) values (3, 4);
         -- id=4 -- in the database -- [MedicalStaff to MedicalCenter2]
-        insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role, is_activated, verification_code, negative_points)
-        values ('145299763041', 'ble@email.com', '$2a$10$2Zq8hqDWclD1Up4Ho9e0jeky19W8cZTbHTvFNa3rxQKGO7K1RX5pG', 'Boris', 'Tadic','MALE', 4, '063132156', 'menadzer', 'Unemployed manager ', 'MEDICAL_ADMIN', true, '', 0);
+        insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role, is_activated, verification_code, negative_points, last_blood_donation, first_login)
+        values ('145299763041', 'ble@email.com', '$2a$10$2Zq8hqDWclD1Up4Ho9e0jeky19W8cZTbHTvFNa3rxQKGO7K1RX5pG', 'Boris', 'Tadic','MALE', 4, '063132156', 'menadzer', 'Unemployed manager ', 'MEDICAL_ADMIN', true, '', 0, '2023-05-25T10:00:00', false);
             -- user's authority [MEDICAL_ADMIN=2, COMMON=4]
             insert into USER_ROLE(user_id, authority_id) values (4, 2);
             insert into USER_ROLE(user_id, authority_id) values (4, 4);
         -- id=5 -- in the database -- [MedicalStaff to MedicalCenter3]
-        insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role, is_activated, verification_code, negative_points)
-        values ('145299763044', 'tijana@email.com', '$2a$10$2Zq8hqDWclD1Up4Ho9e0jeky19W8cZTbHTvFNa3rxQKGO7K1RX5pG', 'Tijana', 'Tijanic','FEMALE', 4, '06313215654', 'med.sestra', 'Med.sestra', 'MEDICAL_ADMIN', true, '', 0);
+        insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role, is_activated, verification_code, negative_points, last_blood_donation, first_login)
+        values ('145299763044', 'tijana@email.com', '$2a$10$2Zq8hqDWclD1Up4Ho9e0jeky19W8cZTbHTvFNa3rxQKGO7K1RX5pG', 'Tijana', 'Tijanic','FEMALE', 4, '06313215654', 'med.sestra', 'Med.sestra', 'MEDICAL_ADMIN', true, '', 0, '2023-05-30T08:00:00', false);
         -- user's authority [MEDICAL_ADMIN=2, COMMON=4]
         insert into USER_ROLE(user_id, authority_id) values (5, 2);
         insert into USER_ROLE(user_id, authority_id) values (5, 4);
     -- RegisteredUsers
         -- id=6 -- in the database
-        insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role, is_activated, verification_code, negative_points)
-        values ('2310987760011', 'miki@email.com', '$2a$10$2Zq8hqDWclD1Up4Ho9e0jeky19W8cZTbHTvFNa3rxQKGO7K1RX5pG', 'Miki', 'Mikic','MALE', 3, '0641123456', 'engineer', 'Faculty of Technical Sciences, University of Novi Sad', 'USER', true, '', 1);
+        insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role, is_activated, verification_code, negative_points, last_blood_donation, first_login)
+        values ('2310987760011', 'miki@email.com', '$2a$10$2Zq8hqDWclD1Up4Ho9e0jeky19W8cZTbHTvFNa3rxQKGO7K1RX5pG', 'Miki', 'Mikic','MALE', 3, '0621123456', 'engineer', 'Faculty of Technical Sciences, University of Novi Sad', 'USER', true, '', 1, '2023-05-29T11:00:00', false);
             -- user's authority [MEDICAL_ADMIN=2, COMMON=4]
             insert into USER_ROLE(user_id, authority_id) values (6, 3);
             insert into USER_ROLE(user_id, authority_id) values (6, 4);
         -- id=7 -- in the database
-        insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role, is_activated, verification_code, negative_points)
-        values ('35445421760011', 'jankovicmaraja99@gmail.com', '$2a$10$2Zq8hqDWclD1Up4Ho9e0jeky19W8cZTbHTvFNa3rxQKGO7K1RX5pG', 'Marija', 'Jankovic','FEMALE', 3, '0641123456', 'engineer', 'Faculty of Technical Sciences, University of Novi Sad', 'USER', true, '', 0);
+        insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role, is_activated, verification_code, negative_points, last_blood_donation, first_login)
+        values ('35445421760011', 'jankovicmaraja99@gmail.com', '$2a$10$2Zq8hqDWclD1Up4Ho9e0jeky19W8cZTbHTvFNa3rxQKGO7K1RX5pG', 'Marija', 'Jankovic','FEMALE', 6, '0631123333', 'engineer', 'Faculty of Technical Sciences, University of Novi Sad', 'USER', true, '', 0, '2023-05-11T08:00:00', false);
             -- user's authority [MEDICAL_ADMIN=2, COMMON=4]
             insert into USER_ROLE(user_id, authority_id) values (7, 3);
             insert into USER_ROLE(user_id, authority_id) values (7, 4);
         -- id=8 -- in the database
-        insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role, is_activated, verification_code, negative_points)
-        values ('35445421760022', 'sima@email.com', '$2a$10$2Zq8hqDWclD1Up4Ho9e0jeky19W8cZTbHTvFNa3rxQKGO7K1RX5pG', 'Sima', 'Simic','MALE', 3, '0641123456', 'engineer', 'Faculty of Technical Sciences, University of Novi Sad', 'USER', true, '', 0);
+        insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role, is_activated, verification_code, negative_points, last_blood_donation, first_login)
+        values ('35445421760022', 'sima@email.com', '$2a$10$2Zq8hqDWclD1Up4Ho9e0jeky19W8cZTbHTvFNa3rxQKGO7K1RX5pG', 'Sima', 'Simic','MALE', 7, '0691123456', 'engineer', 'Faculty of Technical Sciences, University of Novi Sad', 'USER', true, '', 0, '2023-05-29T08:00:00', false);
         -- user's authority [MEDICAL_ADMIN=2, COMMON=4]
         insert into USER_ROLE(user_id, authority_id) values (8, 3);
         insert into USER_ROLE(user_id, authority_id) values (8, 4);
@@ -159,7 +159,7 @@ insert into appointments(appointment_duration, appointment_start, medical_center
 
         -- Center 01 -
         (30, '2023-04-29T08:00:00', 1, true, 'finished', 6 ), (10, '2023-06-15T08:20:00', 1, true, 'taken', 6), (30, '2023-06-19T08:40:00', 1, true, 'taken', 7),
-        (30, '2023-01-20T09:00:00', 1, true, 'taken', 8);
+        (30, '2023-06-20T09:00:00', 1, true, 'taken', 8);
 
 insert into appointments(appointment_duration, appointment_start, medical_center_center_id, reserved, status) values
 (30, '2023-06-11T09:00:00', 1, false, 'free');

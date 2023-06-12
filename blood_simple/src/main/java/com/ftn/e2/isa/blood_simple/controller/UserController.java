@@ -21,7 +21,7 @@ public class UserController {
     private UserService userService;
 
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasRole('MEDICAL_ADMIN')")
+    @PreAuthorize("hasAnyRole('MEDICAL_ADMIN', 'SYSTEM_ADMIN', 'USER')")
     public ResponseEntity<List<UserDTO>> getUsers() {
         List<UserDTO> list = userService.getAll();
         return new ResponseEntity<>(list, HttpStatus.OK);
@@ -29,7 +29,7 @@ public class UserController {
 
     // TODO: Change the function name to 'getUserByPersonalId' and the @PathVariable name to 'personalId'
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('MEDICAL_ADMIN', 'SYSTEM_ADMIN', 'USER')")
     public ResponseEntity<Object> getUserById(@PathVariable String id) {
         UserDTO userDTO = userService.getUserByPersonalId(id);
         if (userDTO != null) {
@@ -39,19 +39,20 @@ public class UserController {
         }
     }
 
-    @GetMapping(value = "mail/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "mail/{mail}", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('MEDICAL_ADMIN')")
     public ResponseEntity<Object> getUserMail(@PathVariable String mail) {
         UserDTO userDTO = userService.getUserByMail(mail);
         if (userDTO != null) {
             return new ResponseEntity<>(userDTO, HttpStatus.OK);
         } else {
+
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
 
     @PutMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyRole('MEDICAL_ADMIN', 'SYSTEM_ADMIN', 'USER')")
     public ResponseEntity<Object> updateUser(@RequestBody UserDTO userDTO) {
         boolean status = userService.updateUser(userDTO);
         if (status) {
@@ -62,7 +63,7 @@ public class UserController {
     }
 
     @PutMapping(value = "/updatepassword", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAnyRole('MEDICAL_ADMIN', 'SYSTEM_ADMIN')")
+    @PreAuthorize("hasAnyRole('MEDICAL_ADMIN', 'SYSTEM_ADMIN', 'USER')")
     public ResponseEntity<Object> updatePassword(@RequestBody UpdatePasswordDTO passwordDto) {
         boolean status = userService.updatePassword(passwordDto);
         if (status) {
@@ -74,7 +75,7 @@ public class UserController {
 
     // TODO: Change the function name to 'deleteUserByPersonalId' and the @PathVariable name to 'personalId'
     @DeleteMapping(value = "/{id}")
-    @PreAuthorize("hasRole('SYSTEM_ADMIN')")
+    @PreAuthorize("hasAnyRole('SYSTEM_ADMIN', 'USER')")
     public ResponseEntity<String> deleteUser(@PathVariable String id) {
         boolean status = userService.deleteUserByPersonalId(id);
         if (status)
@@ -130,6 +131,15 @@ public class UserController {
 //        List<Appointment> list = userService.getUserTakenAppointments(userId, mcId);
         boolean login = userService.isFirstMedicalAdminLogin(mail);
         return new ResponseEntity<>(login, HttpStatus.OK);
+//        return null;
+    }
+
+    @PutMapping(value="/getIdByEmail", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('MEDICAL_ADMIN')")
+    public ResponseEntity<Object> getIdByMail(@RequestBody String mail){
+//        List<Appointment> list = userService.getUserTakenAppointments(userId, mcId);
+        Long id =  userService.getIdByMail(mail);
+        return new ResponseEntity<>(id, HttpStatus.OK);
 //        return null;
     }
 

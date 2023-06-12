@@ -7,9 +7,12 @@ import com.ftn.e2.isa.blood_simple.repository.AppointmentRepository;
 import com.ftn.e2.isa.blood_simple.repository.ReportRepository;
 import com.ftn.e2.isa.blood_simple.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.SecureRandom;
 import java.util.*;
 
 @Service
@@ -23,6 +26,10 @@ public class UserService {
 
     @Autowired
     private ReportRepository reportRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
 
 
     // Basic CRUD operations
@@ -89,19 +96,53 @@ public class UserService {
     }
 
     public boolean updatePassword(UpdatePasswordDTO passwordDTO) {
-        boolean status = userRepository.existsByPersonalId(passwordDTO.getId());
+        System.out.println("------------------Podaci");
+        System.out.println("id " + passwordDTO.getId());
+        System.out.println("sifra " + passwordDTO.getCurrentpassword());
+        System.out.println("Podaci" + passwordDTO.getNewpassword());
+
+        PasswordEncoder ps = new BCryptPasswordEncoder(10,new SecureRandom(new byte[0]));
+
+
+
+        boolean status = userRepository.existsById(Long.valueOf(passwordDTO.getId()));
+        System.out.println("*******************************************usao1");
         if (status) {
-            User userToUpdate = userRepository.findByPersonalId(passwordDTO.getId());
+            System.out.println("*******************************************usao2222222222");
+            Optional<User> optionalUserToUpdate = userRepository.findById(Long.valueOf(passwordDTO.getId()));
+             if( optionalUserToUpdate.isPresent())
+             {
+
+                 System.out.println("*******************************************usao3");
+                 User userToUpdate = optionalUserToUpdate.get();
+
+
             assert userToUpdate != null;
-            if (!userToUpdate.getPassword().equals(passwordDTO.getCurrentpassword())) {
+            if (!userToUpdate.getPassword().equals(passwordEncoder.encode(passwordDTO.getCurrentpassword()))) {
+                System.out.println("*******************************************usao4444");
+                System.out.println(userToUpdate.getPassword());
+                System.out.println(passwordDTO.getCurrentpassword());
+                System.out.println(ps.encode(passwordDTO.getCurrentpassword()));
+                System.out.println("probajmo ovako");
+                System.out.println(ps.encode("12345"));
+                System.out.println(ps.encode("12345"));
+                System.out.println(ps.encode(passwordDTO.getNewpassword()));
+                System.out.println(ps.encode(passwordDTO.getCurrentpassword()));
                 return false;
             }
             if (!passwordDTO.getNewpassword().equals(passwordDTO.getRepeatedpassword())) {
+                System.out.println("*******************************************usao555555");
                 return false;
             }
-            userToUpdate.setPassword(passwordDTO.getNewpassword());
+            userToUpdate.setPassword(passwordEncoder.encode(passwordDTO.getNewpassword()));
             userToUpdate.setFirst_login(false);
             userRepository.save(userToUpdate);
+
+             }
+             else
+             {
+                 return false;
+             }
         }
         return status;
     }
@@ -221,6 +262,12 @@ public class UserService {
     {
         User foundUser = userRepository.findByEmail(mail);
         return foundUser.isFirst_login();
+    }
+
+    public Long getIdByMail(String mail)
+    {
+        User foundUser = userRepository.findByEmail(mail);
+        return foundUser.getId();
     }
 
     public List<Appointment> getUserTakenAppointments(Long userId, Long medicalCenterId)
