@@ -12,6 +12,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,12 +27,14 @@ public class ScheduleController {
     ScheduleService scheduleService;
 
     @GetMapping(value = "/{id}/schedule", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAnyRole('MEDICAL_ADMIN', 'SYSTEM_ADMIN')")
     public ResponseEntity<List<Appointment>> getMedicalCenters(@PathVariable Long id, HttpServletRequest request) {
         List<Appointment> list = scheduleService.getAppointmentsByCenter(id);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
     @PostMapping(value = "/defineAppointment", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('SYSTEM_ADMIN')")
     public ResponseEntity<Object> createAppointment(@RequestBody AppointmentDTO newAppointmentDTO) {
         Appointment appointment = scheduleService.saveAppointment(newAppointmentDTO);
         if (appointment != null)
@@ -40,6 +43,7 @@ public class ScheduleController {
     }
 
     @RequestMapping(value = "/freeAppointments", method = RequestMethod.GET)
+    @PreAuthorize("hasAnyRole('MEDICAL_ADMIN', 'SYSTEM_ADMIN', USER)")
     public ResponseEntity<List<MedicalCenter>> getMedicalCenterWithAppointments(@RequestParam("startTime")
                                                                                 @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
                                                                                         LocalDateTime startTime) {
@@ -48,6 +52,7 @@ public class ScheduleController {
     }
 
 	@PostMapping(value = "/createfreeappointment", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('MEDICAL_ADMIN')")
 	public ResponseEntity<Object> createFreeAppointment(@RequestBody AppointmentDTO newAppointmentDTO){
 		System.out.println("Usao u kreiranje app");
 		System.out.println("Usao u kreiranje app");
@@ -61,12 +66,14 @@ public class ScheduleController {
 	}
 
 	@GetMapping(value="/freeappointments/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('MEDICAL_ADMIN')")
 	public ResponseEntity<Object> getMedicalCenterFreeAppointments(@PathVariable Long id){
 		List<Appointment> list = scheduleService.getCenterFreeAppointments(id);
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
 
     @PostMapping(value = "/scheduleAppointment/{medicalCenterId}/{startTime}/{personalId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<AppointmentScheduleDTO> scheduleAppointment(@PathVariable Long medicalCenterId,
                                                                       @PathVariable("startTime")
                                                                       @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
@@ -78,6 +85,7 @@ public class ScheduleController {
     }
 
     @PostMapping(value = "/cancelAppointment", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<AppointmentScheduleDTO> cancelAppointment(@RequestBody AppointmentDTO appointmentDTO) {
         AppointmentScheduleDTO appointmentScheduleDTO = scheduleService.cancelAppointment(appointmentDTO);
         return new ResponseEntity<>(appointmentScheduleDTO, HttpStatus.OK);
@@ -85,6 +93,7 @@ public class ScheduleController {
     }
 
     @GetMapping(value = "myAppointments/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<List<Appointment>> getAppointmentsByUser(@PathVariable String id) {
         List<Appointment> list = scheduleService.getAppointmentsByUser(id);
         return new ResponseEntity<>(list, HttpStatus.OK);

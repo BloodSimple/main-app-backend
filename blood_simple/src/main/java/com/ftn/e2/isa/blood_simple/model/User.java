@@ -76,6 +76,9 @@ public class User implements UserDetails {
     @Column(name = "verificationCode", nullable = false)
     protected String verificationCode;
 
+    @Column(name = "negative_points")
+    private Long negativePoints;
+
     public User(String personalId, String email, String password, String name,
                 String surname, Address address, String phoneNumber,
                 String job, String bio, RoleENUM role, GenderENUM gender) {

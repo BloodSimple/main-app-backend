@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class UserController {
     private UserService userService;
 
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('MEDICAL_ADMIN')")
     public ResponseEntity<List<UserDTO>> getUsers() {
         List<UserDTO> list = userService.getAll();
         return new ResponseEntity<>(list, HttpStatus.OK);
@@ -27,7 +29,7 @@ public class UserController {
 
     // TODO: Change the function name to 'getUserByPersonalId' and the @PathVariable name to 'personalId'
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    // @PreAuthorize("hasRole('SYSTEM_ADMIN')")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Object> getUserById(@PathVariable String id) {
         UserDTO userDTO = userService.getUserByPersonalId(id);
         if (userDTO != null) {
@@ -38,6 +40,7 @@ public class UserController {
     }
 
     @PutMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Object> updateUser(@RequestBody UserDTO userDTO) {
         boolean status = userService.updateUser(userDTO);
         if (status) {
@@ -48,6 +51,7 @@ public class UserController {
     }
 
     @PutMapping(value = "/updatepassword", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAnyRole('MEDICAL_ADMIN', 'SYSTEM_ADMIN')")
     public ResponseEntity<Object> updatePassword(@RequestBody UpdatePasswordDTO passwordDto) {
         boolean status = userService.updatePassword(passwordDto);
         if (status) {
@@ -59,6 +63,7 @@ public class UserController {
 
     // TODO: Change the function name to 'deleteUserByPersonalId' and the @PathVariable name to 'personalId'
     @DeleteMapping(value = "/{id}")
+    @PreAuthorize("hasRole('SYSTEM_ADMIN')")
     public ResponseEntity<String> deleteUser(@PathVariable String id) {
         boolean status = userService.deleteUserByPersonalId(id);
         if (status)
@@ -70,6 +75,7 @@ public class UserController {
 
 
     @GetMapping(value = "/search_users_with_donation", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('MEDICAL_ADMIN')")
     public  ResponseEntity<Object> searchUsersWithBloodDonation(@PathVariable String id)
     {
         List<UserDTO> foundUsersDto = userService.getUsersByWithBloodDonations(Long.getLong(id));
@@ -78,6 +84,7 @@ public class UserController {
     }
 
     @GetMapping(value="/donated-blood/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('MEDICAL_ADMIN')")
     public ResponseEntity<Object> getUsersWhoDonatedBlood(@PathVariable Long id){
 //        List<BloodStoreDTO> dto = medicalCenterService.getBloodStoreForCenter(id);
 //        if(dto == null)
@@ -91,6 +98,7 @@ public class UserController {
     }
 
     @GetMapping(value="/history/{userId}/{mcId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('MEDICAL_ADMIN')")
     public ResponseEntity<Object> getUserAppointmentHistory(@PathVariable Long userId, @PathVariable Long mcId){
         List<AppointReportDTO> list = userService.getUserAppointmentHistory(userId, mcId);
 
@@ -99,9 +107,19 @@ public class UserController {
     }
 
     @GetMapping(value="/appointments-taken/{userId}/{mcId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('MEDICAL_ADMIN')")
     public ResponseEntity<Object> getUserTakenAppointments(@PathVariable Long userId, @PathVariable Long mcId){
         List<Appointment> list = userService.getUserTakenAppointments(userId, mcId);
         return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    @PutMapping(value="/isFirstLogin", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('MEDICAL_ADMIN')")
+    public ResponseEntity<Object> isFirstMedicalAdminLogin(@RequestBody String mail){
+//        List<Appointment> list = userService.getUserTakenAppointments(userId, mcId);
+        boolean login = userService.isFirstMedicalAdminLogin(mail);
+        return new ResponseEntity<>(login, HttpStatus.OK);
+//        return null;
     }
 
 }

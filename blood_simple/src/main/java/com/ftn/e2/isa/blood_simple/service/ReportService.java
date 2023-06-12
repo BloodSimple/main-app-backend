@@ -42,7 +42,15 @@ public class ReportService {
         if (app.isPresent()) {
             Appointment appointment = app.get();
             appointment.setStatus(AppointmentStatus.missed);
-        appointmentRepository.save(appointment);
+            Optional<User> foundUser = userRepository.findById(appointment.getUser().getId());
+            if(foundUser.isPresent())
+            {
+                User u = foundUser.get();
+                u.setNegativePoints(u.getNegativePoints() + 1);
+                userRepository.save(u);
+            }
+            appointmentRepository.save(appointment);
+
         } else {
             return false;
         }
@@ -223,6 +231,9 @@ public class ReportService {
 
 
         //TODO: dodati da se appointment status promeni na finished
+        Appointment app = report.getAppointment();
+        app.setStatus(AppointmentStatus.finished);
+        appointmentRepository.save(app);
         equipmentRepository.save(equipment);
         bloodStorageRepository.save(bloodStorage);
         reportRepository.save(report);

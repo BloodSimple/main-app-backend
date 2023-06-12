@@ -91,7 +91,7 @@ public class UserService {
                 return false;
             }
             userToUpdate.setPassword(passwordDTO.getNewpassword());
-
+            userToUpdate.setFirst_login(false);
             userRepository.save(userToUpdate);
         }
         return status;
@@ -206,6 +206,12 @@ public class UserService {
 
 
         return finalList;
+    }
+
+    public boolean isFirstMedicalAdminLogin(String mail)
+    {
+        User foundUser = userRepository.findByEmail(mail);
+        return foundUser.isFirst_login();
     }
 
     public List<Appointment> getUserTakenAppointments(Long userId, Long medicalCenterId)

@@ -1,10 +1,6 @@
 package com.ftn.e2.isa.blood_simple.service;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import com.ftn.e2.isa.blood_simple.dto.*;
 import com.ftn.e2.isa.blood_simple.repository.*;
@@ -47,6 +43,28 @@ public class MedicalCenterService {
     public MedicalCenter getByName(String id) {
         // TODO Auto-generated method stub
         return repo.getByName(id);
+    }
+
+    public MedicalCenter getCenterMedWorks(String mail)
+    {
+        User foundUser = userRepo.findByEmail(mail);
+        Long idMedAdmina = foundUser.getId();
+        List<MedicalCenter> allCenters = repo.findAll();
+        System.out.println("user id");
+        System.out.println(idMedAdmina);
+
+        for (MedicalCenter mc : allCenters)
+        {
+            Set<User> allUsers =  mc.getMedicalStaff();
+            for(User u : allUsers)
+            {
+                if(u.getId()==idMedAdmina)
+                {
+                    return mc;
+                }
+            }
+        }
+        return null;
     }
 
 	public MedicalCenter saveOrUpdate(MedicalCenterDTO newDto) {

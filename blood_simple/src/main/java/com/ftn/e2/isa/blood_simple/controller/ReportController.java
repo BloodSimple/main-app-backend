@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +27,7 @@ public class ReportController {
     private MedicalCenterService medicalCenterService;
 
     @PutMapping(value = "/create-report", produces = MediaType.APPLICATION_JSON_VALUE)
-//    @PreAuthorize("hasRole('MEDICAL_ADMIN')")
+    @PreAuthorize("hasRole('MEDICAL_ADMIN')")
     public ResponseEntity<Object> createAppointmentReport(@RequestBody CreateReportDTO newDto){
 
         Appointment foundAppointment = medicalCenterService.getAppointmentById(newDto.appointmentId);
@@ -48,7 +49,7 @@ public class ReportController {
     }
 
     @PutMapping(value = "/user-miss-appointment", produces = MediaType.APPLICATION_JSON_VALUE)
-//    @PreAuthorize("hasRole('MEDICAL_ADMIN')")
+    @PreAuthorize("hasRole('MEDICAL_ADMIN')")
     public ResponseEntity<Object> userMissAppointment(@RequestBody MissAppointmentDTO newDto){
 //
         if(reportService.userMissAppointment(newDto))
@@ -59,7 +60,7 @@ public class ReportController {
     }
 
     @PutMapping(value = "/appointment-condition-unfulfilled")
-//    @PreAuthorize("hasRole('MEDICAL_ADMIN')")
+    @PreAuthorize("hasRole('MEDICAL_ADMIN')")
     public ResponseEntity<Object> appointmentConditionUnfulfilled(@RequestBody MissAppointmentDTO newDto, HttpServletRequest request){
 
         if(reportService.appointmentConditionUnfulfilled(newDto))
@@ -70,7 +71,7 @@ public class ReportController {
     }
 
     @PutMapping(value = "/appointment-condition-check")
-//    @PreAuthorize("hasRole('MEDICAL_ADMIN')")
+    @PreAuthorize("hasRole('MEDICAL_ADMIN')")
     public ResponseEntity<Object> appointmentConditionCheck(@RequestBody Long id, HttpServletRequest request){
 
         String ret = reportService.appointmentConditionCheck(id);

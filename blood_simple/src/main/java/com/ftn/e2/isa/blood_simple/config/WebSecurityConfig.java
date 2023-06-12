@@ -67,7 +67,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         // TODO: MatchForRoles - Add it to the project
-/*
+
          http
 
                 // komunikacija izmedju klijenta i servera je stateless posto je u pitanju REST aplikacija
@@ -85,7 +85,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/users/profile**").access("hasRole('USER')")
                 .antMatchers("/api/users**").access("hasRole('USER')")
                 .antMatchers("/api/centers**").access("hasRole('USER')")
-                .antMatchers("/api/centers**").access("hasRole('COMMON')")
+//                .antMatchers("/api/centers**").access("hasRole('COMMON')")
                 .antMatchers("/api/centers/1/schedule**").access("hasRole('MEDICAL_ADMIN')")
 
                 // ukoliko ne zelimo da koristimo @PreAuthorize anotacije nad metodama kontrolera, moze se iskoristiti hasRole() metoda da se ogranici
@@ -102,7 +102,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // umetni custom filter TokenAuthenticationFilter kako bi se vrsila provera JWT tokena umesto cistih korisnickog imena i lozinke (koje radi BasicAuthenticationFilter)
                 .addFilterBefore(new TokenAuthenticationFilter(tokenUtils, customUserDetailsService), BasicAuthenticationFilter.class);
 
-*/
+
         // zbog jednostavnosti primera ne koristimo Anti-CSRF token (https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html)
         http.csrf().disable();
     }

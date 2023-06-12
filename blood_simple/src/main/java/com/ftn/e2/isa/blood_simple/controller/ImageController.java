@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import utils.ImageUtility;
@@ -21,6 +22,7 @@ public class ImageController {
     ImageRepository imageRepository;
 
     @PostMapping("/upload/image")
+    @PreAuthorize("hasRole('SYSTEM_ADMIN')")
     public ResponseEntity<Boolean> uplaodImage(@RequestParam("image") MultipartFile file)
             throws IOException {
 
@@ -43,6 +45,7 @@ public class ImageController {
 //    }
 
     @GetMapping(path = {"/get/image/{name}"})
+    @PreAuthorize("hasRole('SYSTEM_ADMIN')")
     public ResponseEntity<byte[]> getImage(@PathVariable("name") String name) throws IOException {
 
         final Image dbImage = imageRepository.getByName(name);

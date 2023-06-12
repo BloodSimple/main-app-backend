@@ -40,7 +40,7 @@ public class Appointment {
     @Column(name = "amount_of_blood")
     private Double amountOfBlood;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<User> medicalStaff;
 
     @ManyToMany(fetch = FetchType.EAGER)

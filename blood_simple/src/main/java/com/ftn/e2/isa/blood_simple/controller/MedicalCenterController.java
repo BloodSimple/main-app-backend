@@ -78,13 +78,9 @@ public class MedicalCenterController {
         return new ResponseEntity<>(ret, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<MedicalCenter>> getMedicalCenters(HttpServletRequest request) {
-        List<MedicalCenter> list = medicalCenterService.getAll();
-        return new ResponseEntity<>(list, HttpStatus.OK);
-    }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('MEDICAL_ADMIN')")
     public ResponseEntity<MedicalCenter> getMedicalCenter(@PathVariable Long id, HttpServletRequest request) {
         MedicalCenter mc = medicalCenterService.get(id);
         if (mc == null) {
@@ -94,6 +90,7 @@ public class MedicalCenterController {
     }
 
     @GetMapping(value = "/dto/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Object> getMedicalCenterDTOById(@PathVariable Long id) {
         MedicalCenterDTO mcDTO = medicalCenterService.getById(id);
         if (mcDTO == null) {
@@ -103,6 +100,7 @@ public class MedicalCenterController {
     }
 
     @PutMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('MEDICAL_ADMIN')")
     public ResponseEntity<Object> updateMedicalCenter(@RequestBody MedicalCenterDTO centerDto) {
         MedicalCenter mc = medicalCenterService.saveOrUpdate(centerDto);
         if (mc == null) {
@@ -113,6 +111,7 @@ public class MedicalCenterController {
     }
 
 	@GetMapping(value="/bloodstore/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('MEDICAL_ADMIN')")
 	public ResponseEntity<Object> getMedicalCenterBloodAmount(@PathVariable Long id){
 		List<BloodStoreDTO> dto = medicalCenterService.getBloodStoreForCenter(id);
 		if(dto == null)
@@ -126,6 +125,7 @@ public class MedicalCenterController {
 
 	
 	@PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAnyRole('MEDICAL_ADMIN', 'SYSTEM_ADMIN')")
 	public ResponseEntity<MedicalCenter> createMedicalCenter(@RequestBody MedicalCenterDTO newDto,HttpServletRequest request){
 		MedicalCenter mc = medicalCenterService.saveOrUpdate(newDto);
 		if (mc==null)
@@ -149,6 +149,7 @@ public class MedicalCenterController {
 	}
 
     @PutMapping(value = "/{id}/admin", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('SYSTEM_ADMIN')")
     public ResponseEntity<User> putAdminToCenter(@PathVariable String id, @RequestBody User admin, HttpServletRequest request) {
         MedicalCenter mc = medicalCenterService.getByName(id);
         if (mc.equals(null) && !id.equals(""))
@@ -168,6 +169,7 @@ public class MedicalCenterController {
     }
 
     @GetMapping(value = "/{id}/admin", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('SYSTEM_ADMIN')")
     public ResponseEntity<Set<User>> getCenterAdmin(@PathVariable Long id, HttpServletRequest request) {
         MedicalCenter mc = medicalCenterService.get(id);
         if (mc.equals(null))
@@ -176,6 +178,7 @@ public class MedicalCenterController {
     }
 
     @PostMapping(value = "/{id}/address", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('SYSTEM_ADMIN')")
     public ResponseEntity<Address> putAddressToCenter(@RequestBody Address address, @PathVariable Long id, HttpServletRequest request) {
         MedicalCenter mc = medicalCenterService.get(id);
         if (mc == null && id != 0)
@@ -187,6 +190,7 @@ public class MedicalCenterController {
     }
 
     @GetMapping(value = "/{id}/address", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('SYSTEM_ADMIN')")
     public ResponseEntity<Address> getCenterAddress(@PathVariable Long id, HttpServletRequest request) {
         MedicalCenter mc = medicalCenterService.get(id);
         if (mc == null)
@@ -194,21 +198,40 @@ public class MedicalCenterController {
         return new ResponseEntity<>(mc.getAddress(), HttpStatus.OK);
     }
 
+    @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<MedicalCenter>> getMedicalCenters(HttpServletRequest request) {
+        List<MedicalCenter> list = medicalCenterService.getAll();
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
     @GetMapping(value = "/selectadmin")
+    @PreAuthorize("hasRole('SYSTEM_ADMIN')")
     public Set<User> getFreeAdmins(HttpServletRequest request) {
         return medicalCenterService.getFreeAdmins();
     }
 
     @GetMapping(value = "/allusers")
+    @PreAuthorize("hasAnyRole('MEDICAL_ADMIN', 'SYSTEM_ADMIN')")
     public List<User> getUsers(HttpServletRequest request) {
         return medicalCenterService.getUsers();
     }
 
     @GetMapping(value="/allRegUsers", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('MEDICAL_ADMIN')")
     public ResponseEntity<List<UserDTO>> getAllUsers()
     {
         List<UserDTO> list = medicalCenterService.getAllUsers();
         return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    @PutMapping(value="/getCenterMedWorks", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('MEDICAL_ADMIN')")
+    public ResponseEntity<MedicalCenter> getCenterMedWorks(@RequestBody String mail)
+    {
+        System.out.println("Usao u trazenje med centra");
+        MedicalCenter mc;
+        mc = medicalCenterService.getCenterMedWorks(mail);
+        return new ResponseEntity<>(mc, HttpStatus.OK);
     }
 
     private String getSiteURL(HttpServletRequest request) {
