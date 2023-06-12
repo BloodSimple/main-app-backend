@@ -77,14 +77,14 @@ values (3, '2023-01-29T08:20:00', false, false, false, false, false,false,false,
     -- SystemAdmin
         -- id=1 -- in the database
         insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role, is_activated, verification_code, negative_points)
-        values ('2310999760011', 'dule@email.com', '$2a$10$/ZVwaiu9wxLt.UcwpLn21OrXwLC.y6ykH8bpIEMfVdFcB0Rxfb.LK', 'Dusan', 'Markovic','MALE', 6, '0641123456', 'engineer', 'Software Engineer at BloodSimple', 'SYSTEM_ADMIN', true, '', 0);
+        values ('2310999760011', 'dule@email.com', '$2a$10$2Zq8hqDWclD1Up4Ho9e0jeky19W8cZTbHTvFNa3rxQKGO7K1RX5pG', 'Dusan', 'Markovic','MALE', 6, '0641123456', 'engineer', 'Software Engineer at BloodSimple', 'SYSTEM_ADMIN', true, '', 0);
             -- user's authority [SYSTEM_ADMIN=1, COMMON=4]
             insert into USER_ROLE(user_id, authority_id) values (1, 1);
             insert into USER_ROLE(user_id, authority_id) values (1, 4);
     -- CenterAdmins and Medical Staff
         -- id=2 -- in the database -- [CenterAdmin to MedicalCenter1] & [MedicalStaff to MedicalCenter1]
         insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role, is_activated, verification_code, negative_points)
-        values ('1212199760011', 'niki@email.com', '$2a$10$/ZVwaiu9wxLt.UcwpLn21OrXwLC.y6ykH8bpIEMfVdFcB0Rxfb.LK', 'Branimir', 'Nestorovic','MALE', 5, '0641123456', 'dr', 'medical doctor at KCL', 'MEDICAL_ADMIN', true, '', 0);
+        values ('1212199760011', 'niki@email.com', '$2a$10$2Zq8hqDWclD1Up4Ho9e0jeky19W8cZTbHTvFNa3rxQKGO7K1RX5pG', 'Branimir', 'Nestorovic','MALE', 5, '0641123456', 'dr', 'medical doctor at KCL', 'MEDICAL_ADMIN', true, '', 0);
             -- user's authority [MEDICAL_ADMIN=2, COMMON=4]
             insert into USER_ROLE(user_id, authority_id) values (2, 2);
             insert into USER_ROLE(user_id, authority_id) values (2, 4);
@@ -98,32 +98,32 @@ values (3, '2023-01-29T08:20:00', false, false, false, false, false,false,false,
             insert into USER_ROLE(user_id, authority_id) values (3, 4);
         -- id=4 -- in the database -- [MedicalStaff to MedicalCenter2]
         insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role, is_activated, verification_code, negative_points)
-        values ('145299763041', 'ble@email.com', '$2a$10$/ZVwaiu9wxLt.UcwpLn21OrXwLC.y6ykH8bpIEMfVdFcB0Rxfb.LK', 'Boris', 'Tadic','MALE', 4, '063132156', 'menadzer', 'Unemployed manager ', 'MEDICAL_ADMIN', true, '', 0);
+        values ('145299763041', 'ble@email.com', '$2a$10$2Zq8hqDWclD1Up4Ho9e0jeky19W8cZTbHTvFNa3rxQKGO7K1RX5pG', 'Boris', 'Tadic','MALE', 4, '063132156', 'menadzer', 'Unemployed manager ', 'MEDICAL_ADMIN', true, '', 0);
             -- user's authority [MEDICAL_ADMIN=2, COMMON=4]
             insert into USER_ROLE(user_id, authority_id) values (4, 2);
             insert into USER_ROLE(user_id, authority_id) values (4, 4);
         -- id=5 -- in the database -- [MedicalStaff to MedicalCenter3]
         insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role, is_activated, verification_code, negative_points)
-        values ('145299763044', 'tijana@email.com', '$2a$10$/ZVwaiu9wxLt.UcwpLn21OrXwLC.y6ykH8bpIEMfVdFcB0Rxfb.LK', 'Tijana', 'Tijanic','FEMALE', 4, '06313215654', 'med.sestra', 'Med.sestra', 'MEDICAL_ADMIN', true, '', 0);
+        values ('145299763044', 'tijana@email.com', '$2a$10$2Zq8hqDWclD1Up4Ho9e0jeky19W8cZTbHTvFNa3rxQKGO7K1RX5pG', 'Tijana', 'Tijanic','FEMALE', 4, '06313215654', 'med.sestra', 'Med.sestra', 'MEDICAL_ADMIN', true, '', 0);
         -- user's authority [MEDICAL_ADMIN=2, COMMON=4]
         insert into USER_ROLE(user_id, authority_id) values (5, 2);
         insert into USER_ROLE(user_id, authority_id) values (5, 4);
     -- RegisteredUsers
         -- id=6 -- in the database
         insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role, is_activated, verification_code, negative_points)
-        values ('2310987760011', 'miki@email.com', '$2a$10$/ZVwaiu9wxLt.UcwpLn21OrXwLC.y6ykH8bpIEMfVdFcB0Rxfb.LK', 'Miki', 'Mikic','MALE', 3, '0641123456', 'engineer', 'Faculty of Technical Sciences, University of Novi Sad', 'USER', true, '', 0);
+        values ('2310987760011', 'miki@email.com', '$2a$10$2Zq8hqDWclD1Up4Ho9e0jeky19W8cZTbHTvFNa3rxQKGO7K1RX5pG', 'Miki', 'Mikic','MALE', 3, '0641123456', 'engineer', 'Faculty of Technical Sciences, University of Novi Sad', 'USER', true, '', 1);
             -- user's authority [MEDICAL_ADMIN=2, COMMON=4]
             insert into USER_ROLE(user_id, authority_id) values (6, 3);
             insert into USER_ROLE(user_id, authority_id) values (6, 4);
         -- id=7 -- in the database
         insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role, is_activated, verification_code, negative_points)
-        values ('35445421760011', 'jankovicmaraja99@gmail.com', '$2a$10$/ZVwaiu9wxLt.UcwpLn21OrXwLC.y6ykH8bpIEMfVdFcB0Rxfb.LK', 'Marija', 'Jankovic','FEMALE', 3, '0641123456', 'engineer', 'Faculty of Technical Sciences, University of Novi Sad', 'USER', true, '', 0);
+        values ('35445421760011', 'jankovicmaraja99@gmail.com', '$2a$10$2Zq8hqDWclD1Up4Ho9e0jeky19W8cZTbHTvFNa3rxQKGO7K1RX5pG', 'Marija', 'Jankovic','FEMALE', 3, '0641123456', 'engineer', 'Faculty of Technical Sciences, University of Novi Sad', 'USER', true, '', 0);
             -- user's authority [MEDICAL_ADMIN=2, COMMON=4]
             insert into USER_ROLE(user_id, authority_id) values (7, 3);
             insert into USER_ROLE(user_id, authority_id) values (7, 4);
         -- id=8 -- in the database
         insert into users (user_personal_id, user_email, user_password, user_name, user_surname, user_type, user_address_id, user_phone, user_job, user_bio, user_role, is_activated, verification_code, negative_points)
-        values ('35445421760022', 'sima@email.com', '$2a$10$/ZVwaiu9wxLt.UcwpLn21OrXwLC.y6ykH8bpIEMfVdFcB0Rxfb.LK', 'Sima', 'Simic','MALE', 3, '0641123456', 'engineer', 'Faculty of Technical Sciences, University of Novi Sad', 'USER', true, '', 0);
+        values ('35445421760022', 'sima@email.com', '$2a$10$2Zq8hqDWclD1Up4Ho9e0jeky19W8cZTbHTvFNa3rxQKGO7K1RX5pG', 'Sima', 'Simic','MALE', 3, '0641123456', 'engineer', 'Faculty of Technical Sciences, University of Novi Sad', 'USER', true, '', 0);
         -- user's authority [MEDICAL_ADMIN=2, COMMON=4]
         insert into USER_ROLE(user_id, authority_id) values (8, 3);
         insert into USER_ROLE(user_id, authority_id) values (8, 4);
@@ -150,42 +150,43 @@ values (3, '2023-01-29T08:20:00', false, false, false, false, false,false,false,
 
 
 insert into appointments(appointment_duration, appointment_start, medical_center_center_id, reserved, status, user_user_id) values
-    -- 2023 - 01 - 29
+
         -- Center 01 -
-        (30, '2023-01-29T08:00:00', 1, false, 'finished', 1 ), (30, '2023-01-29T08:20:00', 1, false, 'finished', 2), (30, '2023-01-29T08:40:00', 1, false, 'finished', 1),
-        (30, '2023-01-29T09:00:00', 1, false, 'missed', 1), (30, '2023-01-29T09:20:00', 1, false, 'unfulfilled_conditions', 1), (30, '2023-01-29T09:40:00', 1, false, 'taken', 1);
+        (30, '2023-05-29T08:00:00', 1, true, 'finished', 6 ), (30, '2023-06-11T09:20:00', 1, true, 'finished', 7), (30, '2023-05-27T08:40:00', 1, true, 'finished', 8),
+        (30, '2023-06-11T09:00:00', 1, true, 'missed', 6), (30, '2023-05-29T10:20:00', 1, true, 'unfulfilled_conditions', 7), (15, '2023-04-21T09:40:00', 1, true, 'unfulfilled_conditions', 8);
 
 insert into appointments(appointment_duration, appointment_start, medical_center_center_id, reserved, status, user_user_id) values
-    -- 2023 - 01 - 29
-        -- Center 01 -
-        (30, '2023-01-29T08:00:00', 1, false, 'finished', 6 ), (30, '2023-01-29T08:20:00', 1, false, 'free', 6), (30, '2023-01-29T08:40:00', 1, false, 'taken', 6),
-        (30, '2023-01-29T09:00:00', 1, false, 'taken', 7), (30, '2023-01-29T09:20:00', 1, false, 'taken', 8), (30, '2023-01-29T09:40:00', 1, false, 'taken', 8);
 
+        -- Center 01 -
+        (30, '2023-04-29T08:00:00', 1, true, 'finished', 6 ), (10, '2023-06-15T08:20:00', 1, true, 'taken', 6), (30, '2023-06-19T08:40:00', 1, true, 'taken', 7),
+        (30, '2023-01-20T09:00:00', 1, true, 'taken', 8);
 
 insert into appointments(appointment_duration, appointment_start, medical_center_center_id, reserved, status) values
-    -- 2023 - 01 - 29
-        -- Center 01 -
-        (30, '2023-01-29T10:00:00', 1, false, 'free'), (30, '2023-01-29T10:20:00', 1, false, 'free'), (30, '2023-01-29T10:40:00', 1, false, 'free'),
-        (30, '2023-01-29T11:00:00', 1, false, 'free'), (30, '2023-01-29T11:20:00', 1, false, 'free'), (30, '2023-01-29T11:40:00', 1, false, 'free'),
-        (30, '2023-01-29T12:00:00', 1, false, 'free'), (30, '2023-01-29T12:20:00', 1, false, 'free'), (30, '2023-01-29T12:40:00', 1, false, 'free'),
---
+(30, '2023-06-11T09:00:00', 1, false, 'free');
 
-        -- Center 02 -
-        (30, '2023-01-29T08:00:00', 2, false, 'free'), (30, '2023-01-29T08:20:00', 2, false, 'free'), (30, '2023-01-29T08:40:00', 2, false, 'free'),
-        (30, '2023-01-29T09:00:00', 2, false, 'free'), (30, '2023-01-29T09:20:00', 2, false, 'free'), (30, '2023-01-29T09:40:00', 2, false, 'free'),
-        (30, '2023-01-29T10:00:00', 2, false, 'free'), (30, '2023-01-29T10:20:00', 2, false, 'free'), (30, '2023-01-29T10:40:00', 2, false, 'free'),
-        (30, '2023-01-29T11:00:00', 2, false, 'free'), (30, '2023-01-29T11:20:00', 2, false, 'free'), (30, '2023-01-29T11:40:00', 2, false, 'free' ),
-        (30, '2023-01-29T12:00:00', 2, false, 'free'), (30, '2023-01-29T12:20:00', 2, false, 'free'), (30, '2023-01-29T12:40:00', 2, false, 'free'),
+
+
+
+
+
+-- Center 02 -
+insert into appointments(appointment_duration, appointment_start, medical_center_center_id, reserved, status) values
+        (30, '2023-06-29T08:00:00', 2, false, 'free'), (10, '2023-06-11T08:20:00', 2, false, 'free');
+
+
+insert into appointments(appointment_duration, appointment_start, medical_center_center_id, reserved, status, user_user_id) values
+
+        (30, '2023-04-29T09:00:00', 2, true, 'finished', 6), (30, '2023-01-29T09:20:00', 2, true, 'missed', 6), (30, '2023-06-14T09:40:00', 2, true, 'taken', 7);
 
 
         -- Center 03 -
-        (30, '2023-01-29T08:00:00', 3, false, 'free'), (30, '2023-01-29T08:20:00', 3, false, 'free'), (30, '2023-01-29T08:40:00', 3, false, 'free'),
-        (30, '2023-01-29T09:00:00', 3, false, 'free'), (30, '2023-01-29T09:20:00', 3, false, 'free'), (30, '2023-01-29T09:40:00', 3, false, 'free'),
-        (30, '2023-01-29T10:00:00', 3, false, 'free'), (30, '2023-01-29T10:20:00', 3, false, 'free'), (30, '2023-01-29T10:40:00', 3, false, 'free'),
-        (30, '2023-01-29T11:00:00', 3, false, 'free'), (30, '2023-01-29T11:20:00', 3, false, 'free'), (30, '2023-01-29T11:40:00', 3, false, 'free'),
-        (30, '2023-01-29T12:00:00', 3, false, 'free'), (30, '2023-01-29T12:20:00', 3, false, 'free'), (30, '2023-01-29T12:40:00', 3, false, 'free');
 
+insert into appointments(appointment_duration, appointment_start, medical_center_center_id, reserved, status) values
+(30, '2023-06-15T08:00:00', 3, false, 'free'), (30, '2023-06-17T08:20:00', 3, false, 'free');
 
+insert into appointments(appointment_duration, appointment_start, medical_center_center_id, reserved, status, user_user_id) values
+
+        (30, '2023-03-25T08:00:00', 3, false, 'finished', 6), (30, '2023-03-29T08:20:00', 3, false, 'missed', 7), (30, '2023-06-19T08:40:00', 3, false, 'taken', 8);
 -- ======================================================================
 -- BLOOD STORE
 
@@ -195,9 +196,9 @@ insert into appointments(appointment_duration, appointment_start, medical_center
     insert into blood_storages(storage_id, storage_ap, storage_an, storage_abp, storage_abn,
          storage_bp, storage_bn, storage_op, storage_on, medical_center_center_id)
             values(2, 8000,8000,7000,7000,6000,6000,5000,5000, 2);
---    insert into blood_storages(storage_id, storage_a, storage_ab, storage_b, storage_o, medical_center_center_id)
---        values(2, 9.4 ,5, 15 ,8, 2);
-
+    insert into blood_storages(storage_id, storage_ap, storage_an, storage_abp, storage_abn,
+             storage_bp, storage_bn, storage_op, storage_on, medical_center_center_id)
+                values(3, 4000,5000,6000,7000,6000,6000,5000,5000, 3);
 
 -- ======================================================================
 -- EQUIPMENT
@@ -210,6 +211,10 @@ insert into equipment_storages(equipment_id, medical_center_center_id, sbag150, 
     dbag150, dbag400, dbag600, tbag150, tbag400, tbag600, blood_lancet)
     values(2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 7);
 
+insert into equipment_storages(equipment_id, medical_center_center_id, sbag150, sbag400, sbag600,
+        dbag150, dbag400, dbag600, tbag150, tbag400, tbag600, blood_lancet)
+        values(3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 7, 7);
+
 -- ======================================================================
 -- REPORT
 insert into report_storages(blood_amount, appointment_appointment_id)
@@ -218,5 +223,11 @@ insert into report_storages(blood_amount, appointment_appointment_id)
     values(400, 2);
 insert into report_storages(blood_amount, appointment_appointment_id)
     values(500, 3);
+insert into report_storages(blood_amount, appointment_appointment_id)
+    values(300, 7);
+insert into report_storages(blood_amount, appointment_appointment_id)
+    values(300, 14);
+insert into report_storages(blood_amount, appointment_appointment_id)
+    values(300, 19);
 
 

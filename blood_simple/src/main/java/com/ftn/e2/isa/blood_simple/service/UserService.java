@@ -46,6 +46,15 @@ public class UserService {
         }
     }
 
+    public UserDTO getUserByMail(String mail) { // Database Id {1,2,3,..}
+        User user = userRepository.findByEmail(mail);
+        if (user != null) {
+            return new UserDTO(user);
+        } else {
+            return null;
+        }
+    }
+
     public UserDTO getUserByPersonalId(String personalId) { // JMBG in Serbia
         User user = userRepository.findByPersonalId(personalId);
         if (user != null) {

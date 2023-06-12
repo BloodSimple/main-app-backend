@@ -39,6 +39,17 @@ public class UserController {
         }
     }
 
+    @GetMapping(value = "mail/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasRole('MEDICAL_ADMIN')")
+    public ResponseEntity<Object> getUserMail(@PathVariable String mail) {
+        UserDTO userDTO = userService.getUserByMail(mail);
+        if (userDTO != null) {
+            return new ResponseEntity<>(userDTO, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+    }
+
     @PutMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Object> updateUser(@RequestBody UserDTO userDTO) {
