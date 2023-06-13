@@ -146,7 +146,7 @@ values (3, '2023-01-29T08:20:00', false, false, false, false, false,false,false,
         -- Medical Staff in the Medical Center3
         insert into medical_centers_medical_staff (medical_center_center_id, medical_staff_user_id) values (3, 5);
 -- ======================================================================
--- APPOINTMENTS (What Marija added)
+-- APPOINTMENTS
 
 
 insert into appointments(appointment_duration, appointment_start, medical_center_center_id, reserved, status, user_user_id) values
@@ -230,4 +230,16 @@ insert into report_storages(blood_amount, appointment_appointment_id)
 insert into report_storages(blood_amount, appointment_appointment_id)
     values(300, 19);
 
+-- ======================================================================
+---- APPOINTMENTS MEDICAL STAFF
+insert into appointments_medical_staff (appointment_appointment_id, medical_staff_user_id )
+ values (1 , 2),  (2 , 3),  (3 , 2),  (3 , 3),  (4 , 2),  (5, 3),  (6, 3),
+ (7, 2), (8, 3), (9, 3), (10, 3), (10, 2), (11, 3);
 
+
+insert into appointments_medical_staff (appointment_appointment_id, medical_staff_user_id )
+  values (12 , 4),  (13 , 4),  (14 , 4),  (15 , 4),  (16 , 4);
+
+
+insert into appointments_medical_staff (appointment_appointment_id, medical_staff_user_id )
+  values (17 , 5),  (18 , 5),  (19 , 5),  (20 , 5),  (21 , 5);

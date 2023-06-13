@@ -118,18 +118,18 @@ public class UserService {
 
 
             assert userToUpdate != null;
-            if (!userToUpdate.getPassword().equals(passwordEncoder.encode(passwordDTO.getCurrentpassword()))) {
-                System.out.println("*******************************************usao4444");
-                System.out.println(userToUpdate.getPassword());
-                System.out.println(passwordDTO.getCurrentpassword());
-                System.out.println(ps.encode(passwordDTO.getCurrentpassword()));
-                System.out.println("probajmo ovako");
-                System.out.println(ps.encode("12345"));
-                System.out.println(ps.encode("12345"));
-                System.out.println(ps.encode(passwordDTO.getNewpassword()));
-                System.out.println(ps.encode(passwordDTO.getCurrentpassword()));
-                return false;
-            }
+//            if (!userToUpdate.getPassword().equals(passwordEncoder.encode(passwordDTO.getCurrentpassword()))) {
+//                System.out.println("*******************************************usao4444");
+//                System.out.println(userToUpdate.getPassword());
+//                System.out.println(passwordDTO.getCurrentpassword());
+//                System.out.println(ps.encode(passwordDTO.getCurrentpassword()));
+//                System.out.println("probajmo ovako");
+//                System.out.println(ps.encode("12345"));
+//                System.out.println(ps.encode("12345"));
+//                System.out.println(ps.encode(passwordDTO.getNewpassword()));
+//                System.out.println(ps.encode(passwordDTO.getCurrentpassword()));
+//                return false;
+//            }
             if (!passwordDTO.getNewpassword().equals(passwordDTO.getRepeatedpassword())) {
                 System.out.println("*******************************************usao555555");
                 return false;
