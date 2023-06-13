@@ -49,6 +49,9 @@ public class Appointment {
     @ManyToOne    // bidirekciono
     private MedicalCenter medicalCenter;
 
+    @Column(name = "other")
+    private Long other;
+
     @Enumerated(EnumType.STRING)
     private AppointmentStatus status;
 //	public Appointment(AppointmentDTO appointmentDTO) {

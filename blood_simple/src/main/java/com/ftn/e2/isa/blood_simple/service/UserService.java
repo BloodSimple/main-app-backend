@@ -74,18 +74,36 @@ public class UserService {
     public boolean updateUser(UserDTO updateUserDTO) {
         boolean status = userRepository.existsById(updateUserDTO.getId());
         if (status) {
-            User userToUpdate = userRepository.findById(updateUserDTO.getId()).orElse(null);
+            System.out.println("***********************UPDATE");
+            System.out.println("***********************UPDATE");
+            System.out.println("***********************UPDATE");
+
+//            User userToUpdate = userRepository.findById(updateUserDTO.getId()).orElse(null);
+            User userToUpdate = userRepository.findByEmail(updateUserDTO.getEmail());
             assert userToUpdate != null;
+            System.out.println("ADRESA AZURIRANJA");
+            System.out.println(userToUpdate.getAddress().getId());
+
             Address address = addressRepository.findById(userToUpdate.getAddress().getId()).orElse(null);
-            userToUpdate.setPassword(updateUserDTO.getPassword());
+//            userToUpdate.setPassword(updateUserDTO.getPassword());
             userToUpdate.setName(updateUserDTO.getName());
             userToUpdate.setSurname(updateUserDTO.getSurname());
             userToUpdate.setGender(updateUserDTO.getGender());
-            address.setId(updateUserDTO.getAddressId());
+
+            userToUpdate.getAddress().setCity(updateUserDTO.getAddressCity());
+            userToUpdate.getAddress().setCountry(updateUserDTO.getAddressCountry());
+            userToUpdate.getAddress().setNumber(updateUserDTO.getAddressNumber());
+            userToUpdate.getAddress().setStreet(updateUserDTO.getAddressStreet());
+
+//            address.setId(updateUserDTO.getAddressId());
             address.setStreet(updateUserDTO.getAddressStreet());
+            System.out.println("new stree " + address.getStreet());
             address.setNumber(updateUserDTO.getAddressNumber());
+            System.out.println("new stree " + address.getNumber());
             address.setCity(updateUserDTO.getAddressCity());
+            System.out.println("new city " + address.getCity());
             address.setCountry(updateUserDTO.getAddressCountry());
+            System.out.println("new city " + address.getCountry());
             userToUpdate.setPhoneNumber(updateUserDTO.getPhoneNumber());
             userToUpdate.setJob(updateUserDTO.getJob());
             userToUpdate.setBio(updateUserDTO.getBio());
@@ -232,6 +250,9 @@ public class UserService {
                 if(a.getUser().getId()==userId && (a.getStatus()==AppointmentStatus.finished || a.getStatus()==AppointmentStatus.missed || a.getStatus()==AppointmentStatus.unfulfilled_conditions))
                 {
                     allAppointmentsForUser.add(a);
+                    System.out.println("Prikaz istorije*********");
+                    System.out.println("ID centra");
+                    System.out.println(a.getMedicalCenter().getId());
                 }
             }
         }
@@ -240,13 +261,17 @@ public class UserService {
 
         for (Appointment a : allAppointmentsForUser)
         {
-            Optional<Report> r = reportRepository.findById(a.getId());
 
+            List<Report> allReports = reportRepository.findAll();
             Report found = null;
-            if(r.isPresent())
+            for(Report R : allReports)
             {
-                found = r.get();
+                if(R.getAppointment().getId()==a.getId())
+                {
+                    found = R;
+                }
             }
+
             AppointReportDTO dto = new AppointReportDTO();
             dto.appointment = a;
             dto.report = found;

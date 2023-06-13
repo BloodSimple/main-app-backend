@@ -42,7 +42,18 @@ public class ReportController {
         CreateReportError re = reportService.createAppointmentReport(newReport, bloodData, spentEquipment);
         if (re.status == true)
         {
+
+
             return new ResponseEntity<>(re.message, HttpStatus.BAD_REQUEST);
+        }
+
+        try{
+//                System.out.println("POKUSAVA DA DODA REPORT VREME");
+            foundAppointment = medicalCenterService.getAppointmentById(newDto.appointmentId);
+            medicalCenterService.notifyUserLastDonation(foundAppointment.getStartTime(),foundAppointment.getUser().getId());
+        }catch (Exception e)
+        {
+
         }
 
         return new ResponseEntity<>("OK", HttpStatus.CREATED);

@@ -149,17 +149,17 @@ values (3, '2023-01-29T08:20:00', false, false, false, false, false,false,false,
 -- APPOINTMENTS
 
 
-insert into appointments(appointment_duration, appointment_start, medical_center_center_id, reserved, status, user_user_id) values
+insert into appointments(appointment_duration, appointment_start, medical_center_center_id, reserved, status, user_user_id, other) values
 
         -- Center 01 -
-        (30, '2023-05-29T08:00:00', 1, true, 'finished', 6 ), (30, '2023-06-11T09:20:00', 1, true, 'finished', 7), (30, '2023-05-27T08:40:00', 1, true, 'finished', 8),
-        (30, '2023-06-11T09:00:00', 1, true, 'missed', 6), (30, '2023-05-29T10:20:00', 1, true, 'unfulfilled_conditions', 7), (15, '2023-04-21T09:40:00', 1, true, 'unfulfilled_conditions', 8);
+        (30, '2023-05-29T08:00:00', 1, true, 'finished', 6 , 6 ), (30, '2023-06-11T09:20:00', 1, true, 'finished', 7,7), (30, '2023-05-27T08:40:00', 1, true, 'finished', 8, 8),
+        (30, '2023-06-11T09:00:00', 1, true, 'missed', 6, 6), (30, '2023-05-29T10:20:00', 1, true, 'unfulfilled_conditions', 7,7), (15, '2023-04-21T09:40:00', 1, true, 'unfulfilled_conditions', 8, 8);
 
-insert into appointments(appointment_duration, appointment_start, medical_center_center_id, reserved, status, user_user_id) values
+insert into appointments(appointment_duration, appointment_start, medical_center_center_id, reserved, status, user_user_id, other ) values
 
         -- Center 01 -
-        (30, '2023-04-29T08:00:00', 1, true, 'finished', 6 ), (10, '2023-06-15T08:20:00', 1, true, 'taken', 6), (30, '2023-06-19T08:40:00', 1, true, 'taken', 7),
-        (30, '2023-06-20T09:00:00', 1, true, 'taken', 8);
+        (30, '2023-04-29T08:00:00', 1, true, 'finished', 6, 6 ), (10, '2023-06-15T08:20:00', 1, true, 'taken', 6, 6), (30, '2023-06-19T08:40:00', 1, true, 'taken', 7, 7),
+        (30, '2023-06-20T09:00:00', 1, true, 'taken', 8, 8);
 
 insert into appointments(appointment_duration, appointment_start, medical_center_center_id, reserved, status) values
 (30, '2023-06-11T09:00:00', 1, false, 'free');
@@ -174,9 +174,9 @@ insert into appointments(appointment_duration, appointment_start, medical_center
         (30, '2023-06-29T08:00:00', 2, false, 'free'), (10, '2023-06-11T08:20:00', 2, false, 'free');
 
 
-insert into appointments(appointment_duration, appointment_start, medical_center_center_id, reserved, status, user_user_id) values
+insert into appointments(appointment_duration, appointment_start, medical_center_center_id, reserved, status, user_user_id, other) values
 
-        (30, '2023-04-29T09:00:00', 2, true, 'finished', 6), (30, '2023-01-29T09:20:00', 2, true, 'missed', 6), (30, '2023-06-14T09:40:00', 2, true, 'taken', 7);
+        (30, '2023-04-29T09:00:00', 2, true, 'finished', 6, 6), (30, '2023-01-29T09:20:00', 2, true, 'missed', 6, 6), (30, '2023-06-14T09:40:00', 2, true, 'taken', 7, 7);
 
 
         -- Center 03 -
@@ -184,9 +184,9 @@ insert into appointments(appointment_duration, appointment_start, medical_center
 insert into appointments(appointment_duration, appointment_start, medical_center_center_id, reserved, status) values
 (30, '2023-06-15T08:00:00', 3, false, 'free'), (30, '2023-06-17T08:20:00', 3, false, 'free');
 
-insert into appointments(appointment_duration, appointment_start, medical_center_center_id, reserved, status, user_user_id) values
+insert into appointments(appointment_duration, appointment_start, medical_center_center_id, reserved, status, user_user_id, other) values
 
-        (30, '2023-03-25T08:00:00', 3, false, 'finished', 6), (30, '2023-03-29T08:20:00', 3, false, 'missed', 7), (30, '2023-06-19T08:40:00', 3, false, 'taken', 8);
+        (30, '2023-03-25T08:00:00', 3, false, 'finished', 6, 6), (30, '2023-03-29T08:20:00', 3, false, 'missed', 7, 7), (30, '2023-06-19T08:40:00', 3, false, 'taken', 8, 8);
 -- ======================================================================
 -- BLOOD STORE
 
@@ -224,14 +224,16 @@ insert into report_storages(blood_amount, appointment_appointment_id)
 insert into report_storages(blood_amount, appointment_appointment_id)
     values(500, 3);
 insert into report_storages(blood_amount, appointment_appointment_id)
-    values(300, 7);
+    values(200, 7);
 insert into report_storages(blood_amount, appointment_appointment_id)
-    values(300, 14);
+    values(240, 14);
 insert into report_storages(blood_amount, appointment_appointment_id)
-    values(300, 19);
+    values(200, 19);
 
 -- ======================================================================
 ---- APPOINTMENTS MEDICAL STAFF
+
+
 insert into appointments_medical_staff (appointment_appointment_id, medical_staff_user_id )
  values (1 , 2),  (2 , 3),  (3 , 2),  (3 , 3),  (4 , 2),  (5, 3),  (6, 3),
  (7, 2), (8, 3), (9, 3), (10, 3), (10, 2), (11, 3);
@@ -243,3 +245,10 @@ insert into appointments_medical_staff (appointment_appointment_id, medical_staf
 
 insert into appointments_medical_staff (appointment_appointment_id, medical_staff_user_id )
   values (17 , 5),  (18 , 5),  (19 , 5),  (20 , 5),  (21 , 5);
+
+-- ======================================================================
+---- GRADES
+
+insert into grades(center_id, user_id, grade)
+values (1, 6, 3), (2, 7, 5), (3, 6, 5);
+

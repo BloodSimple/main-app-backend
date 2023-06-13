@@ -1,9 +1,11 @@
 package com.ftn.e2.isa.blood_simple.service;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 import com.ftn.e2.isa.blood_simple.dto.*;
 import com.ftn.e2.isa.blood_simple.repository.*;
+import org.hibernate.loader.plan.exec.process.spi.ReturnReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +32,9 @@ public class MedicalCenterService {
     @Autowired
     AppointmentRepository appointmentRepository;
 
+    @Autowired
+    GradesRepository gradeRepository;
+
 	// Medical Center - get, getAll, saveOrUpdate, delete
 
 	public MedicalCenter get(Long id) {
@@ -38,6 +43,124 @@ public class MedicalCenterService {
 
     public List<MedicalCenter> getAll() {
         return repo.findAll();
+    }
+
+    public List<GradeCenterDTO> getCenterWithGrades(String email) {
+
+        List<GradeCenterDTO> list = new ArrayList<>();
+
+        System.out.println("Trazi korisnika na mail: " + email);
+        User foundUser = userRepo.findByEmail(email);
+
+        Long foundId = foundUser.getId();
+        System.out.println("Nadjen id: " + foundId);
+
+        List<MedicalCenter> allCenters = repo.findAll();
+
+        List<Grade> grades = gradeRepository.findAll();
+
+        Long foundGrade = 0L;
+
+        double countNumber = 0;
+        double sumGrades = 0;
+        for(MedicalCenter center : allCenters)
+        {
+            foundGrade = 0L;
+            countNumber=0;
+            sumGrades=0;
+            for(Grade grade : grades)
+            {
+                if(center.getId()==grade.getCenterId())
+                {
+                    countNumber+=1;
+                    sumGrades+=grade.getGrade();
+
+                    if(grade.getUserId()==foundId)
+                    {
+                        foundGrade = grade.getGrade();
+                    }
+                }
+
+
+            }
+
+            GradeCenterDTO newDto = new GradeCenterDTO();
+            if(countNumber>0 && sumGrades>0)
+            {
+                center.setGrade(sumGrades/countNumber);
+            }
+            newDto.center = center;
+            newDto.grade = foundGrade;
+            list.add(newDto);
+
+        }
+
+
+        return  list;
+    }
+
+    public boolean addGrade(String mail, String  id, String grade) {
+
+        try {
+            User foundUser = userRepo.findByEmail(mail);
+
+            List<Appointment> allApps = appointmentRepository.findAll();
+
+
+            Long centerId = Long.valueOf(id);
+
+
+            boolean hadApp = false;
+            for(Appointment a :allApps )
+            {
+                if(a.getOther()==foundUser.getId() && a.getMedicalCenter().getId()==centerId)
+                {
+                    if(a.getStatus()==AppointmentStatus.finished)
+                    {
+                        hadApp = true;
+                    }
+                }
+            }
+            if(hadApp==false)
+            {
+                System.out.println("nema pregleda!!!!!!!!!!!!!!!!");
+                return false;
+            }
+
+            Long newValue = Long.valueOf(grade);
+
+            Grade newGrade = new Grade();
+            newGrade.setCenterId(centerId);
+            newGrade.setUserId(foundUser.getId());
+            newGrade.setGrade(newValue);
+
+            //check if user already added grade
+            boolean didGradeIt = false;
+            Grade foundGrade = null;
+
+            List<Grade> allGrades = gradeRepository.findAll();
+            for(Grade g : allGrades)
+            {
+                if(g.getCenterId()==centerId && foundUser.getId()==g.getUserId())
+                {
+                    didGradeIt = true;
+                    foundGrade = g;
+                }
+            }
+            if(didGradeIt==true)
+            {
+                foundGrade.setGrade(newValue);
+                gradeRepository.save(foundGrade);
+            }
+            else {
+                gradeRepository.save(newGrade);
+            }
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     public MedicalCenter getByName(String id) {
@@ -286,4 +409,19 @@ public class MedicalCenterService {
         return "Server[error]";
 
     }
+
+    public void notifyUserLastDonation(LocalDateTime dt, Long userId)
+    {
+        Optional<User> u = userRepo.findById(userId);
+        if(u.isPresent())
+        {
+            System.out.println("Setuje zadnji donaciju........");
+            System.out.println("Setuje zadnji donaciju........");
+            System.out.println("Setuje zadnji donaciju........");
+            User a = u.get();
+            a.setLastBloodDonation(dt);
+            userRepo.save(a);
+        }
+    }
 }
+

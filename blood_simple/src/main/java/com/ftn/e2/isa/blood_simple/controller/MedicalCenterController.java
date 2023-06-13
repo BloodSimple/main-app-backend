@@ -239,6 +239,22 @@ public class MedicalCenterController {
         return siteURL.replace(request.getServletPath(), "");
     }
 
+    @GetMapping(value = "/withGrades/{mail}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> getMedicalCentersWithGrades(@PathVariable String mail) {
+
+        System.out.println("Trazi grade");
+        List<GradeCenterDTO> list = medicalCenterService.getCenterWithGrades(mail);
+        return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/addGrade", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> addGrade(@RequestBody AddGradeDTO dto) {
+
+
+        boolean ret = medicalCenterService.addGrade(dto.mail,dto.centerId,dto.grade);
+        return new ResponseEntity<>(ret, HttpStatus.OK);
+    }
+
 
 
 }
